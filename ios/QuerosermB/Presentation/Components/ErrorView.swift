@@ -4,12 +4,20 @@ struct ErrorView: View {
     let message: String
     let onRetry: () -> Void
 
+    @State private var pulseIcon = false
+
     var body: some View {
         VStack(spacing: 20) {
             Image(systemName: "wifi.exclamationmark")
                 .font(.system(size: 52, weight: .light))
                 .foregroundColor(.mbTextMuted)
-                .symbolEffect(.pulse)
+                .scaleEffect(pulseIcon ? 1.08 : 1.0)
+                .opacity(pulseIcon ? 0.75 : 1.0)
+                .onAppear {
+                    withAnimation(.easeInOut(duration: 1.1).repeatForever(autoreverses: true)) {
+                        pulseIcon = true
+                    }
+                }
 
             VStack(spacing: 8) {
                 Text("Ops! Algo deu errado")

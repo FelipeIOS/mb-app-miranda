@@ -17,6 +17,7 @@
 		286CB042BC8FE7236D184D50 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6562E00E1B079004328DDDBA /* APIEndpoint.swift */; };
 		2990938851DC222AE5C4A0D4 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD159C4987BCDD0C85D98D6 /* AppTheme.swift */; };
 		3311F65704E610EE232619F0 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E237364DD7C2EF29F3CEB46 /* NetworkError.swift */; };
+		A7F3E2D10B9A8E7F6D5C4B301 /* NetworkDebugLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F3E2D10B9A8E7F6D5C4B302 /* NetworkDebugLogger.swift */; };
 		375CD7799CF712203CA82E39 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3ECB0C075D6331A90CB9F /* Formatters.swift */; };
 		4881A6FDB2D20DE6008EF9B9 /* ExchangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80A49F5142528D165D74DCC /* ExchangeTests.swift */; };
 		4EBD25617D2F4242764F6D1D /* ExchangeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E51732D2D53E26DA83D70B5 /* ExchangeDetailView.swift */; };
@@ -47,6 +48,7 @@
 		08943F094710AE2C34578862 /* ExchangeRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRepositoryImpl.swift; sourceTree = "<group>"; };
 		188B84AF3C8FD1E4D9D8883D /* APIKeyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyProvider.swift; sourceTree = "<group>"; };
 		2E237364DD7C2EF29F3CEB46 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		B7F3E2D10B9A8E7F6D5C4B302 /* NetworkDebugLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDebugLogger.swift; sourceTree = "<group>"; };
 		5145077B80F99207F1AEFFF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5243EF4CDDA26BF1ECA92C13 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 		535E0AE8104D66BC5BFC485C /* QuerosermBTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = QuerosermBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,7 +58,7 @@
 		60204C71332F1A8EAE54200C /* ExchangeUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeUseCases.swift; sourceTree = "<group>"; };
 		6562E00E1B079004328DDDBA /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		72C9A9B1E0B06710F851B292 /* ExchangeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListViewModel.swift; sourceTree = "<group>"; };
-		746270748B72D91BE29944D0 /* QuerosermB.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = QuerosermB.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		746270748B72D91BE29944D0 /* QuerosermB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuerosermB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84CB723A3DDF1208970DB4E9 /* ExchangeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListView.swift; sourceTree = "<group>"; };
 		894BD84BCD2443EAD6B0C3F2 /* ExchangeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCard.swift; sourceTree = "<group>"; };
 		8ADFD44505DE6E079D9E6A6C /* QuerosermBApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuerosermBApp.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				E3D47FC6214FE1C9A28328A6 /* APIClient.swift */,
 				6562E00E1B079004328DDDBA /* APIEndpoint.swift */,
 				188B84AF3C8FD1E4D9D8883D /* APIKeyProvider.swift */,
+				B7F3E2D10B9A8E7F6D5C4B302 /* NetworkDebugLogger.swift */,
 				2E237364DD7C2EF29F3CEB46 /* NetworkError.swift */,
 			);
 			path = Network;
@@ -324,7 +327,6 @@
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					F4C5F119D49F36A961508B0E = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -373,6 +375,7 @@
 				DEB986845E195400D15820DF /* ExchangeRepositoryImpl.swift in Sources */,
 				EFDC0F36CB76C2A048D43DA0 /* ExchangeUseCases.swift in Sources */,
 				375CD7799CF712203CA82E39 /* Formatters.swift in Sources */,
+				A7F3E2D10B9A8E7F6D5C4B301 /* NetworkDebugLogger.swift in Sources */,
 				3311F65704E610EE232619F0 /* NetworkError.swift in Sources */,
 				053C7933923F6F38E6692865 /* QuerosermBApp.swift in Sources */,
 				88598ED147B5612C1692ED36 /* ShimmerView.swift in Sources */,
@@ -405,7 +408,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4JLFD9VKNK;
 				INFOPLIST_FILE = QuerosermB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -528,7 +531,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4JLFD9VKNK;
 				INFOPLIST_FILE = QuerosermB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -23,8 +23,9 @@ struct ExchangeInfoData: Codable {
     let logo: String
     let description: String?
     let urls: ExchangeURLsData?
-    let makerFee: String?
-    let takerFee: String?
+    /// A API envia números (ex.: `0.03`); decodificar como `Double` evita falha de decode.
+    let makerFee: Double?
+    let takerFee: Double?
     let dateLaunched: String?
     let spotVolumeUsd: Double?
 
@@ -51,10 +52,14 @@ extension ExchangeInfoData {
             slug: slug,
             description: description,
             websiteURL: urls?.website?.first,
-            makerFee: makerFee,
-            takerFee: takerFee,
+            makerFee: makerFee.map(Self.formatFeeForDisplay),
+            takerFee: takerFee.map(Self.formatFeeForDisplay),
             dateLaunched: dateLaunched,
             spotVolumeUSD: spotVolumeUsd
         )
+    }
+
+    private static func formatFeeForDisplay(_ value: Double) -> String {
+        String(format: "%g", value)
     }
 }
