@@ -1,30 +1,67 @@
 import Foundation
 
 extension Double {
-    /// Formata valor como moeda USD; ex: 1234567.89 → "$1,234,567.89"
+    private static let usdCurrencyFormatter: NumberFormatter = {
+        let f = NumberFormatter()
+        f.numberStyle = .currency
+        f.currencyCode = "USD"
+        f.locale = Locale(identifier: "pt_BR")
+        f.minimumFractionDigits = 2
+        f.maximumFractionDigits = 12
+        f.roundingMode = .halfEven
+        return f
+    }()
+
+    private static let compactScaledFormatter: NumberFormatter = {
+        let f = NumberFormatter()
+        f.numberStyle = .decimal
+        f.locale = Locale(identifier: "pt_BR")
+        f.minimumFractionDigits = 2
+        f.maximumFractionDigits = 6
+        f.roundingMode = .halfEven
+        return f
+    }()
+
+    /// Preço em USD (ex.: `price_usd` da API). Mantém casas decimais necessárias (até 12), sem forçar só 2 casas.
     func formatAsUSD() -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.currencyCode = "USD"
-        formatter.currencySymbol = "$"
-        formatter.minimumFractionDigits = 2
-        formatter.maximumFractionDigits = 2
-        return formatter.string(from: NSNumber(value: self)) ?? "$0.00"
+        Self.usdCurrencyFormatter.string(from: NSNumber(value: self)) ?? String(self)
     }
 
-    /// Formata volume compacto; ex: 1_234_567_890 → "$1.23B"
+    /// Volume em USD compacto (lista / cards). Escala B/M/K com mais casas que o antigo `%.2f`.
     func formatAsCompactUSD() -> String {
         let absValue = abs(self)
+        let scaled: Double
+        let suffix: String
         switch absValue {
+        case 1_000_000_000_000...:
+            scaled = self / 1_000_000_000_000
+            suffix = " T"
         case 1_000_000_000...:
-            return String(format: "$%.2fB", self / 1_000_000_000)
+            scaled = self / 1_000_000_000
+            suffix = " B"
         case 1_000_000...:
-            return String(format: "$%.2fM", self / 1_000_000)
+            scaled = self / 1_000_000
+            suffix = " M"
         case 1_000...:
-            return String(format: "$%.2fK", self / 1_000)
+            scaled = self / 1_000
+            suffix = " K"
         default:
             return formatAsUSD()
         }
+        let numberPart = Self.compactScaledFormatter.string(from: NSNumber(value: scaled)) ?? String(scaled)
+        return "US$ \(numberPart)\(suffix)"
+    }
+
+    /// Taxas e valores decimais vindos da API (ex. `maker_fee`) sem usar `%g`, que pode arredondar.
+    func formattedDecimal(minFractionDigits: Int = 2, maxFractionDigits: Int = 12) -> String {
+        let f = NumberFormatter()
+        f.numberStyle = .decimal
+        f.locale = Locale(identifier: "pt_BR")
+        f.minimumFractionDigits = minFractionDigits
+        f.maximumFractionDigits = maxFractionDigits
+        f.roundingMode = .halfEven
+        f.usesGroupingSeparator = true
+        return f.string(from: NSNumber(value: self)) ?? String(self)
     }
 }
 

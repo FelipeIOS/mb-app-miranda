@@ -60,6 +60,6 @@ extension ExchangeInfoData {
     }
 
     private static func formatFeeForDisplay(_ value: Double) -> String {
-        String(format: "%g", value)
+        value.formattedDecimal(minFractionDigits: 2, maxFractionDigits: 12)
     }
 }
