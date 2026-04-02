@@ -11,14 +11,13 @@
 		06606DABA75C212E6A1FDAB3 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD37E1631E616D55F0B78063 /* ErrorView.swift */; };
 		06D89B3305F325E1CD5A6D04 /* CurrencyRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00063B6C631E36D2E9E66CE1 /* CurrencyRowView.swift */; };
 		09C5849A2DF84E02D347D1B9 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243EF4CDDA26BF1ECA92C13 /* DependencyContainer.swift */; };
+		14FE84B5F2D7E460FC40BD02 /* NetworkDebugLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2750F0CF94DDFCBC289C3202 /* NetworkDebugLogger.swift */; };
 		18FAEA73A242E252279A9406 /* Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54450871D0C996876A0EC10 /* Exchange.swift */; };
-		C1A2B3C4D5E6F7081920A1B2 /* ExchangeListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A2B3C4D5E6F7081920A1B3 /* ExchangeListPage.swift */; };
 		1A3F9280ED857CDA0B5D7E83 /* APIKeyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188B84AF3C8FD1E4D9D8883D /* APIKeyProvider.swift */; };
 		214C5864770F50397F8F1D35 /* ExchangeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CB723A3DDF1208970DB4E9 /* ExchangeListView.swift */; };
 		286CB042BC8FE7236D184D50 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6562E00E1B079004328DDDBA /* APIEndpoint.swift */; };
 		2990938851DC222AE5C4A0D4 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD159C4987BCDD0C85D98D6 /* AppTheme.swift */; };
 		3311F65704E610EE232619F0 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E237364DD7C2EF29F3CEB46 /* NetworkError.swift */; };
-		A7F3E2D10B9A8E7F6D5C4B301 /* NetworkDebugLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F3E2D10B9A8E7F6D5C4B302 /* NetworkDebugLogger.swift */; };
 		375CD7799CF712203CA82E39 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3ECB0C075D6331A90CB9F /* Formatters.swift */; };
 		4881A6FDB2D20DE6008EF9B9 /* ExchangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80A49F5142528D165D74DCC /* ExchangeTests.swift */; };
 		4EBD25617D2F4242764F6D1D /* ExchangeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E51732D2D53E26DA83D70B5 /* ExchangeDetailView.swift */; };
@@ -29,6 +28,7 @@
 		C0A8AD95B717FD7977480836 /* ExchangeRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D65EE389DB11B1C00D003D1 /* ExchangeRemoteDataSource.swift */; };
 		DD2F09509113D1A091966CAB /* ExchangeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC42D5A012062D68E44E753 /* ExchangeRepository.swift */; };
 		DEB986845E195400D15820DF /* ExchangeRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08943F094710AE2C34578862 /* ExchangeRepositoryImpl.swift */; };
+		ECE40276A33C6A0FC62BCADF /* ExchangeListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD42239359C48431EC848A07 /* ExchangeListPage.swift */; };
 		ED853647AF0CCE3FCD828CFC /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D47FC6214FE1C9A28328A6 /* APIClient.swift */; };
 		EFDC0F36CB76C2A048D43DA0 /* ExchangeUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60204C71332F1A8EAE54200C /* ExchangeUseCases.swift */; };
 		FD39256B3F8295FC1820AD02 /* ExchangeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894BD84BCD2443EAD6B0C3F2 /* ExchangeCard.swift */; };
@@ -48,8 +48,8 @@
 		00063B6C631E36D2E9E66CE1 /* CurrencyRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRowView.swift; sourceTree = "<group>"; };
 		08943F094710AE2C34578862 /* ExchangeRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRepositoryImpl.swift; sourceTree = "<group>"; };
 		188B84AF3C8FD1E4D9D8883D /* APIKeyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyProvider.swift; sourceTree = "<group>"; };
+		2750F0CF94DDFCBC289C3202 /* NetworkDebugLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDebugLogger.swift; sourceTree = "<group>"; };
 		2E237364DD7C2EF29F3CEB46 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		B7F3E2D10B9A8E7F6D5C4B302 /* NetworkDebugLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDebugLogger.swift; sourceTree = "<group>"; };
 		5145077B80F99207F1AEFFF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5243EF4CDDA26BF1ECA92C13 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 		535E0AE8104D66BC5BFC485C /* QuerosermBTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = QuerosermBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,8 +66,8 @@
 		9D65EE389DB11B1C00D003D1 /* ExchangeRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRemoteDataSource.swift; sourceTree = "<group>"; };
 		ABD159C4987BCDD0C85D98D6 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		ACC42D5A012062D68E44E753 /* ExchangeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRepository.swift; sourceTree = "<group>"; };
+		AD42239359C48431EC848A07 /* ExchangeListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListPage.swift; sourceTree = "<group>"; };
 		B54450871D0C996876A0EC10 /* Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exchange.swift; sourceTree = "<group>"; };
-		C1A2B3C4D5E6F7081920A1B3 /* ExchangeListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListPage.swift; sourceTree = "<group>"; };
 		B8A3ECB0C075D6331A90CB9F /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		C80A49F5142528D165D74DCC /* ExchangeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeTests.swift; sourceTree = "<group>"; };
 		CDC15DC42FE8282C83F45A09 /* ExchangeAssetsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeAssetsDTO.swift; sourceTree = "<group>"; };
@@ -81,6 +81,7 @@
 		044241EE01142CD787516A4C /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				F84DAEB1FF81E4FA95447841 /* Cache */,
 				9B511529690F5A9C11048969 /* DI */,
 				E2EFD45FDC40BD1CD90AE61B /* Extensions */,
 				D29BC590C0E00944BCDE0C83 /* Network */,
@@ -92,7 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				B54450871D0C996876A0EC10 /* Exchange.swift */,
-				C1A2B3C4D5E6F7081920A1B3 /* ExchangeListPage.swift */,
+				AD42239359C48431EC848A07 /* ExchangeListPage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -227,7 +228,7 @@
 				E3D47FC6214FE1C9A28328A6 /* APIClient.swift */,
 				6562E00E1B079004328DDDBA /* APIEndpoint.swift */,
 				188B84AF3C8FD1E4D9D8883D /* APIKeyProvider.swift */,
-				B7F3E2D10B9A8E7F6D5C4B302 /* NetworkDebugLogger.swift */,
+				2750F0CF94DDFCBC289C3202 /* NetworkDebugLogger.swift */,
 				2E237364DD7C2EF29F3CEB46 /* NetworkError.swift */,
 			);
 			path = Network;
@@ -266,6 +267,13 @@
 				B8A3ECB0C075D6331A90CB9F /* Formatters.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F84DAEB1FF81E4FA95447841 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cache;
 			sourceTree = "<group>";
 		};
 		FE49FD93651CDC24A98F0307 /* QuerosermB */ = {
@@ -367,11 +375,11 @@
 				09C5849A2DF84E02D347D1B9 /* DependencyContainer.swift in Sources */,
 				06606DABA75C212E6A1FDAB3 /* ErrorView.swift in Sources */,
 				18FAEA73A242E252279A9406 /* Exchange.swift in Sources */,
-				C1A2B3C4D5E6F7081920A1B2 /* ExchangeListPage.swift in Sources */,
 				A03AF81B586386C31ED08C9B /* ExchangeAssetsDTO.swift in Sources */,
 				FD39256B3F8295FC1820AD02 /* ExchangeCard.swift in Sources */,
 				685F9768DD12E29F21D78A34 /* ExchangeDTO.swift in Sources */,
 				4EBD25617D2F4242764F6D1D /* ExchangeDetailView.swift in Sources */,
+				ECE40276A33C6A0FC62BCADF /* ExchangeListPage.swift in Sources */,
 				214C5864770F50397F8F1D35 /* ExchangeListView.swift in Sources */,
 				9464AE877100E9E5A0CEBE6A /* ExchangeListViewModel.swift in Sources */,
 				C0A8AD95B717FD7977480836 /* ExchangeRemoteDataSource.swift in Sources */,
@@ -379,7 +387,7 @@
 				DEB986845E195400D15820DF /* ExchangeRepositoryImpl.swift in Sources */,
 				EFDC0F36CB76C2A048D43DA0 /* ExchangeUseCases.swift in Sources */,
 				375CD7799CF712203CA82E39 /* Formatters.swift in Sources */,
-				A7F3E2D10B9A8E7F6D5C4B301 /* NetworkDebugLogger.swift in Sources */,
+				14FE84B5F2D7E460FC40BD02 /* NetworkDebugLogger.swift in Sources */,
 				3311F65704E610EE232619F0 /* NetworkError.swift in Sources */,
 				053C7933923F6F38E6692865 /* QuerosermBApp.swift in Sources */,
 				88598ED147B5612C1692ED36 /* ShimmerView.swift in Sources */,
@@ -413,6 +421,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4JLFD9VKNK;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = QuerosermB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -422,6 +431,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.felipemiranda.querosermb;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -496,6 +506,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = QuerosermBTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -514,6 +525,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = QuerosermBTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -536,6 +548,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4JLFD9VKNK;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = QuerosermB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -544,7 +557,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.felipemiranda.querosermb;
 				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -74,7 +74,8 @@ struct ExchangeDetailView: View {
             }
             .frame(width: 72, height: 72)
             .clipShape(RoundedRectangle(cornerRadius: 16))
-            .matchedGeometryEffect(id: "logo-\(exchange.id)", in: namespace)
+            // Destino da hero: não pode ser `isSource` junto com o card da lista (aviso do runtime).
+            .matchedGeometryEffect(id: "logo-\(exchange.id)", in: namespace, isSource: false)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(exchange.name)
