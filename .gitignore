@@ -1,0 +1,44 @@
+# iOS
+# XcodeGen — manter apenas local (não versionar)
+ios/project.yml
+
+ios/QuerosermB.xcodeproj/project.xcworkspace/xcuserdata/
+ios/QuerosermB.xcodeproj/xcuserdata/
+ios/DerivedData/
+ios/*.xcworkspace/
+ios/*.xcuserstate
+
+# API Key — NUNCA commitar
+ios/QuerosermB/Config.xcconfig
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xccheckout
+*.xcscmblueprint
+
+# Android (para futura implementação)
+android/.gradle/
+android/local.properties
+android/build/
+android/app/build/
+android/*.keystore
+android/gradle.properties
+
+# IDEs
+.idea/
+*.swp
+*.swo
