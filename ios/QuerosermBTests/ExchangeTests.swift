@@ -12,7 +12,12 @@ final class MockExchangeRepository: ExchangeRepository {
     /// Se definido, substitui `stubbedPage` (útil para simular várias páginas por `start`).
     var pageHandler: ((Int, Int) throws -> ExchangeListPage)?
 
+    private(set) var getExchangeListCallCount = 0
+    private(set) var getExchangeDetailCallCount = 0
+    private(set) var getExchangeAssetsCallCount = 0
+
     func getExchangeList(start: Int, limit: Int) async throws -> ExchangeListPage {
+        getExchangeListCallCount += 1
         if shouldFail { throw NetworkError.serverError(statusCode: 500) }
         if let pageHandler {
             return try pageHandler(start, limit)
@@ -21,6 +26,7 @@ final class MockExchangeRepository: ExchangeRepository {
     }
 
     func getExchangeDetail(id: Int) async throws -> Exchange {
+        getExchangeDetailCallCount += 1
         if shouldFail { throw NetworkError.serverError(statusCode: 500) }
         guard let exchange = stubbedExchanges.first(where: { $0.id == id }) else {
             throw NetworkError.invalidResponse
@@ -29,8 +35,23 @@ final class MockExchangeRepository: ExchangeRepository {
     }
 
     func getExchangeAssets(id: Int) async throws -> [Currency] {
+        getExchangeAssetsCallCount += 1
         if shouldFail { throw NetworkError.serverError(statusCode: 500) }
         return stubbedCurrencies
+    }
+}
+
+// MARK: - Mock detail cache
+final class MockExchangeDetailCache: ExchangeDetailCaching {
+    var stub: CachedExchangeDetail?
+
+    func get(exchangeId: Int, ttl: TimeInterval) -> CachedExchangeDetail? {
+        guard let s = stub, s.detail.id == exchangeId else { return nil }
+        return s
+    }
+
+    func set(exchangeId: Int, detail: Exchange, assets: [Currency]) {
+        stub = CachedExchangeDetail(detail: detail, assets: assets, fetchedAt: Date())
     }
 }
 
@@ -188,5 +209,92 @@ final class ExchangeListViewModelTests: XCTestCase {
         // Then
         if case .empty = viewModel.state { return }
         XCTFail("Expected empty state")
+    }
+
+    func test_loadInitialListIfNeeded_afterSuccess_doesNotCallRepositoryAgain() async {
+        let items = [
+            Exchange(id: 1, name: "Coinbase", logo: "", slug: "coinbase",
+                     description: nil, websiteURL: nil, makerFee: nil, takerFee: nil,
+                     dateLaunched: nil, spotVolumeUSD: nil)
+        ]
+        mockRepo.stubbedPage = ExchangeListPage(items: items, hasMore: false, nextStart: 2)
+
+        await viewModel.loadExchanges()
+        XCTAssertEqual(mockRepo.getExchangeListCallCount, 1)
+
+        await viewModel.loadInitialListIfNeeded()
+        XCTAssertEqual(mockRepo.getExchangeListCallCount, 1, "Segunda carga inicial não deve ir à rede")
+    }
+}
+
+// MARK: - ExchangeDetailViewModel Tests
+@MainActor
+final class ExchangeDetailViewModelTests: XCTestCase {
+    var mockRepo: MockExchangeRepository!
+    var cache: MockExchangeDetailCache!
+
+    override func setUp() {
+        super.setUp()
+        mockRepo = MockExchangeRepository()
+        cache = MockExchangeDetailCache()
+    }
+
+    func test_load_usesCache_skipsRepository() async {
+        let exchange = Exchange(id: 7, name: "X", logo: "", slug: "x",
+                                  description: "d", websiteURL: nil, makerFee: nil, takerFee: nil,
+                                  dateLaunched: nil, spotVolumeUSD: 1)
+        cache.stub = CachedExchangeDetail(
+            detail: exchange,
+            assets: [],
+            fetchedAt: Date()
+        )
+        mockRepo.stubbedExchanges = [exchange]
+
+        let vm = ExchangeDetailViewModel(
+            getExchangeDetail: GetExchangeDetailUseCase(repository: mockRepo),
+            getExchangeAssets: GetExchangeAssetsUseCase(repository: mockRepo),
+            detailCache: cache
+        )
+
+        await vm.load(exchange: exchange)
+
+        XCTAssertEqual(mockRepo.getExchangeDetailCallCount, 0)
+        XCTAssertEqual(mockRepo.getExchangeAssetsCallCount, 0)
+        if case .success(let d) = vm.detailState {
+            XCTAssertEqual(d.id, 7)
+        } else {
+            XCTFail("Expected detail success from cache")
+        }
+        if case .empty = vm.assetsState {} else {
+            XCTFail("Expected empty assets from cache")
+        }
+    }
+
+    func test_load_withoutCache_callsRepository() async {
+        let exchange = Exchange(id: 8, name: "Y", logo: "", slug: "y",
+                                  description: "d", websiteURL: "https://y.com", makerFee: nil, takerFee: nil,
+                                  dateLaunched: nil, spotVolumeUSD: 2)
+        mockRepo.stubbedExchanges = [exchange]
+        mockRepo.stubbedCurrencies = [
+            Currency(name: "BTC", symbol: "BTC", priceUSD: 1, balance: nil)
+        ]
+        cache.stub = nil
+
+        let vm = ExchangeDetailViewModel(
+            getExchangeDetail: GetExchangeDetailUseCase(repository: mockRepo),
+            getExchangeAssets: GetExchangeAssetsUseCase(repository: mockRepo),
+            detailCache: cache
+        )
+
+        await vm.load(exchange: exchange)
+
+        XCTAssertEqual(mockRepo.getExchangeDetailCallCount, 1)
+        XCTAssertEqual(mockRepo.getExchangeAssetsCallCount, 1)
+        if case .success = vm.detailState {} else { XCTFail("Expected detail success") }
+        if case .success(let assets) = vm.assetsState {
+            XCTAssertEqual(assets.count, 1)
+        } else {
+            XCTFail("Expected assets success")
+        }
     }
 }

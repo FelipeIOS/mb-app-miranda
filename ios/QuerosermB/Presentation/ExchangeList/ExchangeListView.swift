@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ExchangeListView: View {
     @StateObject private var viewModel: ExchangeListViewModel
-    @Namespace private var namespace
 
     init() {
         let container = DependencyContainer.shared
@@ -22,7 +21,7 @@ struct ExchangeListView: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbarBackground(Color.mbPrimary, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
-            .task { await viewModel.loadExchanges() }
+            .task { await viewModel.loadInitialListIfNeeded() }
         }
     }
 
@@ -61,9 +60,9 @@ struct ExchangeListView: View {
             LazyVStack(spacing: 12) {
                 ForEach(Array(exchanges.enumerated()), id: \.element.id) { index, exchange in
                     NavigationLink {
-                        ExchangeDetailView(exchange: exchange, namespace: namespace)
+                        ExchangeDetailView(exchange: exchange)
                     } label: {
-                        ExchangeCard(exchange: exchange, namespace: namespace)
+                        ExchangeCard(exchange: exchange)
                     }
                     .buttonStyle(.plain)
                     .onAppear {

@@ -24,6 +24,7 @@
 		685F9768DD12E29F21D78A34 /* ExchangeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAAC059AFC813417A6FF511 /* ExchangeDTO.swift */; };
 		88598ED147B5612C1692ED36 /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F47348066B64F3CA3049A /* ShimmerView.swift */; };
 		9464AE877100E9E5A0CEBE6A /* ExchangeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C9A9B1E0B06710F851B292 /* ExchangeListViewModel.swift */; };
+		7A8B9C0D1E2F304152637485 /* ExchangeDetailCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C8D9E0F1A203142536475 /* ExchangeDetailCache.swift */; };
 		A03AF81B586386C31ED08C9B /* ExchangeAssetsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC15DC42FE8282C83F45A09 /* ExchangeAssetsDTO.swift */; };
 		C0A8AD95B717FD7977480836 /* ExchangeRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D65EE389DB11B1C00D003D1 /* ExchangeRemoteDataSource.swift */; };
 		DD2F09509113D1A091966CAB /* ExchangeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC42D5A012062D68E44E753 /* ExchangeRepository.swift */; };
@@ -59,6 +60,7 @@
 		60204C71332F1A8EAE54200C /* ExchangeUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeUseCases.swift; sourceTree = "<group>"; };
 		6562E00E1B079004328DDDBA /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		72C9A9B1E0B06710F851B292 /* ExchangeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListViewModel.swift; sourceTree = "<group>"; };
+		6B7C8D9E0F1A203142536475 /* ExchangeDetailCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailCache.swift; sourceTree = "<group>"; };
 		746270748B72D91BE29944D0 /* QuerosermB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuerosermB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84CB723A3DDF1208970DB4E9 /* ExchangeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListView.swift; sourceTree = "<group>"; };
 		894BD84BCD2443EAD6B0C3F2 /* ExchangeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCard.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 		F84DAEB1FF81E4FA95447841 /* Cache */ = {
 			isa = PBXGroup;
 			children = (
+				6B7C8D9E0F1A203142536475 /* ExchangeDetailCache.swift */,
 			);
 			path = Cache;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				2990938851DC222AE5C4A0D4 /* AppTheme.swift in Sources */,
 				06D89B3305F325E1CD5A6D04 /* CurrencyRowView.swift in Sources */,
 				09C5849A2DF84E02D347D1B9 /* DependencyContainer.swift in Sources */,
+				7A8B9C0D1E2F304152637485 /* ExchangeDetailCache.swift in Sources */,
 				06606DABA75C212E6A1FDAB3 /* ErrorView.swift in Sources */,
 				18FAEA73A242E252279A9406 /* Exchange.swift in Sources */,
 				A03AF81B586386C31ED08C9B /* ExchangeAssetsDTO.swift in Sources */,

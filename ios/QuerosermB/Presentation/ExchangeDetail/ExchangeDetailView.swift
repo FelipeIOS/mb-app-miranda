@@ -2,19 +2,18 @@ import SwiftUI
 
 struct ExchangeDetailView: View {
     let exchange: Exchange
-    var namespace: Namespace.ID
 
     @StateObject private var viewModel: ExchangeDetailViewModel
     @Environment(\.openURL) private var openURL
     @State private var descriptionExpanded = false
 
-    init(exchange: Exchange, namespace: Namespace.ID) {
+    init(exchange: Exchange) {
         self.exchange = exchange
-        self.namespace = namespace
         let container = DependencyContainer.shared
         _viewModel = StateObject(wrappedValue: ExchangeDetailViewModel(
             getExchangeDetail: container.makeGetExchangeDetailUseCase(),
-            getExchangeAssets: container.makeGetExchangeAssetsUseCase()
+            getExchangeAssets: container.makeGetExchangeAssetsUseCase(),
+            detailCache: container.exchangeDetailCache
         ))
     }
 
@@ -22,29 +21,35 @@ struct ExchangeDetailView: View {
         ZStack {
             Color.mbPrimary.ignoresSafeArea()
 
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    headerSection
-                        .padding(.horizontal, 20)
-                        .padding(.top, 16)
+            VStack(alignment: .leading, spacing: 0) {
+                // Header fora do ScrollView: evita bug do `matchedGeometryEffect` (logo “flutuando” sobre o conteúdo).
+                headerSection
+                    .padding(.horizontal, 20)
+                    .padding(.top, 16)
+                    .padding(.bottom, 12)
+                    .background(Color.mbPrimary)
+                    .zIndex(1)
 
-                    Divider()
-                        .background(Color.mbSurfaceAlt)
-                        .padding(.vertical, 20)
-                        .padding(.horizontal, 20)
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Divider()
+                            .background(Color.mbSurfaceAlt)
+                            .padding(.bottom, 20)
+                            .padding(.horizontal, 20)
 
-                    infoSection
-                        .padding(.horizontal, 20)
+                        infoSection
+                            .padding(.horizontal, 20)
 
-                    Divider()
-                        .background(Color.mbSurfaceAlt)
-                        .padding(.vertical, 20)
-                        .padding(.horizontal, 20)
+                        Divider()
+                            .background(Color.mbSurfaceAlt)
+                            .padding(.vertical, 20)
+                            .padding(.horizontal, 20)
 
-                    currenciesSection
-                        .padding(.horizontal, 20)
+                        currenciesSection
+                            .padding(.horizontal, 20)
 
-                    Spacer(minLength: 40)
+                        Color.clear.frame(height: 32)
+                    }
                 }
             }
         }
@@ -56,26 +61,11 @@ struct ExchangeDetailView: View {
 
     // MARK: - Header (logo grande + nome)
     private var headerSection: some View {
-        HStack(spacing: 16) {
-            AsyncImage(url: URL(string: exchange.logo)) { phase in
-                switch phase {
-                case .success(let image):
-                    image.resizable().scaledToFit()
-                case .failure:
-                    Image(systemName: "building.columns.fill")
-                        .foregroundColor(.mbTextSub)
-                case .empty:
-                    RoundedRectangle(cornerRadius: 14)
-                        .fill(Color.mbSurfaceAlt)
-                        .shimmer()
-                @unknown default:
-                    EmptyView()
-                }
-            }
-            .frame(width: 72, height: 72)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            // Destino da hero: não pode ser `isSource` junto com o card da lista (aviso do runtime).
-            .matchedGeometryEffect(id: "logo-\(exchange.id)", in: namespace, isSource: false)
+        HStack(alignment: .center, spacing: 16) {
+            logoView
+                .frame(width: 72, height: 72)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .clipped()
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(exchange.name)
@@ -86,7 +76,31 @@ struct ExchangeDetailView: View {
                     .font(.mbCaption)
                     .foregroundColor(.mbTextSub)
             }
-            Spacer()
+            Spacer(minLength: 0)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var logoView: some View {
+        AsyncImage(url: URL(string: exchange.logo)) { phase in
+            switch phase {
+            case .success(let image):
+                image
+                    .resizable()
+                    .scaledToFill()
+            case .failure:
+                Image(systemName: "building.columns.fill")
+                    .font(.system(size: 28))
+                    .foregroundColor(.mbTextSub)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.mbSurfaceAlt)
+            case .empty:
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(Color.mbSurfaceAlt)
+                    .shimmer()
+            @unknown default:
+                EmptyView()
+            }
         }
     }
 
@@ -204,9 +218,18 @@ struct ExchangeDetailView: View {
                 .background(Color.mbSurface)
                 .cornerRadius(16)
             case .empty:
-                Text("Nenhuma moeda disponível.")
-                    .font(.mbBody)
-                    .foregroundColor(.mbTextMuted)
+                VStack(spacing: 12) {
+                    Image(systemName: "bitcoinsign.circle")
+                        .font(.system(size: 32))
+                        .foregroundColor(.mbTextMuted)
+                    Text("Nenhuma moeda listada para esta exchange.")
+                        .font(.mbBody)
+                        .foregroundColor(.mbTextSub)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
+                .padding(.horizontal, 8)
             case .error(let msg):
                 ErrorView(message: msg) {
                     Task { await viewModel.load(exchange: exchange) }

@@ -32,6 +32,14 @@ final class ExchangeListViewModel: ObservableObject {
         self.pageSize = pageSize
     }
 
+    /// Evita novo fetch ao reaparecer a lista (ex.: após voltar do detalhe). Pull-to-refresh usa `refresh()`.
+    func loadInitialListIfNeeded() async {
+        if case .success(let exchanges) = state, !exchanges.isEmpty {
+            return
+        }
+        await loadExchanges()
+    }
+
     func loadExchanges() async {
         guard !state.isLoading else { return }
         resetPaginationForInitialLoad()
@@ -106,41 +114,73 @@ final class ExchangeDetailViewModel: ObservableObject {
 
     private let getExchangeDetail: GetExchangeDetailUseCase
     private let getExchangeAssets: GetExchangeAssetsUseCase
+    private let detailCache: ExchangeDetailCaching
+
+    /// TTL sugerido no plano: 60–120 s.
+    private static let cacheTTL: TimeInterval = 90
 
     init(
         getExchangeDetail: GetExchangeDetailUseCase,
-        getExchangeAssets: GetExchangeAssetsUseCase
+        getExchangeAssets: GetExchangeAssetsUseCase,
+        detailCache: ExchangeDetailCaching
     ) {
         self.getExchangeDetail = getExchangeDetail
         self.getExchangeAssets = getExchangeAssets
+        self.detailCache = detailCache
     }
 
     func load(exchange: Exchange) async {
-        // Carrega detail e assets em paralelo
-        async let detail = loadDetail(id: exchange.id)
-        async let assets = loadAssets(id: exchange.id)
-        _ = await (detail, assets)
-    }
+        let id = exchange.id
+        if let cached = detailCache.get(exchangeId: id, ttl: Self.cacheTTL) {
+            detailState = .success(cached.detail)
+            assetsState = cached.assets.isEmpty ? .empty : .success(cached.assets)
+            return
+        }
 
-    private func loadDetail(id: Int) async {
-        do {
-            let detail = try await getExchangeDetail.execute(id: id)
+        detailState = .loading
+        assetsState = .loading
+
+        async let detailResult = fetchDetail(id: id)
+        async let assetsResult = fetchAssets(id: id)
+        let (detailRes, assetsRes) = await (detailResult, assetsResult)
+
+        switch (detailRes, assetsRes) {
+        case (.success(let detail), .success(let assets)):
+            detailCache.set(exchangeId: id, detail: detail, assets: assets)
             detailState = .success(detail)
-        } catch let error as NetworkError {
-            detailState = .error(error.errorDescription ?? "Erro ao carregar detalhes.")
-        } catch {
-            detailState = .error(error.localizedDescription)
+            assetsState = assets.isEmpty ? .empty : .success(assets)
+        case (.failure(let err), .success(let assets)):
+            detailState = .error(Self.message(for: err, fallback: "Erro ao carregar detalhes."))
+            assetsState = assets.isEmpty ? .empty : .success(assets)
+        case (.success(let detail), .failure(let err)):
+            detailState = .success(detail)
+            assetsState = .error(Self.message(for: err, fallback: "Erro ao carregar moedas."))
+        case (.failure(let dErr), .failure(let aErr)):
+            detailState = .error(Self.message(for: dErr, fallback: "Erro ao carregar detalhes."))
+            assetsState = .error(Self.message(for: aErr, fallback: "Erro ao carregar moedas."))
         }
     }
 
-    private func loadAssets(id: Int) async {
+    private func fetchDetail(id: Int) async -> Result<Exchange, Error> {
         do {
-            let assets = try await getExchangeAssets.execute(id: id)
-            assetsState = assets.isEmpty ? .empty : .success(assets)
-        } catch let error as NetworkError {
-            assetsState = .error(error.errorDescription ?? "Erro ao carregar moedas.")
+            return .success(try await getExchangeDetail.execute(id: id))
         } catch {
-            assetsState = .error(error.localizedDescription)
+            return .failure(error)
         }
+    }
+
+    private func fetchAssets(id: Int) async -> Result<[Currency], Error> {
+        do {
+            return .success(try await getExchangeAssets.execute(id: id))
+        } catch {
+            return .failure(error)
+        }
+    }
+
+    private static func message(for error: Error, fallback: String) -> String {
+        if let ne = error as? NetworkError {
+            return ne.errorDescription ?? fallback
+        }
+        return error.localizedDescription
     }
 }

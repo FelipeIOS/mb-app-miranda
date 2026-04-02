@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ExchangeCard: View {
     let exchange: Exchange
-    var namespace: Namespace.ID
 
     var body: some View {
         HStack(spacing: 14) {
@@ -26,7 +25,6 @@ struct ExchangeCard: View {
             }
             .frame(width: 52, height: 52)
             .clipShape(RoundedRectangle(cornerRadius: 12))
-            .matchedGeometryEffect(id: "logo-\(exchange.id)", in: namespace, isSource: true)
 
             // Info
             VStack(alignment: .leading, spacing: 4) {

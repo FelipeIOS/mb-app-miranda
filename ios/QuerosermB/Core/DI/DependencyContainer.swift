@@ -19,6 +19,8 @@ final class DependencyContainer {
         ExchangeRepositoryImpl(dataSource: remoteDataSource)
     }()
 
+    private(set) lazy var exchangeDetailCache: ExchangeDetailCaching = ExchangeDetailCache()
+
     // MARK: - Use Cases (acesso externo)
     func makeGetExchangeListUseCase() -> GetExchangeListUseCase {
         GetExchangeListUseCase(repository: exchangeRepository)
