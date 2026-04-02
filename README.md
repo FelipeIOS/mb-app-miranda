@@ -62,15 +62,16 @@ Core (APIClient + Network + DI + Extensions)
 
 ### Configuração da API Key
 
-1. Navegue para `ios/QuerosermB/`
-2. Abra (ou crie) o arquivo `Config.xcconfig`
-3. Substitua `YOUR_API_KEY_HERE` pela sua chave:
+1. No terminal, a partir da pasta do repositório:
 
-```
-CMC_API_KEY = sua_chave_aqui
+```bash
+cd ios/QuerosermB
+cp Config.xcconfig.example Config.xcconfig
 ```
 
-4. No Xcode: **Project → Info → Configurations** → defina `Config.xcconfig` para Debug e Release
+2. Edite `Config.xcconfig` e troque `YOUR_API_KEY_HERE` pela sua chave do [CoinMarketCap Pro](https://pro.coinmarketcap.com/).
+
+3. O projeto Xcode já referencia `Config.xcconfig` nas configurações Debug/Release; se o arquivo existir com `CMC_API_KEY` válido, o app compila e injeta a chave no `Info.plist` via build setting.
 
 ### Rodando o projeto
 

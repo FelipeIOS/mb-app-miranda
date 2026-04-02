@@ -36,9 +36,14 @@ struct ExchangeCard: View {
                     .lineLimit(1)
 
                 if let volume = exchange.spotVolumeUSD {
-                    Text(volume.formatAsCompactUSD())
-                        .font(.mbBody)
-                        .foregroundColor(.mbGold)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Volume 24h")
+                            .font(.mbCaption)
+                            .foregroundColor(.mbTextSub)
+                        Text(volume.formatAsCompactUSD())
+                            .font(.mbBody)
+                            .foregroundColor(.mbGold)
+                    }
                 }
 
                 if let date = exchange.dateLaunched {

@@ -59,13 +59,34 @@ struct ExchangeListView: View {
     private func exchangeList(_ exchanges: [Exchange]) -> some View {
         ScrollView {
             LazyVStack(spacing: 12) {
-                ForEach(exchanges) { exchange in
+                ForEach(Array(exchanges.enumerated()), id: \.element.id) { index, exchange in
                     NavigationLink {
                         ExchangeDetailView(exchange: exchange, namespace: namespace)
                     } label: {
                         ExchangeCard(exchange: exchange, namespace: namespace)
                     }
                     .buttonStyle(.plain)
+                    .onAppear {
+                        if index == exchanges.count - 1 {
+                            Task { await viewModel.loadMore() }
+                        }
+                    }
+                }
+
+                if viewModel.isLoadingMore {
+                    ProgressView()
+                        .tint(.mbGold)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                }
+
+                if let message = viewModel.loadMoreErrorMessage {
+                    Text(message)
+                        .font(.mbBody)
+                        .foregroundColor(.mbTextSub)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 8)
                 }
             }
             .padding(.horizontal, 16)

@@ -18,10 +18,12 @@ enum APIEndpoint {
     var queryItems: [URLQueryItem] {
         switch self {
         case let .exchangeMap(start, limit):
+            // Sem `sort`: no plano Basic, `sort=volume_24h` costuma limitar o conjunto
+            // (ex.: só ~40 itens), e a 2ª página vem vazia. Ordenamos por volume no app
+            // após o `/exchange/info` (campo `spot_volume_usd`).
             return [
                 URLQueryItem(name: "start", value: "\(start)"),
-                URLQueryItem(name: "limit", value: "\(limit)"),
-                URLQueryItem(name: "sort",  value: "volume_24h")
+                URLQueryItem(name: "limit", value: "\(limit)")
             ]
         case let .exchangeInfo(ids):
             return [URLQueryItem(name: "id", value: ids)]

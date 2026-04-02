@@ -7,21 +7,34 @@ final class ExchangeRepositoryImpl: ExchangeRepository {
         self.dataSource = dataSource
     }
 
+    private static let maxIdsPerInfoRequest = 100
+
     // MARK: - Lista de exchanges (map + info em batch)
-    func getExchangeList(start: Int, limit: Int) async throws -> [Exchange] {
-        // 1. Busca o mapa (id + name + slug)
+    func getExchangeList(start: Int, limit: Int) async throws -> ExchangeListPage {
         let mapItems = try await dataSource.fetchExchangeMap(start: start, limit: limit)
-        guard !mapItems.isEmpty else { return [] }
+        guard !mapItems.isEmpty else {
+            return ExchangeListPage(items: [], hasMore: false, nextStart: start)
+        }
 
-        // 2. Busca detalhes em batch com até 100 IDs por vez
-        let ids = mapItems.prefix(100).map { "\($0.id)" }.joined(separator: ",")
-        let infoItems = try await dataSource.fetchExchangeInfo(ids: ids)
+        var allInfo: [ExchangeInfoData] = []
+        var offset = 0
+        while offset < mapItems.count {
+            let end = min(offset + Self.maxIdsPerInfoRequest, mapItems.count)
+            let chunk = Array(mapItems[offset..<end])
+            let ids = chunk.map { "\($0.id)" }.joined(separator: ",")
+            let batch = try await dataSource.fetchExchangeInfo(ids: ids)
+            allInfo.append(contentsOf: batch)
+            offset = end
+        }
 
-        // 3. Mapeia preservando a ordem original do mapa
-        let infoDict = Dictionary(uniqueKeysWithValues: infoItems.map { ($0.id, $0) })
-        return mapItems.compactMap { mapItem in
+        let infoDict = Dictionary(uniqueKeysWithValues: allInfo.map { ($0.id, $0) })
+        let exchanges = mapItems.compactMap { mapItem in
             infoDict[mapItem.id]?.toDomain()
         }
+
+        let hasMore = mapItems.count == limit
+        let nextStart = start + mapItems.count
+        return ExchangeListPage(items: exchanges, hasMore: hasMore, nextStart: nextStart)
     }
 
     // MARK: - Detalhes de uma exchange

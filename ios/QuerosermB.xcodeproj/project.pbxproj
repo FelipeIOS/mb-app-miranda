@@ -12,6 +12,7 @@
 		06D89B3305F325E1CD5A6D04 /* CurrencyRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00063B6C631E36D2E9E66CE1 /* CurrencyRowView.swift */; };
 		09C5849A2DF84E02D347D1B9 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243EF4CDDA26BF1ECA92C13 /* DependencyContainer.swift */; };
 		18FAEA73A242E252279A9406 /* Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54450871D0C996876A0EC10 /* Exchange.swift */; };
+		C1A2B3C4D5E6F7081920A1B2 /* ExchangeListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A2B3C4D5E6F7081920A1B3 /* ExchangeListPage.swift */; };
 		1A3F9280ED857CDA0B5D7E83 /* APIKeyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188B84AF3C8FD1E4D9D8883D /* APIKeyProvider.swift */; };
 		214C5864770F50397F8F1D35 /* ExchangeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CB723A3DDF1208970DB4E9 /* ExchangeListView.swift */; };
 		286CB042BC8FE7236D184D50 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6562E00E1B079004328DDDBA /* APIEndpoint.swift */; };
@@ -66,6 +67,7 @@
 		ABD159C4987BCDD0C85D98D6 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		ACC42D5A012062D68E44E753 /* ExchangeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRepository.swift; sourceTree = "<group>"; };
 		B54450871D0C996876A0EC10 /* Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exchange.swift; sourceTree = "<group>"; };
+		C1A2B3C4D5E6F7081920A1B3 /* ExchangeListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListPage.swift; sourceTree = "<group>"; };
 		B8A3ECB0C075D6331A90CB9F /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		C80A49F5142528D165D74DCC /* ExchangeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeTests.swift; sourceTree = "<group>"; };
 		CDC15DC42FE8282C83F45A09 /* ExchangeAssetsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeAssetsDTO.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				B54450871D0C996876A0EC10 /* Exchange.swift */,
+				C1A2B3C4D5E6F7081920A1B3 /* ExchangeListPage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				09C5849A2DF84E02D347D1B9 /* DependencyContainer.swift in Sources */,
 				06606DABA75C212E6A1FDAB3 /* ErrorView.swift in Sources */,
 				18FAEA73A242E252279A9406 /* Exchange.swift in Sources */,
+				C1A2B3C4D5E6F7081920A1B2 /* ExchangeListPage.swift in Sources */,
 				A03AF81B586386C31ED08C9B /* ExchangeAssetsDTO.swift in Sources */,
 				FD39256B3F8295FC1820AD02 /* ExchangeCard.swift in Sources */,
 				685F9768DD12E29F21D78A34 /* ExchangeDTO.swift in Sources */,

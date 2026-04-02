@@ -4,12 +4,20 @@ import XCTest
 // MARK: - Mock Repository
 final class MockExchangeRepository: ExchangeRepository {
     var shouldFail = false
+    /// Página devolvida quando `pageHandler` é `nil`.
+    var stubbedPage = ExchangeListPage(items: [], hasMore: false, nextStart: 1)
     var stubbedExchanges: [Exchange] = []
     var stubbedCurrencies: [Currency] = []
 
-    func getExchangeList(start: Int, limit: Int) async throws -> [Exchange] {
+    /// Se definido, substitui `stubbedPage` (útil para simular várias páginas por `start`).
+    var pageHandler: ((Int, Int) throws -> ExchangeListPage)?
+
+    func getExchangeList(start: Int, limit: Int) async throws -> ExchangeListPage {
         if shouldFail { throw NetworkError.serverError(statusCode: 500) }
-        return stubbedExchanges
+        if let pageHandler {
+            return try pageHandler(start, limit)
+        }
+        return stubbedPage
     }
 
     func getExchangeDetail(id: Int) async throws -> Exchange {
@@ -44,14 +52,15 @@ final class GetExchangeListUseCaseTests: XCTestCase {
                      description: nil, websiteURL: nil, makerFee: "0.1", takerFee: "0.1",
                      dateLaunched: nil, spotVolumeUSD: 1_000_000_000)
         ]
-        mockRepo.stubbedExchanges = expected
+        mockRepo.stubbedPage = ExchangeListPage(items: expected, hasMore: false, nextStart: 2)
 
         // When
         let result = try await useCase.execute()
 
         // Then
-        XCTAssertEqual(result.count, 1)
-        XCTAssertEqual(result.first?.name, "Binance")
+        XCTAssertEqual(result.items.count, 1)
+        XCTAssertEqual(result.items.first?.name, "Binance")
+        XCTAssertFalse(result.hasMore)
     }
 
     func test_execute_throwsOnFailure() async {
@@ -69,13 +78,13 @@ final class GetExchangeListUseCaseTests: XCTestCase {
 
     func test_execute_returnsEmptyList() async throws {
         // Given
-        mockRepo.stubbedExchanges = []
+        mockRepo.stubbedPage = ExchangeListPage(items: [], hasMore: false, nextStart: 1)
 
         // When
         let result = try await useCase.execute()
 
         // Then
-        XCTAssertTrue(result.isEmpty)
+        XCTAssertTrue(result.items.isEmpty)
     }
 }
 
@@ -100,11 +109,12 @@ final class ExchangeListViewModelTests: XCTestCase {
 
     func test_loadExchanges_setsSuccessState() async {
         // Given
-        mockRepo.stubbedExchanges = [
+        let items = [
             Exchange(id: 1, name: "Coinbase", logo: "", slug: "coinbase",
                      description: nil, websiteURL: nil, makerFee: nil, takerFee: nil,
                      dateLaunched: nil, spotVolumeUSD: nil)
         ]
+        mockRepo.stubbedPage = ExchangeListPage(items: items, hasMore: false, nextStart: 2)
 
         // When
         await viewModel.loadExchanges()
@@ -115,6 +125,45 @@ final class ExchangeListViewModelTests: XCTestCase {
         } else {
             XCTFail("Expected success state")
         }
+    }
+
+    func test_loadMore_appendsSecondPage() async {
+        let first = Exchange(id: 1, name: "A", logo: "", slug: "a",
+                             description: nil, websiteURL: nil, makerFee: nil, takerFee: nil,
+                             dateLaunched: nil, spotVolumeUSD: nil)
+        let second = Exchange(id: 2, name: "B", logo: "", slug: "b",
+                              description: nil, websiteURL: nil, makerFee: nil, takerFee: nil,
+                              dateLaunched: nil, spotVolumeUSD: nil)
+
+        mockRepo.pageHandler = { start, _ in
+            if start == 1 {
+                return ExchangeListPage(items: [first], hasMore: true, nextStart: 41)
+            }
+            if start == 41 {
+                return ExchangeListPage(items: [second], hasMore: false, nextStart: 42)
+            }
+            return ExchangeListPage(items: [], hasMore: false, nextStart: start)
+        }
+
+        let vm = ExchangeListViewModel(
+            getExchangeList: GetExchangeListUseCase(repository: mockRepo),
+            pageSize: 40
+        )
+
+        await vm.loadExchanges()
+
+        guard case .success(let afterFirst) = vm.state else {
+            return XCTFail("Expected success after first page")
+        }
+        XCTAssertEqual(afterFirst.count, 1)
+
+        await vm.loadMore()
+
+        guard case .success(let merged) = vm.state else {
+            return XCTFail("Expected success after load more")
+        }
+        XCTAssertEqual(merged.count, 2)
+        XCTAssertEqual(merged.map(\.id), [1, 2])
     }
 
     func test_loadExchanges_setsErrorState_onFailure() async {
@@ -131,7 +180,7 @@ final class ExchangeListViewModelTests: XCTestCase {
 
     func test_loadExchanges_setsEmptyState_whenResultIsEmpty() async {
         // Given
-        mockRepo.stubbedExchanges = []
+        mockRepo.stubbedPage = ExchangeListPage(items: [], hasMore: false, nextStart: 1)
 
         // When
         await viewModel.loadExchanges()

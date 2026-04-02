@@ -2,13 +2,16 @@ import Foundation
 
 // MARK: - Get Exchange List
 struct GetExchangeListUseCase {
+    /// Tamanho padrão de página no `/exchange/map` (créditos vs UX).
+    static let defaultPageSize = 40
+
     private let repository: ExchangeRepository
 
     init(repository: ExchangeRepository) {
         self.repository = repository
     }
 
-    func execute(start: Int = 1, limit: Int = 100) async throws -> [Exchange] {
+    func execute(start: Int = 1, limit: Int = defaultPageSize) async throws -> ExchangeListPage {
         try await repository.getExchangeList(start: start, limit: limit)
     }
 }

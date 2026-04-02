@@ -1,0 +1,7 @@
+// Copie este arquivo para Config.xcconfig e preencha a chave:
+//   cp Config.xcconfig.example Config.xcconfig
+// O arquivo Config.xcconfig está no .gitignore e não deve ser commitado.
+//
+// Obtenha uma chave em: https://pro.coinmarketcap.com/ (Developer Portal)
+
+CMC_API_KEY = YOUR_API_KEY_HERE
