@@ -2,6 +2,8 @@ import SwiftUI
 
 struct ErrorView: View {
     let message: String
+    /// Quando `true` (dentro de `ScrollView` / altura fixa), não usa `maxHeight: .infinity` para evitar layout inválido.
+    var embedded: Bool = false
     let onRetry: () -> Void
 
     @State private var pulseIcon = false
@@ -44,7 +46,8 @@ struct ErrorView: View {
                 .cornerRadius(14)
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: .infinity)
+        .frame(maxHeight: embedded ? nil : .infinity)
     }
 }
 

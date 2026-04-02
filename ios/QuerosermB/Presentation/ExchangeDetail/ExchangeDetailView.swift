@@ -97,6 +97,7 @@ struct ExchangeDetailView: View {
             case .empty:
                 RoundedRectangle(cornerRadius: 14)
                     .fill(Color.mbSurfaceAlt)
+                    .frame(width: 72, height: 72)
                     .shimmer()
             @unknown default:
                 EmptyView()
@@ -113,10 +114,10 @@ struct ExchangeDetailView: View {
         case .success(let detail):
             infoContent(detail)
         case .error(let msg):
-            ErrorView(message: msg) {
+            ErrorView(message: msg, embedded: true) {
                 Task { await viewModel.load(exchange: exchange) }
             }
-            .frame(height: 150)
+            .frame(minHeight: 200)
         default:
             EmptyView()
         }
@@ -208,9 +209,10 @@ struct ExchangeDetailView: View {
                 }
             case .success(let currencies):
                 LazyVStack(spacing: 0) {
-                    ForEach(currencies) { currency in
+                    // O mesmo `crypto_id` pode aparecer várias vezes (carteiras diferentes); o índice é único para o ForEach.
+                    ForEach(Array(currencies.enumerated()), id: \.offset) { index, currency in
                         CurrencyRowView(currency: currency)
-                        if currency.id != currencies.last?.id {
+                        if index < currencies.count - 1 {
                             Divider().background(Color.mbSurfaceAlt)
                         }
                     }
@@ -231,10 +233,10 @@ struct ExchangeDetailView: View {
                 .padding(.vertical, 20)
                 .padding(.horizontal, 8)
             case .error(let msg):
-                ErrorView(message: msg) {
+                ErrorView(message: msg, embedded: true) {
                     Task { await viewModel.load(exchange: exchange) }
                 }
-                .frame(height: 150)
+                .frame(minHeight: 200)
             default:
                 EmptyView()
             }

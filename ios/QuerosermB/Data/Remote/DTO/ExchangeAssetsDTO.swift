@@ -24,7 +24,8 @@ struct AssetCurrencyData: Codable {
     let priceUsd: Double?
 
     enum CodingKeys: String, CodingKey {
-        case id, name, symbol
+        case id = "crypto_id"
+        case name, symbol
         case priceUsd = "price_usd"
     }
 }
@@ -33,6 +34,7 @@ struct AssetCurrencyData: Codable {
 extension ExchangeAssetItem {
     func toDomain() -> Currency {
         Currency(
+            id: currency.id,
             name: currency.name,
             symbol: currency.symbol,
             priceUSD: currency.priceUsd,

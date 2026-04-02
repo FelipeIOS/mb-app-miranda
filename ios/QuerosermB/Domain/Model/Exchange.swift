@@ -15,15 +15,16 @@ struct Exchange: Identifiable, Equatable {
     let spotVolumeUSD: Double?
 }
 
+/// `id` é o `crypto_id` da CMC; na lista de assets da exchange pode repetir (mesma moeda, carteiras distintas).
 struct Currency: Identifiable, Equatable {
-    let id: UUID
+    let id: Int
     let name: String
     let symbol: String
     let priceUSD: Double?
     let balance: Double?
 
-    init(name: String, symbol: String, priceUSD: Double?, balance: Double?) {
-        self.id = UUID()
+    init(id: Int, name: String, symbol: String, priceUSD: Double?, balance: Double?) {
+        self.id = id
         self.name = name
         self.symbol = symbol
         self.priceUSD = priceUSD

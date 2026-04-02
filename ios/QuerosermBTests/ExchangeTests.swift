@@ -276,7 +276,7 @@ final class ExchangeDetailViewModelTests: XCTestCase {
                                   dateLaunched: nil, spotVolumeUSD: 2)
         mockRepo.stubbedExchanges = [exchange]
         mockRepo.stubbedCurrencies = [
-            Currency(name: "BTC", symbol: "BTC", priceUSD: 1, balance: nil)
+            Currency(id: 1, name: "BTC", symbol: "BTC", priceUSD: 1, balance: nil)
         ]
         cache.stub = nil
 

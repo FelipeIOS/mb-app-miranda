@@ -8,19 +8,22 @@ struct ShimmerModifier: ViewModifier {
         content
             .overlay(
                 GeometryReader { geo in
-                    LinearGradient(
-                        gradient: Gradient(stops: [
-                            .init(color: .clear,                      location: 0),
-                            .init(color: Color.white.opacity(0.15),   location: 0.45),
-                            .init(color: Color.white.opacity(0.25),   location: 0.5),
-                            .init(color: Color.white.opacity(0.15),   location: 0.55),
-                            .init(color: .clear,                      location: 1)
-                        ]),
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                    .frame(width: geo.size.width * 2)
-                    .offset(x: geo.size.width * phase)
+                    // Evita "Failed to create Wx0 image slot" quando o layout ainda não tem altura.
+                    if geo.size.width > 1, geo.size.height > 1 {
+                        LinearGradient(
+                            gradient: Gradient(stops: [
+                                .init(color: .clear,                      location: 0),
+                                .init(color: Color.white.opacity(0.15),   location: 0.45),
+                                .init(color: Color.white.opacity(0.25),   location: 0.5),
+                                .init(color: Color.white.opacity(0.15),   location: 0.55),
+                                .init(color: .clear,                      location: 1)
+                            ]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                        .frame(width: geo.size.width * 2, height: geo.size.height)
+                        .offset(x: geo.size.width * phase)
+                    }
                 }
                 .clipped()
             )
