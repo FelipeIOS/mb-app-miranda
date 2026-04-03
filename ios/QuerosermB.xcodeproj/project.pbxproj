@@ -18,22 +18,26 @@
 		286CB042BC8FE7236D184D50 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6562E00E1B079004328DDDBA /* APIEndpoint.swift */; };
 		2990938851DC222AE5C4A0D4 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD159C4987BCDD0C85D98D6 /* AppTheme.swift */; };
 		3311F65704E610EE232619F0 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E237364DD7C2EF29F3CEB46 /* NetworkError.swift */; };
+		36D69154BAE73A10B14F31C1 /* UITestStubExchangeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1626B8FDAE51CB384CD356 /* UITestStubExchangeRepository.swift */; };
 		375CD7799CF712203CA82E39 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3ECB0C075D6331A90CB9F /* Formatters.swift */; };
 		4881A6FDB2D20DE6008EF9B9 /* ExchangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80A49F5142528D165D74DCC /* ExchangeTests.swift */; };
 		4EBD25617D2F4242764F6D1D /* ExchangeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E51732D2D53E26DA83D70B5 /* ExchangeDetailView.swift */; };
+		52EA6622CBE4145083F4F28F /* QuerosermBUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86362A7F15011FDAEE3B3233 /* QuerosermBUITests.swift */; };
 		685F9768DD12E29F21D78A34 /* ExchangeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAAC059AFC813417A6FF511 /* ExchangeDTO.swift */; };
-		7A8B9C0D1E2F304152637485 /* ExchangeDetailCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C8D9E0F1A203142536475 /* ExchangeDetailCache.swift */; };
+		700863BA1AC138A2A3288B66 /* ExchangeDetailCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AA74858632D0AAFE727255 /* ExchangeDetailCache.swift */; };
+		85137A07731E41139ED80EB7 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4D5850B5065E888C45FDAE /* XCTest.framework */; };
 		88598ED147B5612C1692ED36 /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569F47348066B64F3CA3049A /* ShimmerView.swift */; };
 		9464AE877100E9E5A0CEBE6A /* ExchangeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C9A9B1E0B06710F851B292 /* ExchangeListViewModel.swift */; };
 		A03AF81B586386C31ED08C9B /* ExchangeAssetsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC15DC42FE8282C83F45A09 /* ExchangeAssetsDTO.swift */; };
-		A0B1C2D3E4F5061728394A5B6C7 /* ExchangeSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C1D2E3F405162738495A6B7C8 /* ExchangeSearchView.swift */; };
+		A8FF9824FA43A469AE9E6079 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD4972335B03504E4E99D6 /* AppCoordinator.swift */; };
+		AFE8CAE1CE112C3D489F3031 /* ExchangeSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF2208D88A19817760694CD /* ExchangeSearchView.swift */; };
+		BBFD71709EA2ACA59E985353 /* RemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745DE1ECF94719EC7116FDA5 /* RemoteImageView.swift */; };
 		C0A8AD95B717FD7977480836 /* ExchangeRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D65EE389DB11B1C00D003D1 /* ExchangeRemoteDataSource.swift */; };
 		DD2F09509113D1A091966CAB /* ExchangeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC42D5A012062D68E44E753 /* ExchangeRepository.swift */; };
 		DEB986845E195400D15820DF /* ExchangeRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08943F094710AE2C34578862 /* ExchangeRepositoryImpl.swift */; };
 		ECE40276A33C6A0FC62BCADF /* ExchangeListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD42239359C48431EC848A07 /* ExchangeListPage.swift */; };
 		ED853647AF0CCE3FCD828CFC /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D47FC6214FE1C9A28328A6 /* APIClient.swift */; };
 		EFDC0F36CB76C2A048D43DA0 /* ExchangeUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60204C71332F1A8EAE54200C /* ExchangeUseCases.swift */; };
-		F1E2D3C4B5A69788796A5B4C /* RemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D60718293A4B5C /* RemoteImageView.swift */; };
 		FD39256B3F8295FC1820AD02 /* ExchangeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894BD84BCD2443EAD6B0C3F2 /* ExchangeCard.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,49 +49,62 @@
 			remoteGlobalIDString = F4C5F119D49F36A961508B0E;
 			remoteInfo = QuerosermB;
 		};
+		9E2DCF0375806B898213A6BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7D0BADF719044B9CECA7E4D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4C5F119D49F36A961508B0E;
+			remoteInfo = QuerosermB;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		00063B6C631E36D2E9E66CE1 /* CurrencyRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRowView.swift; sourceTree = "<group>"; };
 		08943F094710AE2C34578862 /* ExchangeRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRepositoryImpl.swift; sourceTree = "<group>"; };
+		15AA74858632D0AAFE727255 /* ExchangeDetailCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailCache.swift; sourceTree = "<group>"; };
 		188B84AF3C8FD1E4D9D8883D /* APIKeyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyProvider.swift; sourceTree = "<group>"; };
 		2750F0CF94DDFCBC289C3202 /* NetworkDebugLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDebugLogger.swift; sourceTree = "<group>"; };
 		2E237364DD7C2EF29F3CEB46 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		389E1F4152BA5F454BAEA746 /* QuerosermBUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = QuerosermBUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EF2208D88A19817760694CD /* ExchangeSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeSearchView.swift; sourceTree = "<group>"; };
 		5145077B80F99207F1AEFFF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5243EF4CDDA26BF1ECA92C13 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
-		535E0AE8104D66BC5BFC485C /* QuerosermBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuerosermBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		535E0AE8104D66BC5BFC485C /* QuerosermBTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = QuerosermBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		569F47348066B64F3CA3049A /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		5E51732D2D53E26DA83D70B5 /* ExchangeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailView.swift; sourceTree = "<group>"; };
 		5FAAC059AFC813417A6FF511 /* ExchangeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDTO.swift; sourceTree = "<group>"; };
 		60204C71332F1A8EAE54200C /* ExchangeUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeUseCases.swift; sourceTree = "<group>"; };
 		6562E00E1B079004328DDDBA /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
-		6B7C8D9E0F1A203142536475 /* ExchangeDetailCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailCache.swift; sourceTree = "<group>"; };
 		72C9A9B1E0B06710F851B292 /* ExchangeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListViewModel.swift; sourceTree = "<group>"; };
+		745DE1ECF94719EC7116FDA5 /* RemoteImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageView.swift; sourceTree = "<group>"; };
 		746270748B72D91BE29944D0 /* QuerosermB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuerosermB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84CB723A3DDF1208970DB4E9 /* ExchangeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListView.swift; sourceTree = "<group>"; };
+		86362A7F15011FDAEE3B3233 /* QuerosermBUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuerosermBUITests.swift; sourceTree = "<group>"; };
 		894BD84BCD2443EAD6B0C3F2 /* ExchangeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCard.swift; sourceTree = "<group>"; };
 		8ADFD44505DE6E079D9E6A6C /* QuerosermBApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuerosermBApp.swift; sourceTree = "<group>"; };
 		9D65EE389DB11B1C00D003D1 /* ExchangeRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRemoteDataSource.swift; sourceTree = "<group>"; };
 		ABD159C4987BCDD0C85D98D6 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		ACC42D5A012062D68E44E753 /* ExchangeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRepository.swift; sourceTree = "<group>"; };
 		AD42239359C48431EC848A07 /* ExchangeListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListPage.swift; sourceTree = "<group>"; };
-		B0C1D2E3F405162738495A6B7C8 /* ExchangeSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeSearchView.swift; sourceTree = "<group>"; };
 		B54450871D0C996876A0EC10 /* Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exchange.swift; sourceTree = "<group>"; };
 		B8A3ECB0C075D6331A90CB9F /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
+		B9AD4972335B03504E4E99D6 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		BE4D5850B5065E888C45FDAE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = System/Library/Frameworks/XCTest.framework; sourceTree = SDKROOT; };
 		C80A49F5142528D165D74DCC /* ExchangeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeTests.swift; sourceTree = "<group>"; };
 		CDC15DC42FE8282C83F45A09 /* ExchangeAssetsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeAssetsDTO.swift; sourceTree = "<group>"; };
 		D070830DB566E1CB790C53DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		E1F2A3B4C5D60718293A4B5C /* RemoteImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageView.swift; sourceTree = "<group>"; };
 		E3D47FC6214FE1C9A28328A6 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		E53D165D117780C4787FFA97 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		FC1626B8FDAE51CB384CD356 /* UITestStubExchangeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestStubExchangeRepository.swift; sourceTree = "<group>"; };
 		FD37E1631E616D55F0B78063 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		A1B2C3D4E5F60718293A4B02 /* Frameworks */ = {
+		47AF9FB10550C25F0852A72D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85137A07731E41139ED80EB7 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +154,7 @@
 			children = (
 				746270748B72D91BE29944D0 /* QuerosermB.app */,
 				535E0AE8104D66BC5BFC485C /* QuerosermBTests.xctest */,
+				389E1F4152BA5F454BAEA746 /* QuerosermBUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -172,7 +190,7 @@
 				00063B6C631E36D2E9E66CE1 /* CurrencyRowView.swift */,
 				FD37E1631E616D55F0B78063 /* ErrorView.swift */,
 				894BD84BCD2443EAD6B0C3F2 /* ExchangeCard.swift */,
-				E1F2A3B4C5D60718293A4B5C /* RemoteImageView.swift */,
+				745DE1ECF94719EC7116FDA5 /* RemoteImageView.swift */,
 				569F47348066B64F3CA3049A /* ShimmerView.swift */,
 			);
 			path = Components;
@@ -183,6 +201,8 @@
 			children = (
 				FE49FD93651CDC24A98F0307 /* QuerosermB */,
 				52543A989366915CE6490DD6 /* QuerosermBTests */,
+				88AE9C0714828D0F4A77D13B /* QuerosermBUITests */,
+				A1BC2550F94BFD246D55F7F1 /* Frameworks */,
 				5852C193EC6A7755593DF881 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -203,10 +223,19 @@
 			path = DataSource;
 			sourceTree = "<group>";
 		};
+		88AE9C0714828D0F4A77D13B /* QuerosermBUITests */ = {
+			isa = PBXGroup;
+			children = (
+				86362A7F15011FDAEE3B3233 /* QuerosermBUITests.swift */,
+			);
+			path = QuerosermBUITests;
+			sourceTree = "<group>";
+		};
 		9B511529690F5A9C11048969 /* DI */ = {
 			isa = PBXGroup;
 			children = (
 				5243EF4CDDA26BF1ECA92C13 /* DependencyContainer.swift */,
+				FC1626B8FDAE51CB384CD356 /* UITestStubExchangeRepository.swift */,
 			);
 			path = DI;
 			sourceTree = "<group>";
@@ -220,6 +249,14 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		A1BC2550F94BFD246D55F7F1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BE4D5850B5065E888C45FDAE /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BC4E7D2379DFDF8A66681FDB /* Repository */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,6 +268,7 @@
 		C1B10E71F6876A6C8994FB51 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				B9AD4972335B03504E4E99D6 /* AppCoordinator.swift */,
 				6FA8FC4E32C6C771881B3289 /* Components */,
 				5EF8152D71B5723EFA62CE87 /* ExchangeDetail */,
 				E2D8359FE05E0246E7585D98 /* ExchangeList */,
@@ -266,7 +304,7 @@
 			children = (
 				84CB723A3DDF1208970DB4E9 /* ExchangeListView.swift */,
 				72C9A9B1E0B06710F851B292 /* ExchangeListViewModel.swift */,
-				B0C1D2E3F405162738495A6B7C8 /* ExchangeSearchView.swift */,
+				3EF2208D88A19817760694CD /* ExchangeSearchView.swift */,
 			);
 			path = ExchangeList;
 			sourceTree = "<group>";
@@ -290,7 +328,7 @@
 		F84DAEB1FF81E4FA95447841 /* Cache */ = {
 			isa = PBXGroup;
 			children = (
-				6B7C8D9E0F1A203142536475 /* ExchangeDetailCache.swift */,
+				15AA74858632D0AAFE727255 /* ExchangeDetailCache.swift */,
 			);
 			path = Cache;
 			sourceTree = "<group>";
@@ -312,12 +350,30 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A1B0DC0351D7BF37DAC1A907 /* QuerosermBUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ACC9CF45BF40D0331C9F312F /* Build configuration list for PBXNativeTarget "QuerosermBUITests" */;
+			buildPhases = (
+				DCBD40B8FADCBCEC41B778A8 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				566C042C3A5E46157408D80B /* PBXTargetDependency */,
+			);
+			name = QuerosermBUITests;
+			packageProductDependencies = (
+			);
+			productName = QuerosermBUITests;
+			productReference = 389E1F4152BA5F454BAEA746 /* QuerosermBUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		C87663ECC739B06010E9E003 /* QuerosermBTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1B27101CD28C16B1C39C8944 /* Build configuration list for PBXNativeTarget "QuerosermBTests" */;
 			buildPhases = (
-				A1B2C3D4E5F60718293A4B02 /* Frameworks */,
 				29F440CE3C5058B60A1E4607 /* Sources */,
+				47AF9FB10550C25F0852A72D /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -357,7 +413,9 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
-					C87663ECC739B06010E9E003 = {
+					A1B0DC0351D7BF37DAC1A907 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
 						TestTargetID = F4C5F119D49F36A961508B0E;
 					};
 					F4C5F119D49F36A961508B0E = {
@@ -381,6 +439,7 @@
 			targets = (
 				F4C5F119D49F36A961508B0E /* QuerosermB */,
 				C87663ECC739B06010E9E003 /* QuerosermBTests */,
+				A1B0DC0351D7BF37DAC1A907 /* QuerosermBUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -393,17 +452,16 @@
 				ED853647AF0CCE3FCD828CFC /* APIClient.swift in Sources */,
 				286CB042BC8FE7236D184D50 /* APIEndpoint.swift in Sources */,
 				1A3F9280ED857CDA0B5D7E83 /* APIKeyProvider.swift in Sources */,
+				A8FF9824FA43A469AE9E6079 /* AppCoordinator.swift in Sources */,
 				2990938851DC222AE5C4A0D4 /* AppTheme.swift in Sources */,
 				06D89B3305F325E1CD5A6D04 /* CurrencyRowView.swift in Sources */,
 				09C5849A2DF84E02D347D1B9 /* DependencyContainer.swift in Sources */,
-				7A8B9C0D1E2F304152637485 /* ExchangeDetailCache.swift in Sources */,
 				06606DABA75C212E6A1FDAB3 /* ErrorView.swift in Sources */,
 				18FAEA73A242E252279A9406 /* Exchange.swift in Sources */,
 				A03AF81B586386C31ED08C9B /* ExchangeAssetsDTO.swift in Sources */,
 				FD39256B3F8295FC1820AD02 /* ExchangeCard.swift in Sources */,
-				F1E2D3C4B5A69788796A5B4C /* RemoteImageView.swift in Sources */,
-				A0B1C2D3E4F5061728394A5B6C7 /* ExchangeSearchView.swift in Sources */,
 				685F9768DD12E29F21D78A34 /* ExchangeDTO.swift in Sources */,
+				700863BA1AC138A2A3288B66 /* ExchangeDetailCache.swift in Sources */,
 				4EBD25617D2F4242764F6D1D /* ExchangeDetailView.swift in Sources */,
 				ECE40276A33C6A0FC62BCADF /* ExchangeListPage.swift in Sources */,
 				214C5864770F50397F8F1D35 /* ExchangeListView.swift in Sources */,
@@ -411,12 +469,15 @@
 				C0A8AD95B717FD7977480836 /* ExchangeRemoteDataSource.swift in Sources */,
 				DD2F09509113D1A091966CAB /* ExchangeRepository.swift in Sources */,
 				DEB986845E195400D15820DF /* ExchangeRepositoryImpl.swift in Sources */,
+				AFE8CAE1CE112C3D489F3031 /* ExchangeSearchView.swift in Sources */,
 				EFDC0F36CB76C2A048D43DA0 /* ExchangeUseCases.swift in Sources */,
 				375CD7799CF712203CA82E39 /* Formatters.swift in Sources */,
 				14FE84B5F2D7E460FC40BD02 /* NetworkDebugLogger.swift in Sources */,
 				3311F65704E610EE232619F0 /* NetworkError.swift in Sources */,
 				053C7933923F6F38E6692865 /* QuerosermBApp.swift in Sources */,
+				BBFD71709EA2ACA59E985353 /* RemoteImageView.swift in Sources */,
 				88598ED147B5612C1692ED36 /* ShimmerView.swift in Sources */,
+				36D69154BAE73A10B14F31C1 /* UITestStubExchangeRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,9 +489,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DCBD40B8FADCBCEC41B778A8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52EA6622CBE4145083F4F28F /* QuerosermBUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		566C042C3A5E46157408D80B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4C5F119D49F36A961508B0E /* QuerosermB */;
+			targetProxy = 9E2DCF0375806B898213A6BE /* PBXContainerItemProxy */;
+		};
 		75D80B63D9C648978093F8A0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F4C5F119D49F36A961508B0E /* QuerosermB */;
@@ -439,15 +513,35 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		55D415586D7D56065AD115D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.felipemiranda.querosermb.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = QuerosermB;
+			};
+			name = Release;
+		};
 		78AF097F2B3C4996775F1BE4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E53D165D117780C4787FFA97 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_CODE_COVERAGE = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4JLFD9VKNK;
+				DEVELOPMENT_TEAM = 5Z9V9RU582;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = QuerosermB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -457,13 +551,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.felipemiranda.querosermb;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -537,8 +627,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4JLFD9VKNK;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = QuerosermBTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -549,11 +637,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.felipemiranda.querosermb.tests;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QuerosermB.app/QuerosermB";
 			};
 			name = Release;
@@ -562,8 +646,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4JLFD9VKNK;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = QuerosermBTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -574,11 +656,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.felipemiranda.querosermb.tests;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QuerosermB.app/QuerosermB";
 			};
 			name = Debug;
@@ -590,7 +668,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4JLFD9VKNK;
+				DEVELOPMENT_TEAM = 5Z9V9RU582;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = QuerosermB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -600,15 +678,32 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.felipemiranda.querosermb;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
+		};
+		C5C6BC4E7C95B87C8E2C43BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.felipemiranda.querosermb.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = QuerosermB;
+			};
+			name = Debug;
 		};
 		F6E7648AEE2C12CECD272375 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -685,6 +780,15 @@
 			buildConfigurations = (
 				78AF097F2B3C4996775F1BE4 /* Debug */,
 				BB0DB23AC745BC488DC990CB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		ACC9CF45BF40D0331C9F312F /* Build configuration list for PBXNativeTarget "QuerosermBUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5C6BC4E7C95B87C8E2C43BD /* Debug */,
+				55D415586D7D56065AD115D2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

@@ -1,9 +1,12 @@
 import Foundation
 
-final class DependencyContainer {
-    // Singleton
-    static let shared = DependencyContainer()
-    private init() {}
+final class DependencyContainer: ObservableObject {
+
+    private let testMode: Bool
+
+    init(testMode: Bool = false) {
+        self.testMode = testMode
+    }
 
     // MARK: - Network
     private lazy var apiClient: APIClient = {
@@ -16,12 +19,15 @@ final class DependencyContainer {
     }()
 
     private lazy var exchangeRepository: ExchangeRepository = {
-        ExchangeRepositoryImpl(dataSource: remoteDataSource)
+        #if DEBUG
+        if testMode { return UITestStubExchangeRepository() }
+        #endif
+        return ExchangeRepositoryImpl(dataSource: remoteDataSource)
     }()
 
     private(set) lazy var exchangeDetailCache: ExchangeDetailCaching = ExchangeDetailCache()
 
-    // MARK: - Use Cases (acesso externo)
+    // MARK: - Use Cases
     func makeGetExchangeListUseCase() -> GetExchangeListUseCase {
         GetExchangeListUseCase(repository: exchangeRepository)
     }

@@ -3,6 +3,7 @@ import Foundation
 final class APIClient {
     private let apiKey: String
     private let session: URLSession
+    private let decoder = JSONDecoder()
 
     init(apiKey: String, session: URLSession = .shared) {
         self.apiKey = apiKey
@@ -35,7 +36,6 @@ final class APIClient {
         }
 
         do {
-            let decoder = JSONDecoder()
             return try decoder.decode(T.self, from: data)
         } catch {
             throw NetworkError.decodingError(error)

@@ -56,7 +56,7 @@ extension Double {
     func formattedDecimal(minFractionDigits: Int = 2, maxFractionDigits: Int = 12) -> String {
         let f = NumberFormatter()
         f.numberStyle = .decimal
-        f.locale = Locale(identifier: "pt_BR")
+        f.locale = Locale.current
         f.minimumFractionDigits = minFractionDigits
         f.maximumFractionDigits = maxFractionDigits
         f.roundingMode = .halfEven
@@ -84,7 +84,7 @@ extension String {
 
         let out = DateFormatter()
         out.dateFormat = "MMM yyyy"
-        out.locale = Locale(identifier: "pt_BR")
+        out.locale = Locale.current
         return out.string(from: parsedDate).capitalized
     }
 

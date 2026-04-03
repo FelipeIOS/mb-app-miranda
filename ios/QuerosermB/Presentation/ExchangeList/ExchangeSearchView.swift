@@ -3,8 +3,14 @@ import SwiftUI
 /// Tela de busca **sem `.searchable`** — campo próprio no body, sem `UISearchController`, sem conflitos de Auto Layout na barra.
 struct ExchangeSearchView: View {
     @ObservedObject var viewModel: ExchangeListViewModel
-    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var coordinator: AppCoordinator
     @FocusState private var fieldFocused: Bool
+    @State private var searchText = ""
+
+    private var displayedExchanges: [Exchange] {
+        guard case .success(let all) = viewModel.state else { return [] }
+        return ExchangeListViewModel.filterExchanges(all, query: searchText)
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -15,7 +21,6 @@ struct ExchangeSearchView: View {
         .background(Color.mbPrimary.ignoresSafeArea())
         .navigationBarHidden(true)
         .onAppear { fieldFocused = true }
-        .onDisappear { viewModel.searchText = "" }
     }
 
     // MARK: - Search bar
@@ -26,7 +31,7 @@ struct ExchangeSearchView: View {
                 .foregroundColor(.mbTextMuted)
                 .font(.system(size: 16))
 
-            TextField("Nome, slug ou ID", text: $viewModel.searchText)
+            TextField("Nome, slug ou ID", text: $searchText)
                 .font(.mbBody)
                 .foregroundColor(.mbText)
                 .tint(.mbAccent)
@@ -34,10 +39,11 @@ struct ExchangeSearchView: View {
                 .autocorrectionDisabled()
                 .submitLabel(.search)
                 .focused($fieldFocused)
+                .accessibilityIdentifier("exchangeSearch.field.query")
 
-            if !viewModel.searchText.isEmpty {
+            if !searchText.isEmpty {
                 Button {
-                    viewModel.searchText = ""
+                    searchText = ""
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.mbTextMuted)
@@ -45,10 +51,11 @@ struct ExchangeSearchView: View {
             }
 
             Button("Cancelar") {
-                dismiss()
+                coordinator.pop()
             }
             .font(.mbBody)
             .foregroundColor(.mbAccent)
+            .accessibilityIdentifier("exchangeSearch.button.cancel")
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
@@ -67,8 +74,8 @@ struct ExchangeSearchView: View {
         case .success(let all):
             if all.isEmpty {
                 EmptyStateView()
-            } else if !viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-                      viewModel.displayedExchanges.isEmpty {
+            } else if !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+                      displayedExchanges.isEmpty {
                 searchEmptyView
             } else {
                 searchResultsList
@@ -86,7 +93,7 @@ struct ExchangeSearchView: View {
     // MARK: - Empty search
 
     private var searchEmptyView: some View {
-        let trimmed = viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         return VStack(spacing: 16) {
             Image(systemName: "magnifyingglass")
                 .font(.system(size: 48, weight: .light))
@@ -94,6 +101,7 @@ struct ExchangeSearchView: View {
             Text("Nenhum resultado")
                 .font(.mbTitle)
                 .foregroundColor(.mbText)
+                .accessibilityIdentifier("exchangeSearch.empty.title")
             Text("Não encontramos exchanges para \"\(trimmed)\".")
                 .font(.mbBody)
                 .foregroundColor(.mbTextSub)
@@ -107,16 +115,17 @@ struct ExchangeSearchView: View {
     // MARK: - Results list
 
     private var searchResultsList: some View {
-        let exchanges = viewModel.displayedExchanges
+        let exchanges = displayedExchanges
         return ScrollView {
             LazyVStack(spacing: 12) {
                 ForEach(Array(exchanges.enumerated()), id: \.element.id) { index, exchange in
-                    NavigationLink {
-                        ExchangeDetailView(exchange: exchange)
+                    Button {
+                        coordinator.push(.exchangeDetail(exchange))
                     } label: {
                         ExchangeCard(exchange: exchange)
                     }
                     .buttonStyle(.plain)
+                    .accessibilityIdentifier("exchangeList.cell.\(exchange.id)")
                     .onAppear {
                         if index == exchanges.count - 1 {
                             Task { await viewModel.loadMore() }
@@ -144,5 +153,6 @@ struct ExchangeSearchView: View {
             .padding(.top, 8)
             .padding(.bottom, 24)
         }
+        .accessibilityIdentifier("exchangeSearch.list")
     }
 }

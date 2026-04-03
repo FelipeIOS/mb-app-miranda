@@ -7,14 +7,9 @@ struct ExchangeDetailView: View {
     @Environment(\.openURL) private var openURL
     @State private var descriptionExpanded = false
 
-    init(exchange: Exchange) {
+    init(exchange: Exchange, viewModel: ExchangeDetailViewModel) {
         self.exchange = exchange
-        let container = DependencyContainer.shared
-        _viewModel = StateObject(wrappedValue: ExchangeDetailViewModel(
-            getExchangeDetail: container.makeGetExchangeDetailUseCase(),
-            getExchangeAssets: container.makeGetExchangeAssetsUseCase(),
-            detailCache: container.exchangeDetailCache
-        ))
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
 
     var body: some View {
@@ -68,6 +63,7 @@ struct ExchangeDetailView: View {
                 Text(exchange.name)
                     .font(.mbLargeTitle)
                     .foregroundColor(.mbText)
+                    .accessibilityIdentifier("exchangeDetail.title")
 
                 Text("ID: \(exchange.id)")
                     .font(.mbCaption)
@@ -97,7 +93,7 @@ struct ExchangeDetailView: View {
             infoContent(detail)
         case .error(let msg):
             ErrorView(message: msg, embedded: true) {
-                Task { await viewModel.load(exchange: exchange) }
+                viewModel.triggerLoad(exchange: exchange)
             }
             .frame(minHeight: 200)
         default:
@@ -216,7 +212,7 @@ struct ExchangeDetailView: View {
                 .padding(.horizontal, 8)
             case .error(let msg):
                 ErrorView(message: msg, embedded: true) {
-                    Task { await viewModel.load(exchange: exchange) }
+                    viewModel.triggerLoad(exchange: exchange)
                 }
                 .frame(minHeight: 200)
             default:

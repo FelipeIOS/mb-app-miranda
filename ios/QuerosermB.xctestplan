@@ -24,6 +24,14 @@
         "identifier" : "C87663ECC739B06010E9E003",
         "name" : "QuerosermBTests"
       }
+    },
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:QuerosermB.xcodeproj",
+        "identifier" : "A1B0DC0351D7BF37DAC1A907",
+        "name" : "QuerosermBUITests"
+      }
     }
   ],
   "version" : 1

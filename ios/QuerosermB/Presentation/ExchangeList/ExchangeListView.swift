@@ -1,40 +1,34 @@
 import SwiftUI
 
 struct ExchangeListView: View {
-    @StateObject private var viewModel: ExchangeListViewModel
-
-    init() {
-        let container = DependencyContainer.shared
-        _viewModel = StateObject(wrappedValue: ExchangeListViewModel(
-            getExchangeList: container.makeGetExchangeListUseCase()
-        ))
-    }
+    @EnvironmentObject private var viewModel: ExchangeListViewModel
+    @EnvironmentObject private var coordinator: AppCoordinator
 
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color.mbPrimary.ignoresSafeArea()
+        ZStack {
+            Color.mbPrimary.ignoresSafeArea()
 
-                content
-            }
-            .navigationTitle("Exchanges")
-            .navigationBarTitleDisplayMode(.large)
-            .toolbarBackground(Color.mbPrimary, for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        ExchangeSearchView(viewModel: viewModel)
-                    } label: {
-                        Image(systemName: "magnifyingglass")
-                            .font(.system(size: 17, weight: .medium))
-                            .foregroundColor(.mbGold)
-                    }
-                    .accessibilityLabel("Buscar exchanges")
-                }
-            }
-            .task { await viewModel.loadInitialListIfNeeded() }
+            content
         }
+        .accessibilityIdentifier("exchangeList.root")
+        .navigationTitle("Exchanges")
+        .navigationBarTitleDisplayMode(.large)
+        .toolbarBackground(Color.mbPrimary, for: .navigationBar)
+        .toolbarColorScheme(.dark, for: .navigationBar)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    coordinator.push(.search)
+                } label: {
+                    Image(systemName: "magnifyingglass")
+                        .font(.system(size: 17, weight: .medium))
+                        .foregroundColor(.mbGold)
+                }
+                .accessibilityLabel("Buscar exchanges")
+                .accessibilityIdentifier("exchangeList.button.search")
+            }
+        }
+        .task { await viewModel.loadInitialListIfNeeded() }
     }
 
     @ViewBuilder
@@ -75,12 +69,13 @@ struct ExchangeListView: View {
         ScrollView {
             LazyVStack(spacing: 12) {
                 ForEach(Array(exchanges.enumerated()), id: \.element.id) { index, exchange in
-                    NavigationLink {
-                        ExchangeDetailView(exchange: exchange)
+                    Button {
+                        coordinator.push(.exchangeDetail(exchange))
                     } label: {
                         ExchangeCard(exchange: exchange)
                     }
                     .buttonStyle(.plain)
+                    .accessibilityIdentifier("exchangeList.cell.\(exchange.id)")
                     .onAppear {
                         if index == exchanges.count - 1 {
                             Task { await viewModel.loadMore() }
@@ -115,6 +110,14 @@ struct ExchangeListView: View {
 }
 
 #Preview {
-    ExchangeListView()
-        .preferredColorScheme(.dark)
+    NavigationStack {
+        ExchangeListView()
+            .environmentObject(ExchangeListViewModel(
+                getExchangeList: GetExchangeListUseCase(
+                    repository: UITestStubExchangeRepository()
+                )
+            ))
+            .environmentObject(AppCoordinator())
+    }
+    .preferredColorScheme(.dark)
 }

@@ -20,7 +20,6 @@ final class ExchangeListViewModel: ObservableObject {
     @Published private(set) var state: ViewState<[Exchange]> = .idle
     @Published private(set) var isLoadingMore = false
     @Published var loadMoreErrorMessage: String?
-    @Published var searchText: String = ""
 
     private let getExchangeList: GetExchangeListUseCase
     private let pageSize: Int
@@ -31,12 +30,6 @@ final class ExchangeListViewModel: ObservableObject {
     init(getExchangeList: GetExchangeListUseCase, pageSize: Int = GetExchangeListUseCase.defaultPageSize) {
         self.getExchangeList = getExchangeList
         self.pageSize = pageSize
-    }
-
-    /// Lista já carregada filtrada pelo texto de busca (nome, slug ou ID).
-    var displayedExchanges: [Exchange] {
-        guard case .success(let all) = state else { return [] }
-        return Self.filterExchanges(all, query: searchText)
     }
 
     static func filterExchanges(_ exchanges: [Exchange], query: String) -> [Exchange] {
@@ -136,6 +129,8 @@ final class ExchangeDetailViewModel: ObservableObject {
     /// TTL sugerido no plano: 60–120 s.
     private static let cacheTTL: TimeInterval = 90
 
+    private var currentLoadTask: Task<Void, Never>?
+
     init(
         getExchangeDetail: GetExchangeDetailUseCase,
         getExchangeAssets: GetExchangeAssetsUseCase,
@@ -144,6 +139,15 @@ final class ExchangeDetailViewModel: ObservableObject {
         self.getExchangeDetail = getExchangeDetail
         self.getExchangeAssets = getExchangeAssets
         self.detailCache = detailCache
+    }
+
+    /// Dispara o carregamento cancelando qualquer load anterior em andamento.
+    /// Use nos botões de retry — o `.task {}` da view usa `load(exchange:)` diretamente.
+    func triggerLoad(exchange: Exchange) {
+        currentLoadTask?.cancel()
+        currentLoadTask = Task {
+            await load(exchange: exchange)
+        }
     }
 
     func load(exchange: Exchange) async {

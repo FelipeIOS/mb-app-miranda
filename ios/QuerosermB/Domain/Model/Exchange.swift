@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - Domain Models (Pure Swift — sem dependência de UIKit/SwiftUI)
 
-struct Exchange: Identifiable, Equatable {
+struct Exchange: Identifiable, Equatable, Hashable {
     let id: Int
     let name: String
     let logo: String
