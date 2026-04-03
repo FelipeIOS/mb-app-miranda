@@ -63,9 +63,6 @@ struct ExchangeDetailView: View {
     private var headerSection: some View {
         HStack(alignment: .center, spacing: 16) {
             logoView
-                .frame(width: 72, height: 72)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
-                .clipped()
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(exchange.name)
@@ -82,27 +79,12 @@ struct ExchangeDetailView: View {
     }
 
     private var logoView: some View {
-        AsyncImage(url: URL(string: exchange.logo)) { phase in
-            switch phase {
-            case .success(let image):
-                image
-                    .resizable()
-                    .scaledToFill()
-            case .failure:
-                Image(systemName: "building.columns.fill")
-                    .font(.system(size: 28))
-                    .foregroundColor(.mbTextSub)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.mbSurfaceAlt)
-            case .empty:
-                RoundedRectangle(cornerRadius: 14)
-                    .fill(Color.mbSurfaceAlt)
-                    .frame(width: 72, height: 72)
-                    .shimmer()
-            @unknown default:
-                EmptyView()
-            }
-        }
+        RemoteImageView(
+            urlString: exchange.logo,
+            contentMode: .fill,
+            cornerRadius: 16,
+            sideLength: 72
+        )
     }
 
     // MARK: - Info Section

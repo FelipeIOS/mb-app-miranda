@@ -5,26 +5,12 @@ struct ExchangeCard: View {
 
     var body: some View {
         HStack(spacing: 14) {
-            // Logo com Hero Animation
-            AsyncImage(url: URL(string: exchange.logo)) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFit()
-                case .failure:
-                    Image(systemName: "building.columns.fill")
-                        .foregroundColor(.mbTextSub)
-                case .empty:
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.mbSurfaceAlt)
-                        .shimmer()
-                @unknown default:
-                    EmptyView()
-                }
-            }
-            .frame(width: 52, height: 52)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            RemoteImageView(
+                urlString: exchange.logo,
+                contentMode: .fit,
+                cornerRadius: 12,
+                sideLength: 52
+            )
 
             // Info
             VStack(alignment: .leading, spacing: 4) {

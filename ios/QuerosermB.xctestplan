@@ -1,0 +1,30 @@
+{
+  "configurations" : [
+    {
+      "id" : "E4A1B2C3-D5E6-4F70-8A9B-0C1D2E3F4051",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:QuerosermB.xcodeproj",
+      "identifier" : "F4C5F119D49F36A961508B0E",
+      "name" : "QuerosermB"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:QuerosermB.xcodeproj",
+        "identifier" : "C87663ECC739B06010E9E003",
+        "name" : "QuerosermBTests"
+      }
+    }
+  ],
+  "version" : 1
+}

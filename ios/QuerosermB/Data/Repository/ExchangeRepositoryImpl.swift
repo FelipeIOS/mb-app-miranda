@@ -1,9 +1,9 @@
 import Foundation
 
 final class ExchangeRepositoryImpl: ExchangeRepository {
-    private let dataSource: ExchangeRemoteDataSource
+    private let dataSource: ExchangeRemoteDataSourcing
 
-    init(dataSource: ExchangeRemoteDataSource) {
+    init(dataSource: ExchangeRemoteDataSourcing) {
         self.dataSource = dataSource
     }
 

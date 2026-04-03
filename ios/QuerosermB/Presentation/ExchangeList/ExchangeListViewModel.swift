@@ -20,6 +20,7 @@ final class ExchangeListViewModel: ObservableObject {
     @Published private(set) var state: ViewState<[Exchange]> = .idle
     @Published private(set) var isLoadingMore = false
     @Published var loadMoreErrorMessage: String?
+    @Published var searchText: String = ""
 
     private let getExchangeList: GetExchangeListUseCase
     private let pageSize: Int
@@ -30,6 +31,22 @@ final class ExchangeListViewModel: ObservableObject {
     init(getExchangeList: GetExchangeListUseCase, pageSize: Int = GetExchangeListUseCase.defaultPageSize) {
         self.getExchangeList = getExchangeList
         self.pageSize = pageSize
+    }
+
+    /// Lista já carregada filtrada pelo texto de busca (nome, slug ou ID).
+    var displayedExchanges: [Exchange] {
+        guard case .success(let all) = state else { return [] }
+        return Self.filterExchanges(all, query: searchText)
+    }
+
+    static func filterExchanges(_ exchanges: [Exchange], query: String) -> [Exchange] {
+        let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !q.isEmpty else { return exchanges }
+        return exchanges.filter { ex in
+            ex.name.localizedStandardContains(q)
+                || ex.slug.localizedStandardContains(q)
+                || String(ex.id).contains(q)
+        }
     }
 
     /// Evita novo fetch ao reaparecer a lista (ex.: após voltar do detalhe). Pull-to-refresh usa `refresh()`.

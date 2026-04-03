@@ -1,6 +1,13 @@
 import Foundation
 
-final class ExchangeRemoteDataSource {
+/// Abstrai o data source remoto para testes do `ExchangeRepositoryImpl` sem rede.
+protocol ExchangeRemoteDataSourcing: AnyObject {
+    func fetchExchangeMap(start: Int, limit: Int) async throws -> [ExchangeMapItem]
+    func fetchExchangeInfo(ids: String) async throws -> [ExchangeInfoData]
+    func fetchExchangeAssets(id: Int) async throws -> [ExchangeAssetItem]
+}
+
+final class ExchangeRemoteDataSource: ExchangeRemoteDataSourcing {
     private let client: APIClient
 
     init(client: APIClient) {

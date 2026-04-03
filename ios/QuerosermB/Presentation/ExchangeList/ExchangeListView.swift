@@ -21,6 +21,18 @@ struct ExchangeListView: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbarBackground(Color.mbPrimary, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        ExchangeSearchView(viewModel: viewModel)
+                    } label: {
+                        Image(systemName: "magnifyingglass")
+                            .font(.system(size: 17, weight: .medium))
+                            .foregroundColor(.mbGold)
+                    }
+                    .accessibilityLabel("Buscar exchanges")
+                }
+            }
             .task { await viewModel.loadInitialListIfNeeded() }
         }
     }
@@ -31,7 +43,11 @@ struct ExchangeListView: View {
         case .idle, .loading:
             skeletonList
         case .success(let exchanges):
-            exchangeList(exchanges)
+            if exchanges.isEmpty {
+                EmptyStateView()
+            } else {
+                exchangeList(exchanges)
+            }
         case .empty:
             EmptyStateView()
         case .error(let message):
