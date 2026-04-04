@@ -16,7 +16,7 @@ enum ViewState<T> {
 
 // MARK: - ExchangeList ViewModel
 @MainActor
-final class ExchangeListViewModel: ObservableObject {
+final class ExchangeListViewModel {
     @Published private(set) var state: ViewState<[Exchange]> = .idle
     @Published private(set) var isLoadingMore = false
     @Published var loadMoreErrorMessage: String?
@@ -118,7 +118,7 @@ final class ExchangeListViewModel: ObservableObject {
 
 // MARK: - ExchangeDetail ViewModel
 @MainActor
-final class ExchangeDetailViewModel: ObservableObject {
+final class ExchangeDetailViewModel {
     @Published var detailState: ViewState<Exchange> = .loading
     @Published var assetsState: ViewState<[Currency]> = .loading
 

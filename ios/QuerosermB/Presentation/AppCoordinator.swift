@@ -31,11 +31,6 @@ final class AppCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func showSearch() {
-        let vc = ExchangeSearchViewController(viewModel: listViewModel, coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
     func pop() {
         navigationController.popViewController(animated: true)
     }

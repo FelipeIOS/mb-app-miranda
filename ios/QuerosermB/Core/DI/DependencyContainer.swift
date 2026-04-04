@@ -1,6 +1,6 @@
 import Foundation
 
-final class DependencyContainer: ObservableObject {
+final class DependencyContainer {
 
     private let testMode: Bool
 

@@ -27,6 +27,10 @@ final class ExchangeCardSkeletonCell: UITableViewCell, Shimmerable {
         selectionStyle  = .none
         contentView.backgroundColor = .clear
 
+        imageView?.removeFromSuperview()
+        textLabel?.removeFromSuperview()
+        detailTextLabel?.removeFromSuperview()
+
         card.backgroundColor    = .mbSurface
         card.layer.cornerRadius = 16
         card.clipsToBounds      = true
@@ -42,8 +46,9 @@ final class ExchangeCardSkeletonCell: UITableViewCell, Shimmerable {
         let line3 = skeletonView(height: 11, cornerRadius: 4)
 
         let lineStack = UIStackView(arrangedSubviews: [line1, line2, line3])
-        lineStack.axis    = .vertical
-        lineStack.spacing = 6
+        lineStack.axis      = .vertical
+        lineStack.alignment = .leading
+        lineStack.spacing   = 6
         lineStack.translatesAutoresizingMaskIntoConstraints = false
 
         card.addSubview(logo)

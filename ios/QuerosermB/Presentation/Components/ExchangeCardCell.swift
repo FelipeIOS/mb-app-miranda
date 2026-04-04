@@ -32,6 +32,12 @@ final class ExchangeCardCell: UITableViewCell {
         selectionStyle  = .none
         contentView.backgroundColor = .clear
 
+        // Estilo `.default` ainda inclui imageView/textLabel do sistema; o imageView (~48pt)
+        // compete com o layout customizado e gera conflitos de Auto Layout.
+        imageView?.removeFromSuperview()
+        textLabel?.removeFromSuperview()
+        detailTextLabel?.removeFromSuperview()
+
         card.backgroundColor    = .mbSurface
         card.layer.cornerRadius = 16
         card.clipsToBounds      = true

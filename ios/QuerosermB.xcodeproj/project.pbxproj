@@ -10,7 +10,6 @@
 		06606DABA75C212E6A1FDAB3 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD37E1631E616D55F0B78063 /* ErrorView.swift */; };
 		09C5849A2DF84E02D347D1B9 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243EF4CDDA26BF1ECA92C13 /* DependencyContainer.swift */; };
 		0D67F27AD3034AD5D2FBE099 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C9D45E0A9A47EF28481F68 /* SceneDelegate.swift */; };
-		0F80DAEC0AD1AEDE74778918 /* ExchangeSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431E61CD029E33436C5831A2 /* ExchangeSearchViewController.swift */; };
 		14FE84B5F2D7E460FC40BD02 /* NetworkDebugLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2750F0CF94DDFCBC289C3202 /* NetworkDebugLogger.swift */; };
 		18FAEA73A242E252279A9406 /* Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54450871D0C996876A0EC10 /* Exchange.swift */; };
 		1A3F9280ED857CDA0B5D7E83 /* APIKeyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188B84AF3C8FD1E4D9D8883D /* APIKeyProvider.swift */; };
@@ -67,8 +66,7 @@
 		188B84AF3C8FD1E4D9D8883D /* APIKeyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyProvider.swift; sourceTree = "<group>"; };
 		2750F0CF94DDFCBC289C3202 /* NetworkDebugLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDebugLogger.swift; sourceTree = "<group>"; };
 		2E237364DD7C2EF29F3CEB46 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		389E1F4152BA5F454BAEA746 /* QuerosermBUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuerosermBUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		431E61CD029E33436C5831A2 /* ExchangeSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeSearchViewController.swift; sourceTree = "<group>"; };
+		389E1F4152BA5F454BAEA746 /* QuerosermBUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = QuerosermBUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5145077B80F99207F1AEFFF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5243EF4CDDA26BF1ECA92C13 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 		52C9D45E0A9A47EF28481F68 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -309,7 +307,6 @@
 			children = (
 				CE8C8B0F2E3981738679ACBA /* ExchangeListViewController.swift */,
 				72C9A9B1E0B06710F851B292 /* ExchangeListViewModel.swift */,
-				431E61CD029E33436C5831A2 /* ExchangeSearchViewController.swift */,
 			);
 			path = ExchangeList;
 			sourceTree = "<group>";
@@ -420,6 +417,7 @@
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					A1B0DC0351D7BF37DAC1A907 = {
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 						TestTargetID = F4C5F119D49F36A961508B0E;
 					};
@@ -476,7 +474,6 @@
 				C0A8AD95B717FD7977480836 /* ExchangeRemoteDataSource.swift in Sources */,
 				DD2F09509113D1A091966CAB /* ExchangeRepository.swift in Sources */,
 				DEB986845E195400D15820DF /* ExchangeRepositoryImpl.swift in Sources */,
-				0F80DAEC0AD1AEDE74778918 /* ExchangeSearchViewController.swift in Sources */,
 				EFDC0F36CB76C2A048D43DA0 /* ExchangeUseCases.swift in Sources */,
 				375CD7799CF712203CA82E39 /* Formatters.swift in Sources */,
 				14FE84B5F2D7E460FC40BD02 /* NetworkDebugLogger.swift in Sources */,
@@ -525,7 +522,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5Z9V9RU582;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -696,7 +693,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5Z9V9RU582;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;

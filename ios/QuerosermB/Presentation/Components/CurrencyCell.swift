@@ -31,6 +31,10 @@ final class CurrencyCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle  = .none
 
+        imageView?.removeFromSuperview()
+        textLabel?.removeFromSuperview()
+        detailTextLabel?.removeFromSuperview()
+
         // Badge
         badgeView.backgroundColor    = .mbAccent.withAlphaComponent(0.2)
         badgeView.layer.cornerRadius = 8
