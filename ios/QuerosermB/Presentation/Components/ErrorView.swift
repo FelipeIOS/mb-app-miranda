@@ -1,73 +1,158 @@
-import SwiftUI
+import UIKit
 
-struct ErrorView: View {
-    let message: String
-    /// Quando `true` (dentro de `ScrollView` / altura fixa), não usa `maxHeight: .infinity` para evitar layout inválido.
-    var embedded: Bool = false
-    let onRetry: () -> Void
+// MARK: - ErrorView
 
-    @State private var pulseIcon = false
+final class ErrorView: UIView {
 
-    var body: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "wifi.exclamationmark")
-                .font(.system(size: 52, weight: .light))
-                .foregroundColor(.mbTextMuted)
-                .scaleEffect(pulseIcon ? 1.08 : 1.0)
-                .opacity(pulseIcon ? 0.75 : 1.0)
-                .onAppear {
-                    withAnimation(.easeInOut(duration: 1.1).repeatForever(autoreverses: true)) {
-                        pulseIcon = true
-                    }
-                }
+    private let iconImageView  = UIImageView()
+    private let titleLabel     = UILabel()
+    private let messageLabel   = UILabel()
+    private let retryButton    = UIButton(type: .system)
+    private var onRetry: (() -> Void)?
+    private var pulseAnimation: CABasicAnimation?
 
-            VStack(spacing: 8) {
-                Text("Ops! Algo deu errado")
-                    .font(.mbTitle)
-                    .foregroundColor(.mbText)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
 
-                Text(message)
-                    .font(.mbBody)
-                    .foregroundColor(.mbTextSub)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 32)
-            }
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setup()
+    }
 
-            Button(action: onRetry) {
-                HStack(spacing: 8) {
-                    Image(systemName: "arrow.clockwise")
-                    Text("Tentar novamente")
-                }
-                .font(.mbHeadline)
-                .foregroundColor(.mbPrimary)
-                .padding(.horizontal, 28)
-                .padding(.vertical, 14)
-                .background(Color.mbGold)
-                .cornerRadius(14)
-            }
-        }
-        .frame(maxWidth: .infinity)
-        .frame(maxHeight: embedded ? nil : .infinity)
+    func configure(message: String, onRetry: @escaping () -> Void) {
+        messageLabel.text = message
+        self.onRetry = onRetry
+    }
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        if window != nil { startPulse() } else { stopPulse() }
+    }
+
+    // MARK: - Setup
+
+    private func setup() {
+        backgroundColor = .clear
+
+        let config = UIImage.SymbolConfiguration(pointSize: 52, weight: .light)
+        iconImageView.image = UIImage(systemName: "wifi.exclamationmark", withConfiguration: config)
+        iconImageView.tintColor = .mbTextMuted
+        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
+
+        titleLabel.text = "Ops! Algo deu errado"
+        titleLabel.font = .mbTitle()
+        titleLabel.textColor = .mbText
+        titleLabel.textAlignment = .center
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        messageLabel.font = .mbBody()
+        messageLabel.textColor = .mbTextSub
+        messageLabel.textAlignment = .center
+        messageLabel.numberOfLines = 0
+        messageLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        var buttonConfig = UIButton.Configuration.filled()
+        buttonConfig.title = "Tentar novamente"
+        buttonConfig.image = UIImage(systemName: "arrow.clockwise")
+        buttonConfig.imagePadding = 8
+        buttonConfig.baseBackgroundColor = .mbGold
+        buttonConfig.baseForegroundColor = .mbPrimary
+        buttonConfig.cornerStyle = .medium
+        buttonConfig.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 28, bottom: 14, trailing: 28)
+        retryButton.configuration = buttonConfig
+        retryButton.titleLabel?.font = .mbHeadline()
+        retryButton.addTarget(self, action: #selector(retryTapped), for: .touchUpInside)
+        retryButton.translatesAutoresizingMaskIntoConstraints = false
+
+        let stack = UIStackView(arrangedSubviews: [iconImageView, titleLabel, messageLabel, retryButton])
+        stack.axis = .vertical
+        stack.alignment = .center
+        stack.spacing = 16
+        stack.setCustomSpacing(8, after: titleLabel)
+        stack.setCustomSpacing(20, after: iconImageView)
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(stack)
+
+        NSLayoutConstraint.activate([
+            stack.centerXAnchor.constraint(equalTo: centerXAnchor),
+            stack.centerYAnchor.constraint(equalTo: centerYAnchor),
+            stack.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 32),
+            stack.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -32),
+            messageLabel.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, constant: -64)
+        ])
+    }
+
+    @objc private func retryTapped() { onRetry?() }
+
+    // MARK: - Pulse Animation
+
+    private func startPulse() {
+        let anim = CABasicAnimation(keyPath: "opacity")
+        anim.fromValue = 1.0
+        anim.toValue = 0.65
+        anim.duration = 1.1
+        anim.autoreverses = true
+        anim.repeatCount = .infinity
+        anim.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        iconImageView.layer.add(anim, forKey: "pulse")
+    }
+
+    private func stopPulse() {
+        iconImageView.layer.removeAnimation(forKey: "pulse")
     }
 }
 
-struct EmptyStateView: View {
-    var body: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "magnifyingglass")
-                .font(.system(size: 52, weight: .light))
-                .foregroundColor(.mbTextMuted)
+// MARK: - EmptyStateView
 
-            Text("Nenhum resultado encontrado")
-                .font(.mbTitle)
-                .foregroundColor(.mbText)
+final class EmptyStateView: UIView {
 
-            Text("Não encontramos exchanges disponíveis no momento.")
-                .font(.mbBody)
-                .foregroundColor(.mbTextSub)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 32)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setup()
+    }
+
+    private func setup() {
+        backgroundColor = .clear
+
+        let config = UIImage.SymbolConfiguration(pointSize: 52, weight: .light)
+        let iconView = UIImageView(image: UIImage(systemName: "magnifyingglass", withConfiguration: config))
+        iconView.tintColor = .mbTextMuted
+        iconView.contentMode = .scaleAspectFit
+
+        let titleLabel = UILabel()
+        titleLabel.text = "Nenhum resultado encontrado"
+        titleLabel.font = .mbTitle()
+        titleLabel.textColor = .mbText
+        titleLabel.textAlignment = .center
+
+        let messageLabel = UILabel()
+        messageLabel.text = "Não encontramos exchanges disponíveis no momento."
+        messageLabel.font = .mbBody()
+        messageLabel.textColor = .mbTextSub
+        messageLabel.textAlignment = .center
+        messageLabel.numberOfLines = 0
+
+        let stack = UIStackView(arrangedSubviews: [iconView, titleLabel, messageLabel])
+        stack.axis = .vertical
+        stack.alignment = .center
+        stack.spacing = 16
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(stack)
+
+        NSLayoutConstraint.activate([
+            stack.centerXAnchor.constraint(equalTo: centerXAnchor),
+            stack.centerYAnchor.constraint(equalTo: centerYAnchor),
+            stack.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 32),
+            stack.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -32),
+            messageLabel.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, constant: -64)
+        ])
     }
 }

@@ -1,30 +1,42 @@
-import SwiftUI
+import UIKit
 
 /// Centraliza toda a navegação do app (MVVM-C).
-/// Vive no topo da hierarquia (`QuerosermBApp`) e é injetado via `@EnvironmentObject`.
 @MainActor
-final class AppCoordinator: ObservableObject {
+final class AppCoordinator {
 
-    // MARK: - Destinos tipados
-    enum Destination: Hashable {
-        case exchangeDetail(Exchange)
-        case search
+    let navigationController: UINavigationController
+    private let container: DependencyContainer
+
+    private lazy var listViewModel = ExchangeListViewModel(
+        getExchangeList: container.makeGetExchangeListUseCase()
+    )
+
+    init(navigationController: UINavigationController, container: DependencyContainer) {
+        self.navigationController = navigationController
+        self.container = container
     }
 
-    // MARK: - Estado
-    @Published var path = NavigationPath()
+    func start() {
+        let vc = ExchangeListViewController(viewModel: listViewModel, coordinator: self)
+        navigationController.setViewControllers([vc], animated: false)
+    }
 
-    // MARK: - Navegação
-    func push(_ destination: Destination) {
-        path.append(destination)
+    func showDetail(for exchange: Exchange) {
+        let vm = ExchangeDetailViewModel(
+            getExchangeDetail: container.makeGetExchangeDetailUseCase(),
+            getExchangeAssets: container.makeGetExchangeAssetsUseCase(),
+            detailCache: container.exchangeDetailCache
+        )
+        let vc = ExchangeDetailViewController(exchange: exchange, viewModel: vm, coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func showSearch() {
+        let vc = ExchangeSearchViewController(viewModel: listViewModel, coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
     }
 
     func pop() {
-        guard !path.isEmpty else { return }
-        path.removeLast()
-    }
-
-    func popToRoot() {
-        path.removeLast(path.count)
+        navigationController.popViewController(animated: true)
     }
 }

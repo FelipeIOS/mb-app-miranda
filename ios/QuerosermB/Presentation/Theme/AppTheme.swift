@@ -1,41 +1,41 @@
-import SwiftUI
+import UIKit
 
-// MARK: - App Colors
-extension Color {
-    // Primárias
-    static let mbGold        = Color(hex: "#F7B500")
-    static let mbPrimary     = Color(hex: "#1C1C2E")   // fundo principal dark
-    static let mbSurface     = Color(hex: "#252540")   // cards/surface
-    static let mbSurfaceAlt  = Color(hex: "#2E2E50")   // hover/alt surface
-    static let mbAccent      = Color(hex: "#7C6FFF")   // roxo accent
+// MARK: - Colors
 
-    // Textos
-    static let mbText        = Color(hex: "#F0F0FF")
-    static let mbTextSub     = Color(hex: "#9090B0")
-    static let mbTextMuted   = Color(hex: "#606080")
+extension UIColor {
+    static let mbPrimary    = UIColor(hex: "#1C1C2E")
+    static let mbSurface    = UIColor(hex: "#252540")
+    static let mbSurfaceAlt = UIColor(hex: "#2E2E50")
+    static let mbGold       = UIColor(hex: "#F7B500")
+    static let mbAccent     = UIColor(hex: "#7C6FFF")
+    static let mbText       = UIColor(hex: "#F0F0FF")
+    static let mbTextSub    = UIColor(hex: "#9090B0")
+    static let mbTextMuted  = UIColor(hex: "#606080")
+    static let mbSuccess    = UIColor(hex: "#2ECC71")
+    static let mbError      = UIColor(hex: "#E74C3C")
+    static let mbWarning    = UIColor(hex: "#F39C12")
 
-    // Semânticas
-    static let mbSuccess     = Color(hex: "#2ECC71")
-    static let mbError       = Color(hex: "#E74C3C")
-    static let mbWarning     = Color(hex: "#F39C12")
-
-    init(hex: String) {
-        let hex = hex.trimmingCharacters(in: .alphanumerics.inverted)
-        var int: UInt64 = 0
-        Scanner(string: hex).scanHexInt64(&int)
-        let r = Double((int >> 16) & 0xFF) / 255
-        let g = Double((int >>  8) & 0xFF) / 255
-        let b = Double((int      ) & 0xFF) / 255
-        self.init(red: r, green: g, blue: b)
+    convenience init(hex: String) {
+        var s = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        if s.hasPrefix("#") { s = String(s.dropFirst()) }
+        var rgb: UInt64 = 0
+        Scanner(string: s).scanHexInt64(&rgb)
+        self.init(
+            red:   CGFloat((rgb & 0xFF0000) >> 16) / 255,
+            green: CGFloat((rgb & 0x00FF00) >> 8)  / 255,
+            blue:  CGFloat(rgb & 0x0000FF)          / 255,
+            alpha: 1
+        )
     }
 }
 
 // MARK: - Typography
-extension Font {
-    static let mbLargeTitle  = Font.system(size: 28, weight: .bold,   design: .rounded)
-    static let mbTitle       = Font.system(size: 20, weight: .bold,   design: .rounded)
-    static let mbHeadline    = Font.system(size: 16, weight: .semibold, design: .rounded)
-    static let mbBody        = Font.system(size: 14, weight: .regular, design: .rounded)
-    static let mbCaption     = Font.system(size: 12, weight: .medium,  design: .rounded)
-    static let mbMono        = Font.system(size: 13, weight: .medium,  design: .monospaced)
+
+extension UIFont {
+    static func mbLargeTitle() -> UIFont { .systemFont(ofSize: 28, weight: .bold) }
+    static func mbTitle()      -> UIFont { .systemFont(ofSize: 20, weight: .bold) }
+    static func mbHeadline()   -> UIFont { .systemFont(ofSize: 16, weight: .semibold) }
+    static func mbBody()       -> UIFont { .systemFont(ofSize: 14, weight: .regular) }
+    static func mbCaption()    -> UIFont { .systemFont(ofSize: 12, weight: .medium) }
+    static func mbMono()       -> UIFont { .monospacedSystemFont(ofSize: 13, weight: .medium) }
 }
