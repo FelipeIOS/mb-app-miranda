@@ -27,6 +27,7 @@
 		685F9768DD12E29F21D78A34 /* ExchangeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAAC059AFC813417A6FF511 /* ExchangeDTO.swift */; };
 		700863BA1AC138A2A3288B66 /* ExchangeDetailCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AA74858632D0AAFE727255 /* ExchangeDetailCache.swift */; };
 		75B17416E17196DA546DCBB0 /* ExchangeCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F4EE1EC18B8570D400DD63 /* ExchangeCardCell.swift */; };
+		75FA14983865B0529F634AE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74E69702028720CB3F3389DF /* Assets.xcassets */; };
 		85137A07731E41139ED80EB7 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4D5850B5065E888C45FDAE /* XCTest.framework */; };
 		9464AE877100E9E5A0CEBE6A /* ExchangeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C9A9B1E0B06710F851B292 /* ExchangeListViewModel.swift */; };
 		A03AF81B586386C31ED08C9B /* ExchangeAssetsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC15DC42FE8282C83F45A09 /* ExchangeAssetsDTO.swift */; };
@@ -66,11 +67,11 @@
 		188B84AF3C8FD1E4D9D8883D /* APIKeyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyProvider.swift; sourceTree = "<group>"; };
 		2750F0CF94DDFCBC289C3202 /* NetworkDebugLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDebugLogger.swift; sourceTree = "<group>"; };
 		2E237364DD7C2EF29F3CEB46 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		389E1F4152BA5F454BAEA746 /* QuerosermBUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = QuerosermBUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		389E1F4152BA5F454BAEA746 /* QuerosermBUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuerosermBUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5145077B80F99207F1AEFFF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5243EF4CDDA26BF1ECA92C13 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 		52C9D45E0A9A47EF28481F68 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		535E0AE8104D66BC5BFC485C /* QuerosermBTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = QuerosermBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		535E0AE8104D66BC5BFC485C /* QuerosermBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuerosermBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		53F4EE1EC18B8570D400DD63 /* ExchangeCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCardCell.swift; sourceTree = "<group>"; };
 		5FAAC059AFC813417A6FF511 /* ExchangeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDTO.swift; sourceTree = "<group>"; };
 		60204C71332F1A8EAE54200C /* ExchangeUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeUseCases.swift; sourceTree = "<group>"; };
@@ -78,6 +79,7 @@
 		72C9A9B1E0B06710F851B292 /* ExchangeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListViewModel.swift; sourceTree = "<group>"; };
 		745DE1ECF94719EC7116FDA5 /* RemoteImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageView.swift; sourceTree = "<group>"; };
 		746270748B72D91BE29944D0 /* QuerosermB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuerosermB.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		74E69702028720CB3F3389DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84141768CB24AD0FB31C44E4 /* ExchangeCardSkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCardSkeletonCell.swift; sourceTree = "<group>"; };
 		86362A7F15011FDAEE3B3233 /* QuerosermBUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuerosermBUITests.swift; sourceTree = "<group>"; };
 		9D65EE389DB11B1C00D003D1 /* ExchangeRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRemoteDataSource.swift; sourceTree = "<group>"; };
@@ -234,6 +236,14 @@
 			path = QuerosermBUITests;
 			sourceTree = "<group>";
 		};
+		9756DF332BB302187EC25007 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				74E69702028720CB3F3389DF /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		9B511529690F5A9C11048969 /* DI */ = {
 			isa = PBXGroup;
 			children = (
@@ -346,6 +356,7 @@
 				A0681239A6C7EAC9CB65CA5A /* Data */,
 				D88F198754B7702CF5D317CD /* Domain */,
 				C1B10E71F6876A6C8994FB51 /* Presentation */,
+				9756DF332BB302187EC25007 /* Resources */,
 			);
 			path = QuerosermB;
 			sourceTree = "<group>";
@@ -395,6 +406,7 @@
 			buildConfigurationList = 1CBF81AC62151221F71F2436 /* Build configuration list for PBXNativeTarget "QuerosermB" */;
 			buildPhases = (
 				21DC56F0D21B0485AB0C498F /* Sources */,
+				D17DE09E8F7BA746834A053D /* Resources */,
 			);
 			buildRules = (
 			);
@@ -414,7 +426,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					A1B0DC0351D7BF37DAC1A907 = {
 						DevelopmentTeam = "";
@@ -446,6 +458,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D17DE09E8F7BA746834A053D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				75FA14983865B0529F634AE2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		21DC56F0D21B0485AB0C498F /* Sources */ = {
@@ -565,6 +588,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -599,6 +623,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -620,8 +645,9 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_COMPILATION_MODE = incremental;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.9;
 			};
@@ -713,6 +739,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -747,6 +774,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -761,6 +789,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.9;
