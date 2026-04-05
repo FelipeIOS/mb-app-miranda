@@ -9,7 +9,6 @@ final class ErrorView: UIView {
     private let messageLabel   = UILabel()
     private let retryButton    = UIButton(type: .system)
     private var onRetry: (() -> Void)?
-    private var pulseAnimation: CABasicAnimation?
 
     override init(frame: CGRect) {
         super.init(frame: frame)

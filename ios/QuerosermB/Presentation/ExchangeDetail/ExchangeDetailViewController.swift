@@ -36,10 +36,6 @@ final class ExchangeDetailViewController: UIViewController {
     private let descriptionLabel = UILabel()
     private let seeMoreButton    = UIButton(type: .system)
     private var isDescriptionExpanded = false
-    private var descriptionHeightConstraint: NSLayoutConstraint?
-
-    // MARK: - Info grid
-    private let infoGrid = UIView()
 
     // MARK: - Currencies
     private let currenciesContainer = UIView()
@@ -68,6 +64,11 @@ final class ExchangeDetailViewController: UIViewController {
     }
 
     required init?(coder: NSCoder) { fatalError("Use init(exchange:viewModel:coordinator:)") }
+
+    private enum Layout {
+        static let infoSkeletonRows = 4
+        static let currencySkeletonRows = 6
+    }
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -168,7 +169,7 @@ final class ExchangeDetailViewController: UIViewController {
         stack.axis    = .vertical
         stack.spacing = 12
         stack.translatesAutoresizingMaskIntoConstraints = false
-        for _ in 0..<4 {
+        for _ in 0..<Layout.infoSkeletonRows {
             let v = skeletonView(height: 14)
             stack.addArrangedSubview(v)
         }
@@ -266,8 +267,8 @@ final class ExchangeDetailViewController: UIViewController {
         var tiles: [UIView] = []
         if let v = detail.spotVolumeUSD  { tiles.append(makeInfoTile(icon: "chart.bar.fill",   label: Strings.Detail.volume,    value: v.formatAsCompactUSD())) }
         if let d = detail.dateLaunched   { tiles.append(makeInfoTile(icon: "calendar",          label: Strings.Detail.launched,  value: d.formatAsMonthYear())) }
-        if let m = detail.makerFee       { tiles.append(makeInfoTile(icon: "arrow.up.right",    label: Strings.Detail.makerFee,  value: "\(m)%")) }
-        if let t = detail.takerFee       { tiles.append(makeInfoTile(icon: "arrow.down.left",   label: Strings.Detail.takerFee,  value: "\(t)%")) }
+        if let m = detail.makerFee       { tiles.append(makeInfoTile(icon: "arrow.up.right",    label: Strings.Detail.makerFee,  value: "\(m.formattedDecimal(minFractionDigits: 2, maxFractionDigits: 12))%")) }
+        if let t = detail.takerFee       { tiles.append(makeInfoTile(icon: "arrow.down.left",   label: Strings.Detail.takerFee,  value: "\(t.formattedDecimal(minFractionDigits: 2, maxFractionDigits: 12))%")) }
         guard !tiles.isEmpty else { return nil }
 
         let rows = UIStackView()
@@ -396,7 +397,7 @@ final class ExchangeDetailViewController: UIViewController {
         stack.axis    = .vertical
         stack.spacing = 8
         stack.translatesAutoresizingMaskIntoConstraints = false
-        for _ in 0..<6 {
+        for _ in 0..<Layout.currencySkeletonRows {
             let v = skeletonView(height: 44)
             v.layer.cornerRadius = 8
             stack.addArrangedSubview(v)
@@ -428,7 +429,7 @@ final class ExchangeDetailViewController: UIViewController {
         ])
 
         currenciesTable.reloadData()
-        currenciesTableHeight.constant = CGFloat(currencies.count) * 52
+        currenciesTableHeight.constant = CGFloat(currencies.count) * currenciesTable.rowHeight
     }
 
     private func showCurrenciesEmpty() {
@@ -564,10 +565,12 @@ extension ExchangeDetailViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
+        guard let cell = tableView.dequeueReusableCell(
             withIdentifier: CurrencyCell.reuseIdentifier,
             for: indexPath
-        ) as! CurrencyCell
+        ) as? CurrencyCell else {
+            fatalError("Failed to dequeue CurrencyCell")
+        }
         cell.configure(with: currencies[indexPath.row])
         return cell
     }

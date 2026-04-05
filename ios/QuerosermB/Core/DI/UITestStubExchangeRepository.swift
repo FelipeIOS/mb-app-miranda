@@ -11,8 +11,8 @@ final class UITestStubExchangeRepository: ExchangeRepository {
         slug: "alpha",
         description: "Descrição Alpha",
         websiteURL: "https://alpha.example",
-        makerFee: "0,1",
-        takerFee: "0,2",
+        makerFee: 0.1,
+        takerFee: 0.2,
         dateLaunched: "2018-01-15T12:00:00.000Z",
         spotVolumeUSD: 1_000_000
     )

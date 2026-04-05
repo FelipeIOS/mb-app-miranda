@@ -51,6 +51,16 @@ final class ExchangeListViewController: UIViewController {
         return s
     }()
 
+    private lazy var loadMoreErrorLabel: UILabel = {
+        let l = UILabel()
+        l.font = .mbCaption()
+        l.textColor = .mbTextSub
+        l.textAlignment = .center
+        l.numberOfLines = 0
+        l.frame = CGRect(x: 16, y: 0, width: tableView.bounds.width - 32, height: 56)
+        return l
+    }()
+
     // MARK: - DiffableDataSource
     private enum Section { case skeleton, exchanges }
 
@@ -130,15 +140,20 @@ final class ExchangeListViewController: UIViewController {
         dataSource = DataSource(tableView: tableView) { tableView, indexPath, item in
             switch item {
             case .skeleton:
-                return tableView.dequeueReusableCell(
+                guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: ExchangeCardSkeletonCell.reuseIdentifier,
                     for: indexPath
-                ) as! ExchangeCardSkeletonCell
+                ) as? ExchangeCardSkeletonCell else {
+                    fatalError("Failed to dequeue ExchangeCardSkeletonCell")
+                }
+                return cell
             case .exchange(let exchange):
-                let cell = tableView.dequeueReusableCell(
+                guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: ExchangeCardCell.reuseIdentifier,
                     for: indexPath
-                ) as! ExchangeCardCell
+                ) as? ExchangeCardCell else {
+                    fatalError("Failed to dequeue ExchangeCardCell")
+                }
                 cell.configure(with: exchange)
                 cell.accessibilityIdentifier = "exchangeList.cell.\(exchange.id)"
                 return cell
@@ -162,6 +177,18 @@ final class ExchangeListViewController: UIViewController {
                     tableView.tableFooterView = loadMoreSpinner
                 } else {
                     loadMoreSpinner.stopAnimating()
+                    tableView.tableFooterView = nil
+                }
+            }
+            .store(in: &cancellables)
+
+        viewModel.$loadMoreErrorMessage
+            .sink { [weak self] message in
+                guard let self else { return }
+                if let message {
+                    loadMoreErrorLabel.text = message
+                    tableView.tableFooterView = loadMoreErrorLabel
+                } else {
                     tableView.tableFooterView = nil
                 }
             }

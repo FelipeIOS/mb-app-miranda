@@ -9,8 +9,8 @@ struct Exchange: Identifiable, Equatable, Hashable {
     let slug: String
     let description: String?
     let websiteURL: String?
-    let makerFee: String?
-    let takerFee: String?
+    let makerFee: Double?
+    let takerFee: Double?
     let dateLaunched: String?
     let spotVolumeUSD: Double?
 }

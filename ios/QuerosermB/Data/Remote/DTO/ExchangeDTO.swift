@@ -52,14 +52,11 @@ extension ExchangeInfoData {
             slug: slug,
             description: description,
             websiteURL: urls?.website?.first,
-            makerFee: makerFee.map(Self.formatFeeForDisplay),
-            takerFee: takerFee.map(Self.formatFeeForDisplay),
+            makerFee: makerFee,
+            takerFee: takerFee,
             dateLaunched: dateLaunched,
             spotVolumeUSD: spotVolumeUsd
         )
     }
 
-    private static func formatFeeForDisplay(_ value: Double) -> String {
-        value.formattedDecimal(minFractionDigits: 2, maxFractionDigits: 12)
-    }
 }

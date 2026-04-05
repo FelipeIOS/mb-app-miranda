@@ -41,6 +41,11 @@ final class MockExchangeRepository: ExchangeRepository {
     }
 }
 
+// MARK: - Mock date provider
+final class MockDateProvider: DateProviding {
+    var now: Date = Date()
+}
+
 // MARK: - Mock detail cache
 final class MockExchangeDetailCache: ExchangeDetailCaching {
     var stub: CachedExchangeDetail?
@@ -70,7 +75,7 @@ final class GetExchangeListUseCaseTests: XCTestCase {
         // Given
         let expected = [
             Exchange(id: 1, name: "Binance", logo: "https://logo.com", slug: "binance",
-                     description: nil, websiteURL: nil, makerFee: "0.1", takerFee: "0.1",
+                     description: nil, websiteURL: nil, makerFee: 0.1, takerFee: 0.1,
                      dateLaunched: nil, spotVolumeUSD: 1_000_000_000)
         ]
         mockRepo.stubbedPage = ExchangeListPage(items: expected, hasMore: false, nextStart: 2)
@@ -342,11 +347,16 @@ final class ExchangeDetailCacheTests: XCTestCase {
     }
 
     func test_set_whenMaxEntriesExceeded_evictsOldestEntry() {
-        let cache = ExchangeDetailCache(maxEntries: 2)
+        let mockDate = MockDateProvider()
+        let cache = ExchangeDetailCache(maxEntries: 2, dateProvider: mockDate)
+
+        mockDate.now = Date(timeIntervalSince1970: 1000)
         cache.set(exchangeId: 1, detail: sampleExchange(id: 1), assets: [])
-        Thread.sleep(forTimeInterval: 0.05)
+
+        mockDate.now = Date(timeIntervalSince1970: 2000)
         cache.set(exchangeId: 2, detail: sampleExchange(id: 2), assets: [])
-        Thread.sleep(forTimeInterval: 0.05)
+
+        mockDate.now = Date(timeIntervalSince1970: 3000)
         cache.set(exchangeId: 3, detail: sampleExchange(id: 3), assets: [])
 
         XCTAssertNil(cache.get(exchangeId: 1, ttl: 3600), "ID 1 deve ser o mais antigo e removido")
@@ -441,8 +451,8 @@ final class ExchangeDTODecodingTests: XCTestCase {
 
         XCTAssertEqual(domain.id, 7)
         XCTAssertEqual(domain.name, "Binance")
-        XCTAssertEqual(domain.makerFee, "0,03")
-        XCTAssertEqual(domain.takerFee, "0,05")
+        XCTAssertEqual(domain.makerFee, 0.03)
+        XCTAssertEqual(domain.takerFee, 0.05)
         XCTAssertEqual(domain.spotVolumeUSD, 1_234_567.89)
         XCTAssertEqual(domain.websiteURL, "https://binance.com")
     }
