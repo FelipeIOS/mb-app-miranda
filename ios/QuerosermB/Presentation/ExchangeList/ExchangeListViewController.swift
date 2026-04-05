@@ -8,27 +8,7 @@ final class ExchangeListViewController: UIViewController {
     private weak var coordinator: AppCoordinator?
     private var cancellables = Set<AnyCancellable>()
 
-    // MARK: - Search
-    private var searchText: String = ""
-    private let searchSubject = PassthroughSubject<String, Never>()
-    private var allExchanges: [Exchange] = []
-    private var filteredExchanges: [Exchange] = []
-
     // MARK: - UI
-    private lazy var searchController: UISearchController = {
-        let sc = UISearchController(searchResultsController: nil)
-        sc.searchResultsUpdater = self
-        sc.obscuresBackgroundDuringPresentation = false
-        sc.searchBar.placeholder = "Nome, slug ou ID"
-        sc.searchBar.barStyle = .black
-        sc.searchBar.tintColor = .mbAccent
-        sc.searchBar.searchTextField.textColor = .mbText
-        sc.searchBar.searchTextField.font = .mbBody()
-        sc.searchBar.searchTextField.backgroundColor = .mbSurface
-        sc.searchBar.searchTextField.accessibilityIdentifier = "exchangeSearch.field.query"
-        return sc
-    }()
-
     private lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
         tv.backgroundColor = .mbPrimary
@@ -38,7 +18,6 @@ final class ExchangeListViewController: UIViewController {
         tv.rowHeight = UITableView.automaticDimension
         tv.estimatedRowHeight = 88
         tv.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 24, right: 0)
-        tv.keyboardDismissMode = .onDrag
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     }()
@@ -62,45 +41,6 @@ final class ExchangeListViewController: UIViewController {
         v.isHidden = true
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
-    }()
-
-    private lazy var emptySearchView: UIView = {
-        let icon = UIImageView(image: UIImage(systemName: "magnifyingglass",
-            withConfiguration: UIImage.SymbolConfiguration(pointSize: 48, weight: .light)))
-        icon.tintColor = .mbTextMuted
-        icon.contentMode = .scaleAspectFit
-
-        let title = UILabel()
-        title.text = "Nenhum resultado"
-        title.font = .mbTitle()
-        title.textColor = .mbText
-        title.textAlignment = .center
-        title.accessibilityIdentifier = "exchangeSearch.empty.title"
-
-        let sub = UILabel()
-        sub.font = .mbBody()
-        sub.textColor = .mbTextSub
-        sub.textAlignment = .center
-        sub.numberOfLines = 0
-
-        let stack = UIStackView(arrangedSubviews: [icon, title, sub])
-        stack.axis = .vertical
-        stack.spacing = 12
-        stack.alignment = .center
-        stack.translatesAutoresizingMaskIntoConstraints = false
-
-        let container = UIView()
-        container.backgroundColor = .mbPrimary
-        container.addSubview(stack)
-        NSLayoutConstraint.activate([
-            stack.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            stack.centerYAnchor.constraint(equalTo: container.centerYAnchor),
-            stack.leadingAnchor.constraint(greaterThanOrEqualTo: container.leadingAnchor, constant: 32),
-            stack.trailingAnchor.constraint(lessThanOrEqualTo: container.trailingAnchor, constant: -32)
-        ])
-        container.isHidden = true
-        container.translatesAutoresizingMaskIntoConstraints = false
-        return container
     }()
 
     private lazy var loadMoreSpinner: UIActivityIndicatorView = {
@@ -154,30 +94,19 @@ final class ExchangeListViewController: UIViewController {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .mbPrimary
-        appearance.titleTextAttributes       = [.foregroundColor: UIColor.mbText]
-        appearance.largeTitleTextAttributes  = [.foregroundColor: UIColor.mbText]
+        appearance.titleTextAttributes      = [.foregroundColor: UIColor.mbText]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.mbText]
         navigationController?.navigationBar.standardAppearance   = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.compactAppearance    = appearance
-
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
-        // Evita conflitos de Auto Layout no nav bar (ButtonWrapper width == 0) ao combinar
-        // large titles + search na mesma faixa horizontal.
-        if #available(iOS 16.0, *) {
-            navigationItem.preferredSearchBarPlacement = .stacked
-        }
-        definesPresentationContext = true
     }
 
     private func setupLayout() {
         view.backgroundColor = .mbPrimary
-
         tableView.refreshControl = refreshControl
         view.addSubview(tableView)
         view.addSubview(errorView)
         view.addSubview(emptyView)
-        view.addSubview(emptySearchView)
 
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -193,12 +122,7 @@ final class ExchangeListViewController: UIViewController {
             emptyView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             emptyView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             emptyView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            emptyView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-
-            emptySearchView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            emptySearchView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            emptySearchView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            emptySearchView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            emptyView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
@@ -234,21 +158,12 @@ final class ExchangeListViewController: UIViewController {
             .sink { [weak self] loading in
                 guard let self else { return }
                 if loading {
-                    self.loadMoreSpinner.startAnimating()
-                    self.tableView.tableFooterView = self.loadMoreSpinner
+                    loadMoreSpinner.startAnimating()
+                    tableView.tableFooterView = loadMoreSpinner
                 } else {
-                    self.loadMoreSpinner.stopAnimating()
-                    self.tableView.tableFooterView = nil
+                    loadMoreSpinner.stopAnimating()
+                    tableView.tableFooterView = nil
                 }
-            }
-            .store(in: &cancellables)
-
-        // Debounce: evita processar cada keystroke individualmente
-        searchSubject
-            .debounce(for: .milliseconds(150), scheduler: DispatchQueue.main)
-            .sink { [weak self] text in
-                self?.searchText = text
-                self?.applyFilter()
             }
             .store(in: &cancellables)
     }
@@ -262,20 +177,15 @@ final class ExchangeListViewController: UIViewController {
 
         switch state {
         case .idle, .loading:
-            allExchanges = []
             showSkeleton()
 
         case .success(let exchanges):
-            let isFirstLoad = allExchanges.isEmpty
-            allExchanges = exchanges
-            applyFilter(animated: isFirstLoad)
+            showExchanges(exchanges)
 
         case .empty:
-            allExchanges = []
             showEmpty()
 
         case .error(let message):
-            allExchanges = []
             tableView.isHidden = true
             errorView.isHidden = false
             errorView.configure(message: message) { [weak self] in
@@ -284,46 +194,20 @@ final class ExchangeListViewController: UIViewController {
         }
     }
 
-    private func applyFilter(animated: Bool = false) {
-        filteredExchanges = ExchangeListViewModel.filterExchanges(allExchanges, query: searchText)
-
-        let isSearching = !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        let noResults   = isSearching && filteredExchanges.isEmpty
-
-        // Desabilita pull-to-refresh durante a busca para evitar refresh acidental
-        tableView.refreshControl = isSearching ? nil : refreshControl
-
-        emptySearchView.isHidden = !noResults
-        tableView.accessibilityIdentifier = "exchangeSearch.list"
-
-        if noResults {
-            tableView.isHidden = true
-        } else if filteredExchanges.isEmpty && !isSearching {
-            showEmpty()
-        } else {
-            showExchanges(filteredExchanges, animated: animated)
-        }
-    }
-
     private func showSkeleton() {
         tableView.isHidden = false
-        emptySearchView.isHidden = true
         var snap = Snapshot()
         snap.appendSections([.skeleton])
         snap.appendItems((0..<8).map { _ in Item.skeleton(UUID()) }, toSection: .skeleton)
         dataSource.apply(snap, animatingDifferences: false)
     }
 
-    private func showExchanges(_ exchanges: [Exchange], animated: Bool = false) {
+    private func showExchanges(_ exchanges: [Exchange]) {
         tableView.isHidden = false
-        emptySearchView.isHidden = true
         var snap = Snapshot()
         snap.appendSections([.exchanges])
         snap.appendItems(exchanges.map { Item.exchange($0) }, toSection: .exchanges)
-        // apply async: o diff é calculado em background, main thread fica livre
-        Task {
-            await dataSource.apply(snap, animatingDifferences: animated)
-        }
+        Task { await dataSource.apply(snap, animatingDifferences: true) }
     }
 
     private func showEmpty() {
@@ -338,14 +222,6 @@ final class ExchangeListViewController: UIViewController {
     }
 }
 
-// MARK: - UISearchResultsUpdating
-
-extension ExchangeListViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        searchSubject.send(searchController.searchBar.text ?? "")
-    }
-}
-
 // MARK: - UITableViewDelegate
 
 extension ExchangeListViewController: UITableViewDelegate {
@@ -356,8 +232,8 @@ extension ExchangeListViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let source = searchText.isEmpty ? allExchanges : filteredExchanges
-        guard indexPath.row == source.count - 1 else { return }
+        guard case .success(let exchanges) = viewModel.state,
+              indexPath.row == exchanges.count - 1 else { return }
         Task { await viewModel.loadMore() }
     }
 }

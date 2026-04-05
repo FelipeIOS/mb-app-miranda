@@ -211,21 +211,6 @@ final class ExchangeListViewModelTests: XCTestCase {
         XCTFail("Expected empty state")
     }
 
-    func test_filterExchanges_matchesNameSlugAndId() {
-        let items = [
-            Exchange(id: 100, name: "Binance", logo: "", slug: "binance",
-                     description: nil, websiteURL: nil, makerFee: nil, takerFee: nil,
-                     dateLaunched: nil, spotVolumeUSD: 1),
-            Exchange(id: 200, name: "OKX", logo: "", slug: "okx",
-                     description: nil, websiteURL: nil, makerFee: nil, takerFee: nil,
-                     dateLaunched: nil, spotVolumeUSD: 2)
-        ]
-        XCTAssertEqual(ExchangeListViewModel.filterExchanges(items, query: "").count, 2)
-        XCTAssertEqual(ExchangeListViewModel.filterExchanges(items, query: "bin").map(\.id), [100])
-        XCTAssertEqual(ExchangeListViewModel.filterExchanges(items, query: "okx").map(\.id), [200])
-        XCTAssertEqual(ExchangeListViewModel.filterExchanges(items, query: "200").map(\.id), [200])
-    }
-
     func test_loadInitialListIfNeeded_afterSuccess_doesNotCallRepositoryAgain() async {
         let items = [
             Exchange(id: 1, name: "Coinbase", logo: "", slug: "coinbase",

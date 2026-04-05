@@ -32,16 +32,6 @@ final class ExchangeListViewModel {
         self.pageSize = pageSize
     }
 
-    static func filterExchanges(_ exchanges: [Exchange], query: String) -> [Exchange] {
-        let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !q.isEmpty else { return exchanges }
-        return exchanges.filter { ex in
-            ex.name.localizedStandardContains(q)
-                || ex.slug.localizedStandardContains(q)
-                || String(ex.id).contains(q)
-        }
-    }
-
     /// Evita novo fetch ao reaparecer a lista (ex.: após voltar do detalhe). Pull-to-refresh usa `refresh()`.
     func loadInitialListIfNeeded() async {
         if case .success(let exchanges) = state, !exchanges.isEmpty {
