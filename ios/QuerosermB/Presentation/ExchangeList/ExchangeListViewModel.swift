@@ -66,9 +66,9 @@ final class ExchangeListViewModel {
             let merged = Self.sortExchangesByVolume(current + page.items)
             state = merged.isEmpty ? .empty : .success(merged)
         } catch let error as NetworkError {
-            loadMoreErrorMessage = error.errorDescription ?? "Não foi possível carregar mais."
+            loadMoreErrorMessage = error.errorDescription ?? Strings.Error.loadMore
         } catch {
-            loadMoreErrorMessage = error.localizedDescription
+            loadMoreErrorMessage = Strings.Error.loadMore
         }
     }
 
@@ -99,9 +99,9 @@ final class ExchangeListViewModel {
             let sorted = Self.sortExchangesByVolume(page.items)
             state = sorted.isEmpty ? .empty : .success(sorted)
         } catch let error as NetworkError {
-            state = .error(error.errorDescription ?? "Erro desconhecido.")
+            state = .error(error.errorDescription ?? Strings.Error.unknown)
         } catch {
-            state = .error(error.localizedDescription)
+            state = .error(Strings.Error.unknown)
         }
     }
 }
@@ -161,14 +161,14 @@ final class ExchangeDetailViewModel {
             detailState = .success(detail)
             assetsState = assets.isEmpty ? .empty : .success(assets)
         case (.failure(let err), .success(let assets)):
-            detailState = .error(Self.message(for: err, fallback: "Erro ao carregar detalhes."))
+            detailState = .error(Self.message(for: err, fallback: Strings.Error.detail))
             assetsState = assets.isEmpty ? .empty : .success(assets)
         case (.success(let detail), .failure(let err)):
             detailState = .success(detail)
-            assetsState = .error(Self.message(for: err, fallback: "Erro ao carregar moedas."))
+            assetsState = .error(Self.message(for: err, fallback: Strings.Error.assets))
         case (.failure(let dErr), .failure(let aErr)):
-            detailState = .error(Self.message(for: dErr, fallback: "Erro ao carregar detalhes."))
-            assetsState = .error(Self.message(for: aErr, fallback: "Erro ao carregar moedas."))
+            detailState = .error(Self.message(for: dErr, fallback: Strings.Error.detail))
+            assetsState = .error(Self.message(for: aErr, fallback: Strings.Error.assets))
         }
     }
 

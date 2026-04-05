@@ -131,7 +131,7 @@ final class ExchangeDetailViewController: UIViewController {
         nameLabel.accessibilityIdentifier = "exchangeDetail.title"
         nameLabel.numberOfLines = 0
 
-        idLabel.text      = "ID: \(exchange.id)"
+        idLabel.text      = Strings.Detail.id(exchange.id)
         idLabel.font      = .mbCaption()
         idLabel.textColor = .mbTextSub
 
@@ -233,7 +233,7 @@ final class ExchangeDetailViewController: UIViewController {
     // MARK: - Description block
 
     private func buildDescriptionBlock(_ text: String) -> UIView {
-        let sectionLabel = makeSectionLabel("Sobre")
+        let sectionLabel = makeSectionLabel(Strings.Detail.about)
 
         descriptionLabel.text          = text
         descriptionLabel.font          = .mbBody()
@@ -241,7 +241,7 @@ final class ExchangeDetailViewController: UIViewController {
         descriptionLabel.numberOfLines = 3
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        seeMoreButton.setTitle("Ver mais", for: .normal)
+        seeMoreButton.setTitle(Strings.Detail.seeMore, for: .normal)
         seeMoreButton.setTitleColor(.mbAccent, for: .normal)
         seeMoreButton.titleLabel?.font = .mbCaption()
         seeMoreButton.addTarget(self, action: #selector(toggleDescription), for: .touchUpInside)
@@ -256,7 +256,7 @@ final class ExchangeDetailViewController: UIViewController {
     @objc private func toggleDescription() {
         isDescriptionExpanded.toggle()
         descriptionLabel.numberOfLines = isDescriptionExpanded ? 0 : 3
-        seeMoreButton.setTitle(isDescriptionExpanded ? "Ver menos" : "Ver mais", for: .normal)
+        seeMoreButton.setTitle(isDescriptionExpanded ? Strings.Detail.seeLess : Strings.Detail.seeMore, for: .normal)
         UIView.animate(withDuration: 0.25) { self.view.layoutIfNeeded() }
     }
 
@@ -264,10 +264,10 @@ final class ExchangeDetailViewController: UIViewController {
 
     private func buildInfoGrid(_ detail: Exchange) -> UIView? {
         var tiles: [UIView] = []
-        if let v = detail.spotVolumeUSD  { tiles.append(makeInfoTile(icon: "chart.bar.fill",   label: "Volume 24h",  value: v.formatAsCompactUSD())) }
-        if let d = detail.dateLaunched   { tiles.append(makeInfoTile(icon: "calendar",          label: "Lançamento",  value: d.formatAsMonthYear())) }
-        if let m = detail.makerFee       { tiles.append(makeInfoTile(icon: "arrow.up.right",    label: "Maker Fee",   value: "\(m)%")) }
-        if let t = detail.takerFee       { tiles.append(makeInfoTile(icon: "arrow.down.left",   label: "Taker Fee",   value: "\(t)%")) }
+        if let v = detail.spotVolumeUSD  { tiles.append(makeInfoTile(icon: "chart.bar.fill",   label: Strings.Detail.volume,    value: v.formatAsCompactUSD())) }
+        if let d = detail.dateLaunched   { tiles.append(makeInfoTile(icon: "calendar",          label: Strings.Detail.launched,  value: d.formatAsMonthYear())) }
+        if let m = detail.makerFee       { tiles.append(makeInfoTile(icon: "arrow.up.right",    label: Strings.Detail.makerFee,  value: "\(m)%")) }
+        if let t = detail.takerFee       { tiles.append(makeInfoTile(icon: "arrow.down.left",   label: Strings.Detail.takerFee,  value: "\(t)%")) }
         guard !tiles.isEmpty else { return nil }
 
         let rows = UIStackView()
@@ -365,7 +365,7 @@ final class ExchangeDetailViewController: UIViewController {
         let container = UIView()
         container.backgroundColor = .mbPrimary
 
-        let sectionLabel = makeSectionLabel("Moedas Negociadas")
+        let sectionLabel = makeSectionLabel(Strings.Detail.currencies)
         sectionLabel.translatesAutoresizingMaskIntoConstraints = false
 
         currenciesTable.dataSource = self
@@ -438,7 +438,7 @@ final class ExchangeDetailViewController: UIViewController {
         icon.contentMode = .scaleAspectFit
 
         let label = UILabel()
-        label.text          = "Nenhuma moeda listada para esta exchange."
+        label.text          = Strings.Detail.currenciesEmpty
         label.font          = .mbBody()
         label.textColor     = .mbTextSub
         label.textAlignment = .center

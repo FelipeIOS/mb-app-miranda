@@ -42,7 +42,7 @@ final class ErrorView: UIView {
         iconImageView.contentMode = .scaleAspectFit
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        titleLabel.text = "Ops! Algo deu errado"
+        titleLabel.text = Strings.Error.title
         titleLabel.font = .mbTitle()
         titleLabel.textColor = .mbText
         titleLabel.textAlignment = .center
@@ -55,7 +55,7 @@ final class ErrorView: UIView {
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
 
         var buttonConfig = UIButton.Configuration.filled()
-        buttonConfig.title = "Tentar novamente"
+        buttonConfig.title = Strings.Error.retry
         buttonConfig.image = UIImage(systemName: "arrow.clockwise")
         buttonConfig.imagePadding = 8
         buttonConfig.baseBackgroundColor = .mbGold
@@ -128,13 +128,13 @@ final class EmptyStateView: UIView {
         iconView.contentMode = .scaleAspectFit
 
         let titleLabel = UILabel()
-        titleLabel.text = "Nenhum resultado encontrado"
+        titleLabel.text = Strings.Empty.title
         titleLabel.font = .mbTitle()
         titleLabel.textColor = .mbText
         titleLabel.textAlignment = .center
 
         let messageLabel = UILabel()
-        messageLabel.text = "Não encontramos exchanges disponíveis no momento."
+        messageLabel.text = Strings.Empty.message
         messageLabel.font = .mbBody()
         messageLabel.textColor = .mbTextSub
         messageLabel.textAlignment = .center

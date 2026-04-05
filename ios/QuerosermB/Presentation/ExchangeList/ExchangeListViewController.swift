@@ -87,7 +87,7 @@ final class ExchangeListViewController: UIViewController {
     // MARK: - Setup
 
     private func setupNavigation() {
-        title = "Exchanges"
+        title = Strings.ExchangeList.title
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
 
