@@ -337,14 +337,13 @@ final class ExchangeDetailViewController: UIViewController {
         btn.backgroundColor    = .mbSurface
         btn.layer.cornerRadius = 12
         btn.clipsToBounds      = true
-        btn.contentHorizontalAlignment = .left
-        btn.contentEdgeInsets = UIEdgeInsets(top: 14, left: 14, bottom: 14, right: 14)
 
         var config = UIButton.Configuration.plain()
         config.image = UIImage(systemName: "globe")
         config.imagePadding = 8
         config.title = urlStr
         config.baseForegroundColor = .mbAccent
+        config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 14, bottom: 14, trailing: 14)
         btn.configuration = config
         btn.titleLabel?.font  = .mbBody()
         btn.titleLabel?.lineBreakMode = .byTruncatingMiddle

@@ -12,73 +12,85 @@ final class QuerosermBUITests: XCTestCase {
         app.launch()
     }
 
-    /// Prefer over `otherElements[id]` — SwiftUI expõe o mesmo identificador em vários tipos de elemento.
+    // MARK: - Helpers
+
+    /// Busca por identifier ignorando o tipo de elemento (UIKit expõe search como searchField, não textField).
     private func element(matchingIdentifier identifier: String) -> XCUIElement {
         let predicate = NSPredicate(format: "identifier == %@", identifier)
         return app.descendants(matching: .any).matching(predicate).element
     }
 
-    private func dismissKeyboardIfPresent() {
-        let search = app.keyboards.buttons["Search"]
-        if search.exists {
-            search.tap()
-            return
-        }
-        let returnKey = app.keyboards.buttons["Return"]
-        if returnKey.exists {
-            returnKey.tap()
+    /// Ativa o UISearchController: toca na search bar embutida na navigation bar.
+    private func activateSearch() {
+        let searchField = element(matchingIdentifier: "exchangeSearch.field.query")
+        XCTAssertTrue(searchField.waitForExistence(timeout: 5))
+        searchField.tap()
+    }
+
+    /// Cancela o UISearchController via botão nativo ("Cancelar").
+    private func cancelSearch() {
+        // UISearchController exibe "Cancelar" no locale pt-BR
+        let cancelBtn = app.buttons["Cancelar"]
+        if cancelBtn.waitForExistence(timeout: 3) {
+            cancelBtn.tap()
         }
     }
+
+    // MARK: - Tests
 
     func test_launch_showsExchangesNavigation() {
         let nav = app.navigationBars["Exchanges"]
         XCTAssertTrue(nav.waitForExistence(timeout: 20))
-        XCTAssertTrue(app.buttons["exchangeList.button.search"].waitForExistence(timeout: 10))
+
+        // Search bar embutida no UISearchController deve estar visível
+        let searchField = element(matchingIdentifier: "exchangeSearch.field.query")
+        XCTAssertTrue(searchField.waitForExistence(timeout: 10))
     }
 
     func test_openSearch_andCancel() {
         XCTAssertTrue(app.navigationBars["Exchanges"].waitForExistence(timeout: 20))
 
-        let searchBtn = app.buttons["exchangeList.button.search"]
-        XCTAssertTrue(searchBtn.waitForExistence(timeout: 5))
-        searchBtn.tap()
+        activateSearch()
 
-        let field = app.textFields["exchangeSearch.field.query"]
-        XCTAssertTrue(field.waitForExistence(timeout: 5))
+        // Campo ativo — teclado deve aparecer
+        let searchField = element(matchingIdentifier: "exchangeSearch.field.query")
+        XCTAssertTrue(searchField.waitForExistence(timeout: 5))
 
-        let cancel = app.buttons["exchangeSearch.button.cancel"]
-        XCTAssertTrue(cancel.waitForExistence(timeout: 3))
-        cancel.tap()
+        cancelSearch()
 
-        XCTAssertTrue(app.navigationBars["Exchanges"].waitForExistence(timeout: 10))
+        // Após cancelar, nav bar ainda existe (não faz pop — search é inline)
+        XCTAssertTrue(app.navigationBars["Exchanges"].waitForExistence(timeout: 5))
     }
 
     func test_search_filtersList() {
         XCTAssertTrue(app.navigationBars["Exchanges"].waitForExistence(timeout: 20))
-        app.buttons["exchangeList.button.search"].tap()
 
-        let field = app.textFields["exchangeSearch.field.query"]
-        XCTAssertTrue(field.waitForExistence(timeout: 5))
-        field.tap()
-        field.typeText("Beta")
-        dismissKeyboardIfPresent()
+        activateSearch()
 
+        let searchField = element(matchingIdentifier: "exchangeSearch.field.query")
+        XCTAssertTrue(searchField.waitForExistence(timeout: 5))
+        searchField.typeText("Beta")
+
+        // Aguarda debounce (150ms) + diff async
         let betaCell = element(matchingIdentifier: "exchangeList.cell.2")
-        XCTAssertTrue(betaCell.waitForExistence(timeout: 10))
+        XCTAssertTrue(betaCell.waitForExistence(timeout: 5))
+
+        // Alpha não deve estar visível
+        let alphaCell = element(matchingIdentifier: "exchangeList.cell.1")
+        XCTAssertFalse(alphaCell.exists)
     }
 
     func test_search_noResults_showsEmptyCopy() {
         XCTAssertTrue(app.navigationBars["Exchanges"].waitForExistence(timeout: 20))
-        app.buttons["exchangeList.button.search"].tap()
 
-        let field = app.textFields["exchangeSearch.field.query"]
-        XCTAssertTrue(field.waitForExistence(timeout: 5))
-        field.tap()
-        field.typeText("zzznotfound")
-        dismissKeyboardIfPresent()
+        activateSearch()
+
+        let searchField = element(matchingIdentifier: "exchangeSearch.field.query")
+        XCTAssertTrue(searchField.waitForExistence(timeout: 5))
+        searchField.typeText("zzznotfound")
 
         let emptyTitle = app.staticTexts["exchangeSearch.empty.title"]
-        XCTAssertTrue(emptyTitle.waitForExistence(timeout: 10))
+        XCTAssertTrue(emptyTitle.waitForExistence(timeout: 5))
     }
 
     func test_tapFirstCell_opensDetail() {

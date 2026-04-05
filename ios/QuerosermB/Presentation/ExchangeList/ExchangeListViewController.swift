@@ -9,9 +9,8 @@ final class ExchangeListViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Search
-    private var searchText: String = "" {
-        didSet { applyFilter() }
-    }
+    private var searchText: String = ""
+    private let searchSubject = PassthroughSubject<String, Never>()
     private var allExchanges: [Exchange] = []
     private var filteredExchanges: [Exchange] = []
 
@@ -114,9 +113,14 @@ final class ExchangeListViewController: UIViewController {
 
     // MARK: - DiffableDataSource
     private enum Section { case skeleton, exchanges }
-    private struct SkeletonItem: Hashable { let id = UUID() }
-    private typealias DataSource = UITableViewDiffableDataSource<Section, AnyHashable>
-    private typealias Snapshot   = NSDiffableDataSourceSnapshot<Section, AnyHashable>
+
+    private enum Item: Hashable {
+        case skeleton(UUID)
+        case exchange(Exchange)
+    }
+
+    private typealias DataSource = UITableViewDiffableDataSource<Section, Item>
+    private typealias Snapshot   = NSDiffableDataSourceSnapshot<Section, Item>
     private var dataSource: DataSource!
 
     // MARK: - Init
@@ -158,6 +162,11 @@ final class ExchangeListViewController: UIViewController {
 
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
+        // Evita conflitos de Auto Layout no nav bar (ButtonWrapper width == 0) ao combinar
+        // large titles + search na mesma faixa horizontal.
+        if #available(iOS 16.0, *) {
+            navigationItem.preferredSearchBarPlacement = .stacked
+        }
         definesPresentationContext = true
     }
 
@@ -195,22 +204,21 @@ final class ExchangeListViewController: UIViewController {
 
     private func setupDataSource() {
         dataSource = DataSource(tableView: tableView) { tableView, indexPath, item in
-            if item is SkeletonItem {
-                let cell = tableView.dequeueReusableCell(
+            switch item {
+            case .skeleton:
+                return tableView.dequeueReusableCell(
                     withIdentifier: ExchangeCardSkeletonCell.reuseIdentifier,
                     for: indexPath
                 ) as! ExchangeCardSkeletonCell
-                return cell
-            }
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: ExchangeCardCell.reuseIdentifier,
-                for: indexPath
-            ) as! ExchangeCardCell
-            if let exchange = item as? Exchange {
+            case .exchange(let exchange):
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: ExchangeCardCell.reuseIdentifier,
+                    for: indexPath
+                ) as! ExchangeCardCell
                 cell.configure(with: exchange)
                 cell.accessibilityIdentifier = "exchangeList.cell.\(exchange.id)"
+                return cell
             }
-            return cell
         }
         dataSource.defaultRowAnimation = .fade
     }
@@ -234,6 +242,15 @@ final class ExchangeListViewController: UIViewController {
                 }
             }
             .store(in: &cancellables)
+
+        // Debounce: evita processar cada keystroke individualmente
+        searchSubject
+            .debounce(for: .milliseconds(150), scheduler: DispatchQueue.main)
+            .sink { [weak self] text in
+                self?.searchText = text
+                self?.applyFilter()
+            }
+            .store(in: &cancellables)
     }
 
     // MARK: - State
@@ -249,8 +266,9 @@ final class ExchangeListViewController: UIViewController {
             showSkeleton()
 
         case .success(let exchanges):
+            let isFirstLoad = allExchanges.isEmpty
             allExchanges = exchanges
-            applyFilter()
+            applyFilter(animated: isFirstLoad)
 
         case .empty:
             allExchanges = []
@@ -266,11 +284,14 @@ final class ExchangeListViewController: UIViewController {
         }
     }
 
-    private func applyFilter() {
+    private func applyFilter(animated: Bool = false) {
         filteredExchanges = ExchangeListViewModel.filterExchanges(allExchanges, query: searchText)
 
         let isSearching = !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         let noResults   = isSearching && filteredExchanges.isEmpty
+
+        // Desabilita pull-to-refresh durante a busca para evitar refresh acidental
+        tableView.refreshControl = isSearching ? nil : refreshControl
 
         emptySearchView.isHidden = !noResults
         tableView.accessibilityIdentifier = "exchangeSearch.list"
@@ -280,7 +301,7 @@ final class ExchangeListViewController: UIViewController {
         } else if filteredExchanges.isEmpty && !isSearching {
             showEmpty()
         } else {
-            showExchanges(filteredExchanges)
+            showExchanges(filteredExchanges, animated: animated)
         }
     }
 
@@ -289,17 +310,20 @@ final class ExchangeListViewController: UIViewController {
         emptySearchView.isHidden = true
         var snap = Snapshot()
         snap.appendSections([.skeleton])
-        snap.appendItems((0..<8).map { _ in SkeletonItem() as AnyHashable }, toSection: .skeleton)
+        snap.appendItems((0..<8).map { _ in Item.skeleton(UUID()) }, toSection: .skeleton)
         dataSource.apply(snap, animatingDifferences: false)
     }
 
-    private func showExchanges(_ exchanges: [Exchange]) {
+    private func showExchanges(_ exchanges: [Exchange], animated: Bool = false) {
         tableView.isHidden = false
         emptySearchView.isHidden = true
         var snap = Snapshot()
         snap.appendSections([.exchanges])
-        snap.appendItems(exchanges.map { $0 as AnyHashable }, toSection: .exchanges)
-        dataSource.apply(snap, animatingDifferences: true)
+        snap.appendItems(exchanges.map { Item.exchange($0) }, toSection: .exchanges)
+        // apply async: o diff é calculado em background, main thread fica livre
+        Task {
+            await dataSource.apply(snap, animatingDifferences: animated)
+        }
     }
 
     private func showEmpty() {
@@ -318,7 +342,7 @@ final class ExchangeListViewController: UIViewController {
 
 extension ExchangeListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        searchText = searchController.searchBar.text ?? ""
+        searchSubject.send(searchController.searchBar.text ?? "")
     }
 }
 
@@ -327,7 +351,7 @@ extension ExchangeListViewController: UISearchResultsUpdating {
 extension ExchangeListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let exchange = dataSource.itemIdentifier(for: indexPath) as? Exchange else { return }
+        guard case .exchange(let exchange) = dataSource.itemIdentifier(for: indexPath) else { return }
         coordinator?.showDetail(for: exchange)
     }
 
