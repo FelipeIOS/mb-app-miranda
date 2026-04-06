@@ -52,8 +52,8 @@ fun ExchangeListScreen(
     val loadMoreError by viewModel.loadMoreError.collectAsState()
 
     val pullRefreshState = rememberPullToRefreshState()
-    if (pullRefreshState.isRefreshing) {
-        LaunchedEffect(true) {
+    LaunchedEffect(pullRefreshState.isRefreshing) {
+        if (pullRefreshState.isRefreshing) {
             viewModel.refresh()
             pullRefreshState.endRefresh()
         }

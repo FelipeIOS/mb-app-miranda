@@ -5,7 +5,7 @@ import br.com.querosermb.domain.model.Exchange
 import br.com.querosermb.domain.model.ExchangeListPage
 import br.com.querosermb.domain.repository.ExchangeRepository
 
-class FakeExchangeRepository : ExchangeRepository {
+class FakeExchangeRepository @javax.inject.Inject constructor() : ExchangeRepository {
 
     val alphaExchange = Exchange(
         id = 1,

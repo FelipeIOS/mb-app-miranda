@@ -38,7 +38,7 @@ class ExchangeListScreenTest {
     @Test
     fun tappingExchangeNavigatesToDetail() {
         composeRule.onNodeWithText("Alpha Exchange").performClick()
-        composeRule.onNodeWithText("Alpha Exchange").assertIsDisplayed()
-        // Detail screen header shows the name — still visible after navigation
+        // After navigation, the detail screen shows "ID: 1" — unique identifier
+        composeRule.onNodeWithText("ID: 1").assertIsDisplayed()
     }
 }

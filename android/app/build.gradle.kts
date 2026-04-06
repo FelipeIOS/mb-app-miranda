@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    jacoco
 }
 
 val localProperties = Properties().apply {
@@ -56,6 +57,44 @@ android {
         compose = true
         buildConfig = true
     }
+
+    testOptions {
+        unitTests.all {
+            it.extensions.configure(JacocoTaskExtension::class) {
+                isIncludeNoLocationClasses = true
+                excludes = listOf("jdk.internal.*")
+            }
+        }
+    }
+}
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDebugUnitTest")
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+
+    val excludes = listOf(
+        "**/R.class", "**/R\$*.class", "**/BuildConfig.*", "**/Manifest*.*",
+        "**/*Test*.*", "android/**/*.*",
+        "**/*_HiltModules*", "**/*_Factory*", "**/*_MembersInjector*",
+        "**/Hilt_*", "**/*Hilt*", "**/dagger/**", "**/hilt/**",
+        "**/*\$\$*", "**/*\$Lambda*",
+        "**/di/**", "**/navigation/**",
+        "**/theme/**", "**/MainActivity*", "**/QuerosermBApp*"
+    )
+
+    val debugTree = fileTree("${layout.buildDirectory.get()}/tmp/kotlin-classes/debug") {
+        exclude(excludes)
+    }
+
+    sourceDirectories.setFrom(files("src/main/java"))
+    classDirectories.setFrom(files(debugTree))
+    executionData.setFrom(fileTree(layout.buildDirectory.get()) {
+        include("jacoco/testDebugUnitTest.exec")
+    })
 }
 
 dependencies {
