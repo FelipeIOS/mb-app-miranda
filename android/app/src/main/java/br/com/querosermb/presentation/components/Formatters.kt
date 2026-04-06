@@ -1,7 +1,8 @@
 package br.com.querosermb.presentation.components
 
 import java.text.NumberFormat
-import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 private val ptBR = Locale("pt", "BR")
@@ -28,12 +29,13 @@ fun Double.formattedDecimal(minFractionDigits: Int = 2, maxFractionDigits: Int =
     return fmt.format(this)
 }
 
+private val isoInputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
+private val monthYearFormatter = DateTimeFormatter.ofPattern("MMM yyyy", Locale("pt", "BR"))
+
 fun String.formatAsMonthYear(): String {
     return try {
-        val inputFmt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
-        val outputFmt = SimpleDateFormat("MMM yyyy", Locale("pt", "BR"))
-        val date = inputFmt.parse(this)
-        outputFmt.format(date!!).replaceFirstChar { it.uppercase() }
+        val date = LocalDate.parse(this, isoInputFormatter)
+        date.format(monthYearFormatter).replaceFirstChar { it.uppercase() }
     } catch (e: Exception) {
         this
     }
