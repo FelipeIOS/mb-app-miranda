@@ -53,7 +53,7 @@ class ExchangeDetailViewModelTest {
         val cached = CachedExchangeDetail(exchange, emptyList(), 0L)
         every { cache.get(7, any()) } returns cached
 
-        viewModel.load(exchange)
+        viewModel.load(exchange.id)
         testDispatcher.scheduler.advanceUntilIdle()
 
         assertTrue(viewModel.detailState.value is ViewState.Success)
@@ -70,7 +70,7 @@ class ExchangeDetailViewModelTest {
         coEvery { repo.getExchangeDetail(8) } returns exchange
         coEvery { repo.getExchangeAssets(8) } returns currencies
 
-        viewModel.load(exchange)
+        viewModel.load(exchange.id)
         testDispatcher.scheduler.advanceUntilIdle()
 
         assertTrue(viewModel.detailState.value is ViewState.Success)
@@ -86,7 +86,7 @@ class ExchangeDetailViewModelTest {
         coEvery { repo.getExchangeDetail(9) } returns exchange
         coEvery { repo.getExchangeAssets(9) } returns emptyList()
 
-        viewModel.load(exchange)
+        viewModel.load(exchange.id)
         testDispatcher.scheduler.advanceUntilIdle()
 
         assertTrue(viewModel.assetsState.value is ViewState.Empty)
@@ -99,7 +99,7 @@ class ExchangeDetailViewModelTest {
         coEvery { repo.getExchangeDetail(10) } returns exchange
         coEvery { repo.getExchangeAssets(10) } returns emptyList()
 
-        viewModel.triggerLoad(exchange)
+        viewModel.triggerLoad(exchange.id)
         testDispatcher.scheduler.advanceUntilIdle()
 
         assertTrue(viewModel.detailState.value is ViewState.Success)
@@ -112,7 +112,7 @@ class ExchangeDetailViewModelTest {
         coEvery { repo.getExchangeDetail(11) } throws RuntimeException("Network error")
         coEvery { repo.getExchangeAssets(11) } returns emptyList()
 
-        viewModel.load(exchange)
+        viewModel.load(exchange.id)
         testDispatcher.scheduler.advanceUntilIdle()
 
         assertTrue(viewModel.detailState.value is ViewState.Error)

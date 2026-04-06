@@ -75,23 +75,25 @@ import coil.request.ImageRequest
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExchangeDetailScreen(
-    exchange: Exchange,
+    exchangeId: Int,
     onBack: () -> Unit,
     viewModel: ExchangeDetailViewModel = hiltViewModel()
 ) {
     val detailState by viewModel.detailState.collectAsState()
     val assetsState by viewModel.assetsState.collectAsState()
 
-    LaunchedEffect(exchange.id) {
-        viewModel.load(exchange)
+    LaunchedEffect(exchangeId) {
+        viewModel.load(exchangeId)
     }
+
+    val topBarTitle = (detailState as? ViewState.Success)?.data?.name.orEmpty()
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = exchange.name,
+                        text = topBarTitle,
                         style = MaterialTheme.typography.titleLarge,
                         color = MbText
                     )
@@ -116,22 +118,48 @@ fun ExchangeDetailScreen(
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
         ) {
-            ExchangeHeader(exchange = exchange)
+            ExchangeHeaderSection(state = detailState)
             HorizontalDivider(color = MbSurfaceAlt)
 
-            // Info section
             InfoSection(
                 state = detailState,
-                onRetry = { viewModel.triggerLoad(exchange) }
+                onRetry = { viewModel.triggerLoad(exchangeId) }
             )
             HorizontalDivider(color = MbSurfaceAlt)
 
-            // Currencies section
             CurrenciesSection(
                 state = assetsState,
-                onRetry = { viewModel.triggerLoad(exchange) }
+                onRetry = { viewModel.triggerLoad(exchangeId) }
             )
         }
+    }
+}
+
+@Composable
+private fun ExchangeHeaderSection(state: ViewState<Exchange>) {
+    when (state) {
+        is ViewState.Loading, is ViewState.Idle -> {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(72.dp)
+                        .clip(CircleShape)
+                        .background(MbSurfaceAlt)
+                )
+                Spacer(Modifier.width(16.dp))
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    TextLineSkeleton(width = 160.dp)
+                    TextLineSkeleton(width = 60.dp)
+                }
+            }
+        }
+        is ViewState.Success -> ExchangeHeader(exchange = state.data)
+        else -> {}
     }
 }
 
@@ -184,19 +212,14 @@ private fun InfoSection(
 
         when (state) {
             is ViewState.Loading, is ViewState.Idle -> {
-                repeat(4) {
-                    InfoRowSkeleton()
-                }
+                repeat(4) { InfoRowSkeleton() }
             }
-
             is ViewState.Success -> {
                 InfoContent(exchange = state.data, onRetry = onRetry)
             }
-
             is ViewState.Error -> {
                 ErrorView(message = state.message, onRetry = onRetry)
             }
-
             is ViewState.Empty -> {}
         }
     }
@@ -207,7 +230,6 @@ private fun InfoContent(exchange: Exchange, onRetry: () -> Unit) {
     val context = LocalContext.current
     var isDescriptionExpanded by remember { mutableStateOf(false) }
 
-    // Info tiles grid
     val tiles = buildList {
         exchange.spotVolumeUSD?.let { add(stringResource(R.string.detail_volume) to it.formatAsCompactUSD()) }
         exchange.dateLaunched?.let { add(stringResource(R.string.detail_launched) to it.formatAsMonthYear()) }
@@ -240,7 +262,6 @@ private fun InfoContent(exchange: Exchange, onRetry: () -> Unit) {
         }
     }
 
-    // Description
     exchange.description?.takeIf { it.isNotBlank() }?.let { desc ->
         Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Text(
@@ -264,7 +285,6 @@ private fun InfoContent(exchange: Exchange, onRetry: () -> Unit) {
         }
     }
 
-    // Website button
     exchange.websiteURL?.let { url ->
         Button(
             onClick = {
@@ -327,13 +347,11 @@ private fun CurrenciesSection(
             is ViewState.Loading, is ViewState.Idle -> {
                 repeat(6) { InfoRowSkeleton() }
             }
-
             is ViewState.Success -> {
                 state.data.forEach { currency ->
                     CurrencyItem(currency = currency)
                 }
             }
-
             is ViewState.Empty -> {
                 Box(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
                     Text(
@@ -343,7 +361,6 @@ private fun CurrenciesSection(
                     )
                 }
             }
-
             is ViewState.Error -> {
                 ErrorView(message = state.message, onRetry = onRetry)
             }

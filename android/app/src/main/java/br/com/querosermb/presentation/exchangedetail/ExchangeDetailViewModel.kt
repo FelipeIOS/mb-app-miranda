@@ -37,24 +37,24 @@ class ExchangeDetailViewModel @Inject constructor(
 
     private var loadJob: Job? = null
 
-    fun load(exchange: Exchange) {
+    fun load(id: Int) {
         if (loadJob?.isActive == true) return
         loadJob = viewModelScope.launch {
-            doLoad(exchange)
+            doLoad(id)
         }
     }
 
-    fun triggerLoad(exchange: Exchange) {
+    fun triggerLoad(id: Int) {
         loadJob?.cancel()
         _detailState.value = ViewState.Loading
         _assetsState.value = ViewState.Loading
         loadJob = viewModelScope.launch {
-            doLoad(exchange)
+            doLoad(id)
         }
     }
 
-    private suspend fun doLoad(exchange: Exchange) {
-        val cached = detailCache.get(exchange.id, CACHE_TTL_MS)
+    private suspend fun doLoad(id: Int) {
+        val cached = detailCache.get(id, CACHE_TTL_MS)
         if (cached != null) {
             _detailState.value = ViewState.Success(cached.detail)
             _assetsState.value = if (cached.assets.isEmpty()) {
@@ -66,10 +66,10 @@ class ExchangeDetailViewModel @Inject constructor(
         }
 
         val detailDeferred = viewModelScope.async {
-            runCatching { getExchangeDetail.execute(exchange.id) }
+            runCatching { getExchangeDetail.execute(id) }
         }
         val assetsDeferred = viewModelScope.async {
-            runCatching { getExchangeAssets.execute(exchange.id) }
+            runCatching { getExchangeAssets.execute(id) }
         }
 
         val detailResult = detailDeferred.await()
@@ -79,7 +79,7 @@ class ExchangeDetailViewModel @Inject constructor(
         val assets = assetsResult.getOrNull()
 
         if (detail != null && assets != null) {
-            detailCache.set(exchange.id, detail, assets)
+            detailCache.set(id, detail, assets)
         }
 
         _detailState.value = detailResult.fold(
