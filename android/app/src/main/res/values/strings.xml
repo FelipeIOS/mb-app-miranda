@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QuerosermB</string>
+
+    <!-- Exchange List -->
+    <string name="exchanges_title">Exchanges</string>
+
+    <!-- Exchange Detail -->
+    <string name="detail_about">Sobre</string>
+    <string name="detail_see_more">Ver mais</string>
+    <string name="detail_see_less">Ver menos</string>
+    <string name="detail_volume">Volume 24h</string>
+    <string name="detail_launched">Lançamento</string>
+    <string name="detail_maker_fee">Maker Fee</string>
+    <string name="detail_taker_fee">Taker Fee</string>
+    <string name="detail_currencies">Moedas Negociadas</string>
+    <string name="detail_currencies_empty">Nenhuma moeda listada para esta exchange</string>
+    <string name="detail_visit_website">Visitar site</string>
+
+    <!-- Errors -->
+    <string name="error_title">Ops! Algo deu errado</string>
+    <string name="error_retry">Tentar novamente</string>
+    <string name="error_load_more">Não foi possível carregar mais</string>
+    <string name="error_unknown">Erro desconhecido</string>
+    <string name="error_detail">Erro ao carregar detalhes</string>
+    <string name="error_assets">Erro ao carregar moedas</string>
+
+    <!-- Empty state -->
+    <string name="empty_title">Nenhum resultado encontrado</string>
+    <string name="empty_message">Não encontramos exchanges disponíveis</string>
+
+    <!-- Network errors -->
+    <string name="network_invalid_url">URL inválida</string>
+    <string name="network_invalid_response">Resposta inválida do servidor</string>
+    <string name="network_decoding">Erro ao processar os dados</string>
+    <string name="network_no_connection">Sem conexão com a internet</string>
+</resources>
