@@ -72,6 +72,26 @@ class ExchangeDetailCacheTest {
     }
 
     @Test
+    fun `get returns entry when elapsed equals TTL exactly`() {
+        val clock = FakeClock(1000L)
+        val cache = ExchangeDetailCache(clock)
+        cache.set(1, sampleExchange(1), emptyList())
+        clock.time = 1000L + 90_000L // elapsed == ttlMs: NOT expired (condition is elapsed > ttlMs)
+
+        assertNotNull("At exact TTL boundary entry should still be valid", cache.get(1, 90_000L))
+    }
+
+    @Test
+    fun `get returns null when elapsed exceeds TTL by one ms`() {
+        val clock = FakeClock(1000L)
+        val cache = ExchangeDetailCache(clock)
+        cache.set(1, sampleExchange(1), emptyList())
+        clock.time = 1000L + 90_001L // elapsed = ttlMs + 1ms: expired
+
+        assertNull("One ms past TTL should be expired", cache.get(1, 90_000L))
+    }
+
+    @Test
     fun `set assets are retrievable`() {
         val clock = FakeClock(0L)
         val cache = ExchangeDetailCache(clock)

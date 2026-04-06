@@ -1,9 +1,11 @@
 package br.com.querosermb.data.remote.datasource
 
 import br.com.querosermb.core.network.ApiService
+import br.com.querosermb.core.network.NetworkError
 import br.com.querosermb.data.remote.dto.ExchangeAssetItem
 import br.com.querosermb.data.remote.dto.ExchangeInfoData
 import br.com.querosermb.data.remote.dto.ExchangeMapItem
+import retrofit2.HttpException
 import javax.inject.Inject
 
 interface ExchangeRemoteDataSourcing {
@@ -16,15 +18,20 @@ class ExchangeRemoteDataSource @Inject constructor(
     private val apiService: ApiService
 ) : ExchangeRemoteDataSourcing {
 
-    override suspend fun fetchExchangeMap(start: Int, limit: Int): List<ExchangeMapItem> {
-        return apiService.getExchangeMap(start, limit).data
-    }
+    override suspend fun fetchExchangeMap(start: Int, limit: Int): List<ExchangeMapItem> =
+        safeCall { apiService.getExchangeMap(start, limit).data }
 
-    override suspend fun fetchExchangeInfo(ids: String): List<ExchangeInfoData> {
-        return apiService.getExchangeInfo(ids).data.values.toList()
-    }
+    override suspend fun fetchExchangeInfo(ids: String): List<ExchangeInfoData> =
+        safeCall { apiService.getExchangeInfo(ids).data.values.toList() }
 
-    override suspend fun fetchExchangeAssets(id: Int): List<ExchangeAssetItem> {
-        return apiService.getExchangeAssets(id).data
+    override suspend fun fetchExchangeAssets(id: Int): List<ExchangeAssetItem> =
+        safeCall { apiService.getExchangeAssets(id).data }
+
+    private suspend fun <T> safeCall(block: suspend () -> T): T {
+        return try {
+            block()
+        } catch (e: HttpException) {
+            throw NetworkError.ServerError(e.code())
+        }
     }
 }

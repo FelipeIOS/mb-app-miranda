@@ -9,6 +9,7 @@ import br.com.querosermb.domain.usecase.GetExchangeAssetsUseCase
 import br.com.querosermb.domain.usecase.GetExchangeDetailUseCase
 import br.com.querosermb.presentation.ViewState
 import br.com.querosermb.presentation.exchangedetail.ExchangeDetailViewModel
+import android.content.Context
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -30,6 +31,7 @@ class ExchangeDetailViewModelTest {
     private val testDispatcher = StandardTestDispatcher()
     private val repo = mockk<ExchangeRepository>()
     private val cache = mockk<ExchangeDetailCaching>(relaxed = true)
+    private val context = mockk<Context>(relaxed = true)
     private lateinit var viewModel: ExchangeDetailViewModel
 
     @Before
@@ -38,7 +40,8 @@ class ExchangeDetailViewModelTest {
         viewModel = ExchangeDetailViewModel(
             getExchangeDetail = GetExchangeDetailUseCase(repo),
             getExchangeAssets = GetExchangeAssetsUseCase(repo),
-            detailCache = cache
+            detailCache = cache,
+            context = context
         )
     }
 

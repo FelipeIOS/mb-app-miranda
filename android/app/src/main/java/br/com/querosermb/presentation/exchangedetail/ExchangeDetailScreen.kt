@@ -44,6 +44,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -59,6 +60,7 @@ import br.com.querosermb.presentation.components.CurrencyItem
 import br.com.querosermb.presentation.components.ErrorView
 import br.com.querosermb.presentation.components.InfoRowSkeleton
 import br.com.querosermb.presentation.components.TextLineSkeleton
+import br.com.querosermb.presentation.theme.MbSurface
 import br.com.querosermb.presentation.components.formatAsCompactUSD
 import br.com.querosermb.presentation.components.formatAsMonthYear
 import br.com.querosermb.presentation.components.formattedDecimal
@@ -153,8 +155,8 @@ private fun ExchangeHeaderSection(state: ViewState<Exchange>) {
                 )
                 Spacer(Modifier.width(16.dp))
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    TextLineSkeleton(width = 160.dp)
-                    TextLineSkeleton(width = 60.dp)
+                    TextLineSkeleton(fraction = 0.55f, height = 18)
+                    TextLineSkeleton(fraction = 0.2f, height = 13)
                 }
             }
         }
@@ -176,6 +178,8 @@ private fun ExchangeHeader(exchange: Exchange) {
                 .data(exchange.logo)
                 .crossfade(true)
                 .build(),
+            placeholder = ColorPainter(MbSurface),
+            error = ColorPainter(MbSurface),
             contentDescription = exchange.name,
             contentScale = ContentScale.Fit,
             modifier = Modifier

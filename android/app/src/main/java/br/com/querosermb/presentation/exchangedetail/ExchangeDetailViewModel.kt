@@ -1,17 +1,20 @@
 package br.com.querosermb.presentation.exchangedetail
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.querosermb.core.cache.ExchangeDetailCaching
-import br.com.querosermb.core.network.NetworkError
 import br.com.querosermb.domain.model.Currency
 import br.com.querosermb.domain.model.Exchange
 import br.com.querosermb.domain.usecase.GetExchangeAssetsUseCase
 import br.com.querosermb.domain.usecase.GetExchangeDetailUseCase
 import br.com.querosermb.presentation.ViewState
+import br.com.querosermb.presentation.utils.toUserMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +25,8 @@ import javax.inject.Inject
 class ExchangeDetailViewModel @Inject constructor(
     private val getExchangeDetail: GetExchangeDetailUseCase,
     private val getExchangeAssets: GetExchangeAssetsUseCase,
-    private val detailCache: ExchangeDetailCaching
+    private val detailCache: ExchangeDetailCaching,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
 
     companion object {
@@ -65,15 +69,11 @@ class ExchangeDetailViewModel @Inject constructor(
             return
         }
 
-        val detailDeferred = viewModelScope.async {
-            runCatching { getExchangeDetail.execute(id) }
+        val (detailResult, assetsResult) = coroutineScope {
+            val detailDeferred = async { runCatching { getExchangeDetail.execute(id) } }
+            val assetsDeferred = async { runCatching { getExchangeAssets.execute(id) } }
+            detailDeferred.await() to assetsDeferred.await()
         }
-        val assetsDeferred = viewModelScope.async {
-            runCatching { getExchangeAssets.execute(id) }
-        }
-
-        val detailResult = detailDeferred.await()
-        val assetsResult = assetsDeferred.await()
 
         val detail = detailResult.getOrNull()
         val assets = assetsResult.getOrNull()
@@ -84,15 +84,12 @@ class ExchangeDetailViewModel @Inject constructor(
 
         _detailState.value = detailResult.fold(
             onSuccess = { ViewState.Success(it) },
-            onFailure = { ViewState.Error(it.toUserMessage()) }
+            onFailure = { ViewState.Error(it.toUserMessage(context)) }
         )
 
         _assetsState.value = assetsResult.fold(
             onSuccess = { if (it.isEmpty()) ViewState.Empty else ViewState.Success(it) },
-            onFailure = { ViewState.Error(it.toUserMessage()) }
+            onFailure = { ViewState.Error(it.toUserMessage(context)) }
         )
     }
-
-    private fun Throwable.toUserMessage(): String =
-        (this as? NetworkError)?.userMessage() ?: message ?: "Erro desconhecido"
 }

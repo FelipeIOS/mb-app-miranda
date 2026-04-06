@@ -7,6 +7,7 @@ import br.com.querosermb.domain.repository.ExchangeRepository
 import br.com.querosermb.domain.usecase.GetExchangeListUseCase
 import br.com.querosermb.presentation.ViewState
 import br.com.querosermb.presentation.exchangelist.ExchangeListViewModel
+import android.content.Context
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -27,12 +28,13 @@ class ExchangeListViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
     private val repo = mockk<ExchangeRepository>()
+    private val context = mockk<Context>(relaxed = true)
     private lateinit var viewModel: ExchangeListViewModel
 
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        viewModel = ExchangeListViewModel(GetExchangeListUseCase(repo))
+        viewModel = ExchangeListViewModel(GetExchangeListUseCase(repo), context)
     }
 
     @After

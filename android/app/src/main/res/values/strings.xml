@@ -32,6 +32,8 @@
     <!-- Network errors -->
     <string name="network_invalid_url">URL inválida</string>
     <string name="network_invalid_response">Resposta inválida do servidor</string>
+    <string name="network_server_error">Erro no servidor (código %d)</string>
     <string name="network_decoding">Erro ao processar os dados</string>
     <string name="network_no_connection">Sem conexão com a internet</string>
+    <string name="network_unknown">Erro inesperado. Tente novamente.</string>
 </resources>
