@@ -6,6 +6,7 @@ import br.com.querosermb.domain.model.Exchange
 import br.com.querosermb.domain.model.ExchangeListPage
 import br.com.querosermb.domain.repository.ExchangeRepository
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
@@ -27,7 +28,7 @@ class ExchangeRepositoryImpl @Inject constructor(
         val allInfo = coroutineScope {
             chunks.map { chunk ->
                 async { dataSource.fetchExchangeInfo(chunk.joinToString(",")) }
-            }.flatMap { it.await() }
+            }.awaitAll().flatten()
         }
 
         val infoById = allInfo.associateBy { it.id }
