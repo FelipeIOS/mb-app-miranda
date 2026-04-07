@@ -1,6 +1,5 @@
 package br.com.querosermb.presentation.exchangelist
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,9 +36,6 @@ import br.com.querosermb.presentation.components.EmptyStateView
 import br.com.querosermb.presentation.components.ErrorView
 import br.com.querosermb.presentation.components.ExchangeCard
 import br.com.querosermb.presentation.components.ExchangeCardSkeleton
-import br.com.querosermb.presentation.theme.MbGold
-import br.com.querosermb.presentation.theme.MbPrimary
-import br.com.querosermb.presentation.theme.MbText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,13 +66,15 @@ fun ExchangeListScreen(
                     Text(
                         text = stringResource(R.string.exchanges_title),
                         style = MaterialTheme.typography.titleLarge,
-                        color = MbText
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = MbPrimary)
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background
+                )
             )
         },
-        containerColor = MbPrimary
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -115,8 +113,8 @@ fun ExchangeListScreen(
             PullToRefreshContainer(
                 state = pullRefreshState,
                 modifier = Modifier.align(Alignment.TopCenter),
-                containerColor = MbPrimary,
-                contentColor = MbGold
+                containerColor = MaterialTheme.colorScheme.background,
+                contentColor = MaterialTheme.colorScheme.primary
             )
         }
     }
@@ -155,11 +153,10 @@ private fun ExchangeList(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
-                        .background(MbPrimary),
+                        .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(color = MbGold)
+                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                 }
             }
         }

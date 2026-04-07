@@ -50,6 +50,19 @@ Core (APIClient + Network + DI + Extensions)
 - **Protocol-based DI**: `ExchangeRepository` como protocol, fácil de mockar em testes
 - **`ViewState<T>` genérico**: `.idle`, `.loading`, `.success(T)`, `.empty`, `.error(String)`
 - **API Key via xcconfig**: nunca hardcoded, fora do controle de versão
+- **AppCoordinator (MVVM-C)**: `NavigationPath` tipado centraliza toda a navegação; Views não conhecem destinos concretos
+
+### Por que SwiftUI em vez de UIKit View Code?
+
+O enunciado menciona "View Code approach" — convenção do ecossistema iOS para UIKit programático (sem Storyboards). A escolha por **SwiftUI** foi intencional e justificada:
+
+| Motivo | Detalhe |
+|--------|---------|
+| **Direção estratégica da Apple** | SwiftUI é o caminho oficial para novos projetos iOS desde 2019; UIKit entra em modo de manutenção gradual |
+| **Integração nativa com async/await** | `.task {}` cancela automaticamente ao desmontar a view; sem necessidade de `AnyCancellable` ou `DispatchQueue` |
+| **Previews em tempo real** | `#Preview` reduz ciclos de build/run durante o desenvolvimento |
+| **Menor boilerplate** | Estados de UI (loading, erro, vazio) em ~30% menos linhas que o equivalente UIKit |
+| **iOS 16+ garantido** | Todas as APIs SwiftUI utilizadas (`NavigationStack`, `NavigationPath`) são estáveis no target mínimo do projeto |
 
 ---
 

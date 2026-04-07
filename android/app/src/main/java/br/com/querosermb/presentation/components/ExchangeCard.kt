@@ -24,9 +24,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import br.com.querosermb.domain.model.Exchange
-import br.com.querosermb.presentation.theme.MbGold
-import br.com.querosermb.presentation.theme.MbSurface
-import br.com.querosermb.presentation.theme.MbSurfaceAlt
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
@@ -35,6 +32,7 @@ fun ExchangeCard(
     exchange: Exchange,
     onClick: () -> Unit
 ) {
+    val surfaceColor = MaterialTheme.colorScheme.surface
     Column {
         Row(
             modifier = Modifier
@@ -48,8 +46,8 @@ fun ExchangeCard(
                     .data(exchange.logo)
                     .crossfade(true)
                     .build(),
-                placeholder = ColorPainter(MbSurface),
-                error = ColorPainter(MbSurface),
+                placeholder = ColorPainter(surfaceColor),
+                error = ColorPainter(surfaceColor),
                 contentDescription = exchange.name,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
@@ -66,7 +64,7 @@ fun ExchangeCard(
                     Text(
                         text = volume.formatAsCompactUSD(),
                         style = MaterialTheme.typography.bodySmall,
-                        color = MbGold
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
                 exchange.dateLaunched?.let { date ->
@@ -80,9 +78,9 @@ fun ExchangeCard(
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = null,
-                tint = MbSurfaceAlt
+                tint = MaterialTheme.colorScheme.surfaceVariant
             )
         }
-        HorizontalDivider(color = MbSurfaceAlt, thickness = 0.5.dp)
+        HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant, thickness = 0.5.dp)
     }
 }

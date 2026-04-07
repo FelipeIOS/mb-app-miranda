@@ -17,13 +17,16 @@
 		286CB042BC8FE7236D184D50 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6562E00E1B079004328DDDBA /* APIEndpoint.swift */; };
 		2990938851DC222AE5C4A0D4 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD159C4987BCDD0C85D98D6 /* AppTheme.swift */; };
 		3311F65704E610EE232619F0 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E237364DD7C2EF29F3CEB46 /* NetworkError.swift */; };
+		3328D58EDA7D0C1D4D187CA7 /* architecture.md in Resources */ = {isa = PBXBuildFile; fileRef = F589822C28B5B074B27A816B /* architecture.md */; };
 		36C8AA1B6E398192B543D3F5 /* ExchangeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87351F745CB4871340D7059 /* ExchangeDetailViewController.swift */; };
 		36D69154BAE73A10B14F31C1 /* UITestStubExchangeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1626B8FDAE51CB384CD356 /* UITestStubExchangeRepository.swift */; };
 		375CD7799CF712203CA82E39 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3ECB0C075D6331A90CB9F /* Formatters.swift */; };
 		3E57C5DBAD1E1D09340E95F5 /* ExchangeCardSkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84141768CB24AD0FB31C44E4 /* ExchangeCardSkeletonCell.swift */; };
+		462BDA3D5911BCA7BABBED66 /* domain.md in Resources */ = {isa = PBXBuildFile; fileRef = D043B754959DE277C364319A /* domain.md */; };
 		4881A6FDB2D20DE6008EF9B9 /* ExchangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80A49F5142528D165D74DCC /* ExchangeTests.swift */; };
 		4D39CA9353A019B28D29BAB4 /* ExchangeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8C8B0F2E3981738679ACBA /* ExchangeListViewController.swift */; };
 		52EA6622CBE4145083F4F28F /* QuerosermBUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86362A7F15011FDAEE3B3233 /* QuerosermBUITests.swift */; };
+		532DAEDDEEC03F165804120D /* data.md in Resources */ = {isa = PBXBuildFile; fileRef = 871BD4ADF2917A3A4086F11D /* data.md */; };
 		5FF3FF39AC5E7E95DAC510B0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 110E1FE726C899BEF585C3D4 /* Localizable.xcstrings */; };
 		611C52D354BC321FD8E6CCEC /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312911E9501B43F5D51D3509 /* Strings.swift */; };
 		685F9768DD12E29F21D78A34 /* ExchangeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAAC059AFC813417A6FF511 /* ExchangeDTO.swift */; };
@@ -31,18 +34,22 @@
 		75B17416E17196DA546DCBB0 /* ExchangeCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F4EE1EC18B8570D400DD63 /* ExchangeCardCell.swift */; };
 		75FA14983865B0529F634AE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74E69702028720CB3F3389DF /* Assets.xcassets */; };
 		85137A07731E41139ED80EB7 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4D5850B5065E888C45FDAE /* XCTest.framework */; };
+		912DC51D90DA26D9799EB00E /* presentation.md in Resources */ = {isa = PBXBuildFile; fileRef = B0028481B656C3876C732326 /* presentation.md */; };
 		9464AE877100E9E5A0CEBE6A /* ExchangeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C9A9B1E0B06710F851B292 /* ExchangeListViewModel.swift */; };
 		A03AF81B586386C31ED08C9B /* ExchangeAssetsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC15DC42FE8282C83F45A09 /* ExchangeAssetsDTO.swift */; };
 		A8FF9824FA43A469AE9E6079 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD4972335B03504E4E99D6 /* AppCoordinator.swift */; };
 		AFD273BC46D3EC588A5984FC /* Shimmerable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81AB14CFEB6F9FB973497B7 /* Shimmerable.swift */; };
+		B39C49CDEE1745181A5C0BFB /* core.md in Resources */ = {isa = PBXBuildFile; fileRef = D32D2A30125025CF1B27CD43 /* core.md */; };
 		BBFD71709EA2ACA59E985353 /* RemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745DE1ECF94719EC7116FDA5 /* RemoteImageView.swift */; };
 		C0A8AD95B717FD7977480836 /* ExchangeRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D65EE389DB11B1C00D003D1 /* ExchangeRemoteDataSource.swift */; };
 		D4E421A8A436EDBE31145567 /* CurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC65116C90EEC243171EE4D4 /* CurrencyCell.swift */; };
 		DD2F09509113D1A091966CAB /* ExchangeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC42D5A012062D68E44E753 /* ExchangeRepository.swift */; };
 		DEB986845E195400D15820DF /* ExchangeRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08943F094710AE2C34578862 /* ExchangeRepositoryImpl.swift */; };
+		E281D7E80538C887B45DDF6F /* features.md in Resources */ = {isa = PBXBuildFile; fileRef = 0226C86D31DBFBE8CD88CBD4 /* features.md */; };
 		ECE40276A33C6A0FC62BCADF /* ExchangeListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD42239359C48431EC848A07 /* ExchangeListPage.swift */; };
 		ED853647AF0CCE3FCD828CFC /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D47FC6214FE1C9A28328A6 /* APIClient.swift */; };
 		EFDC0F36CB76C2A048D43DA0 /* ExchangeUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60204C71332F1A8EAE54200C /* ExchangeUseCases.swift */; };
+		FE97E1499FA6F4229A36A3B0 /* testing.md in Resources */ = {isa = PBXBuildFile; fileRef = BE8581FD40B1E5F64C62D8EC /* testing.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +70,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0226C86D31DBFBE8CD88CBD4 /* features.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = features.md; sourceTree = "<group>"; };
 		08943F094710AE2C34578862 /* ExchangeRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRepositoryImpl.swift; sourceTree = "<group>"; };
 		09257BFBDEC2CCC1FB42987D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		110E1FE726C899BEF585C3D4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -82,25 +90,31 @@
 		6562E00E1B079004328DDDBA /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		72C9A9B1E0B06710F851B292 /* ExchangeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListViewModel.swift; sourceTree = "<group>"; };
 		745DE1ECF94719EC7116FDA5 /* RemoteImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageView.swift; sourceTree = "<group>"; };
-		746270748B72D91BE29944D0 /* QuerosermB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuerosermB.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		746270748B72D91BE29944D0 /* QuerosermB.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = QuerosermB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74E69702028720CB3F3389DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84141768CB24AD0FB31C44E4 /* ExchangeCardSkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCardSkeletonCell.swift; sourceTree = "<group>"; };
 		86362A7F15011FDAEE3B3233 /* QuerosermBUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuerosermBUITests.swift; sourceTree = "<group>"; };
+		871BD4ADF2917A3A4086F11D /* data.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = data.md; sourceTree = "<group>"; };
 		9D65EE389DB11B1C00D003D1 /* ExchangeRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRemoteDataSource.swift; sourceTree = "<group>"; };
 		ABD159C4987BCDD0C85D98D6 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		ACC42D5A012062D68E44E753 /* ExchangeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRepository.swift; sourceTree = "<group>"; };
 		AD42239359C48431EC848A07 /* ExchangeListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListPage.swift; sourceTree = "<group>"; };
+		B0028481B656C3876C732326 /* presentation.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = presentation.md; sourceTree = "<group>"; };
 		B54450871D0C996876A0EC10 /* Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exchange.swift; sourceTree = "<group>"; };
 		B8A3ECB0C075D6331A90CB9F /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		B9AD4972335B03504E4E99D6 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		BE4D5850B5065E888C45FDAE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = System/Library/Frameworks/XCTest.framework; sourceTree = SDKROOT; };
+		BE8581FD40B1E5F64C62D8EC /* testing.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = testing.md; sourceTree = "<group>"; };
 		C80A49F5142528D165D74DCC /* ExchangeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeTests.swift; sourceTree = "<group>"; };
 		CDC15DC42FE8282C83F45A09 /* ExchangeAssetsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeAssetsDTO.swift; sourceTree = "<group>"; };
 		CE8C8B0F2E3981738679ACBA /* ExchangeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListViewController.swift; sourceTree = "<group>"; };
+		D043B754959DE277C364319A /* domain.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = domain.md; sourceTree = "<group>"; };
 		D070830DB566E1CB790C53DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D32D2A30125025CF1B27CD43 /* core.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = core.md; sourceTree = "<group>"; };
 		E3D47FC6214FE1C9A28328A6 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		E53D165D117780C4787FFA97 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		EC65116C90EEC243171EE4D4 /* CurrencyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCell.swift; sourceTree = "<group>"; };
+		F589822C28B5B074B27A816B /* architecture.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = architecture.md; sourceTree = "<group>"; };
 		F81AB14CFEB6F9FB973497B7 /* Shimmerable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shimmerable.swift; sourceTree = "<group>"; };
 		F87351F745CB4871340D7059 /* ExchangeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailViewController.swift; sourceTree = "<group>"; };
 		FC1626B8FDAE51CB384CD356 /* UITestStubExchangeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestStubExchangeRepository.swift; sourceTree = "<group>"; };
@@ -205,6 +219,17 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		74ECD8E6AD7D106C300C1629 /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				F589822C28B5B074B27A816B /* architecture.md */,
+				0226C86D31DBFBE8CD88CBD4 /* features.md */,
+				BE8581FD40B1E5F64C62D8EC /* testing.md */,
+				B9DAF64C6BB9182B94D336B9 /* layers */,
+			);
+			path = docs;
+			sourceTree = "<group>";
+		};
 		7CA96E893CB522A54BFEA04D = {
 			isa = PBXGroup;
 			children = (
@@ -274,6 +299,17 @@
 				BE4D5850B5065E888C45FDAE /* XCTest.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B9DAF64C6BB9182B94D336B9 /* layers */ = {
+			isa = PBXGroup;
+			children = (
+				D32D2A30125025CF1B27CD43 /* core.md */,
+				871BD4ADF2917A3A4086F11D /* data.md */,
+				D043B754959DE277C364319A /* domain.md */,
+				B0028481B656C3876C732326 /* presentation.md */,
+			);
+			path = layers;
 			sourceTree = "<group>";
 		};
 		BC4E7D2379DFDF8A66681FDB /* Repository */ = {
@@ -360,6 +396,7 @@
 				52C9D45E0A9A47EF28481F68 /* SceneDelegate.swift */,
 				044241EE01142CD787516A4C /* Core */,
 				A0681239A6C7EAC9CB65CA5A /* Data */,
+				74ECD8E6AD7D106C300C1629 /* docs */,
 				D88F198754B7702CF5D317CD /* Domain */,
 				C1B10E71F6876A6C8994FB51 /* Presentation */,
 				9756DF332BB302187EC25007 /* Resources */,
@@ -440,6 +477,7 @@
 						TestTargetID = F4C5F119D49F36A961508B0E;
 					};
 					F4C5F119D49F36A961508B0E = {
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -472,6 +510,13 @@
 			files = (
 				75FA14983865B0529F634AE2 /* Assets.xcassets in Resources */,
 				5FF3FF39AC5E7E95DAC510B0 /* Localizable.xcstrings in Resources */,
+				3328D58EDA7D0C1D4D187CA7 /* architecture.md in Resources */,
+				B39C49CDEE1745181A5C0BFB /* core.md in Resources */,
+				532DAEDDEEC03F165804120D /* data.md in Resources */,
+				462BDA3D5911BCA7BABBED66 /* domain.md in Resources */,
+				E281D7E80538C887B45DDF6F /* features.md in Resources */,
+				912DC51D90DA26D9799EB00E /* presentation.md in Resources */,
+				FE97E1499FA6F4229A36A3B0 /* testing.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,7 +621,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5Z9V9RU582;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = QuerosermB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -704,7 +749,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5Z9V9RU582;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = QuerosermB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;

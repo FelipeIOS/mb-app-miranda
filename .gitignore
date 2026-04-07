@@ -42,3 +42,10 @@ android/gradle.properties
 .idea/
 *.swp
 *.swo
+
+# Claude Code
+CLAUDE.md
+.claude/
+ios/docs/
+*.md
+*.md

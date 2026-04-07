@@ -21,7 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.querosermb.R
-import br.com.querosermb.presentation.theme.MbGold
 
 @Composable
 fun ErrorView(
@@ -39,7 +38,7 @@ fun ErrorView(
         Icon(
             imageVector = Icons.Default.Warning,
             contentDescription = null,
-            tint = MbGold,
+            tint = MaterialTheme.colorScheme.primary,
             modifier = Modifier.size(48.dp)
         )
         Spacer(Modifier.height(16.dp))
@@ -58,7 +57,7 @@ fun ErrorView(
         Spacer(Modifier.height(24.dp))
         Button(
             onClick = onRetry,
-            colors = ButtonDefaults.buttonColors(containerColor = MbGold)
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
         ) {
             Text(
                 text = stringResource(R.string.error_retry),

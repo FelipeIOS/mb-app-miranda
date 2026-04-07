@@ -60,17 +60,9 @@ import br.com.querosermb.presentation.components.CurrencyItem
 import br.com.querosermb.presentation.components.ErrorView
 import br.com.querosermb.presentation.components.InfoRowSkeleton
 import br.com.querosermb.presentation.components.TextLineSkeleton
-import br.com.querosermb.presentation.theme.MbSurface
 import br.com.querosermb.presentation.components.formatAsCompactUSD
 import br.com.querosermb.presentation.components.formatAsMonthYear
 import br.com.querosermb.presentation.components.formattedDecimal
-import br.com.querosermb.presentation.theme.MbAccent
-import br.com.querosermb.presentation.theme.MbGold
-import br.com.querosermb.presentation.theme.MbPrimary
-import br.com.querosermb.presentation.theme.MbSurface
-import br.com.querosermb.presentation.theme.MbSurfaceAlt
-import br.com.querosermb.presentation.theme.MbText
-import br.com.querosermb.presentation.theme.MbTextSub
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
@@ -97,7 +89,7 @@ fun ExchangeDetailScreen(
                     Text(
                         text = topBarTitle,
                         style = MaterialTheme.typography.titleLarge,
-                        color = MbText
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 },
                 navigationIcon = {
@@ -105,14 +97,16 @@ fun ExchangeDetailScreen(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Voltar",
-                            tint = MbText
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = MbPrimary)
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background
+                )
             )
         },
-        containerColor = MbPrimary
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -121,13 +115,13 @@ fun ExchangeDetailScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             ExchangeHeaderSection(state = detailState)
-            HorizontalDivider(color = MbSurfaceAlt)
+            HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
 
             InfoSection(
                 state = detailState,
                 onRetry = { viewModel.triggerLoad(exchangeId) }
             )
-            HorizontalDivider(color = MbSurfaceAlt)
+            HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
 
             CurrenciesSection(
                 state = assetsState,
@@ -151,7 +145,7 @@ private fun ExchangeHeaderSection(state: ViewState<Exchange>) {
                     modifier = Modifier
                         .size(72.dp)
                         .clip(CircleShape)
-                        .background(MbSurfaceAlt)
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
                 )
                 Spacer(Modifier.width(16.dp))
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -167,6 +161,7 @@ private fun ExchangeHeaderSection(state: ViewState<Exchange>) {
 
 @Composable
 private fun ExchangeHeader(exchange: Exchange) {
+    val surfaceColor = MaterialTheme.colorScheme.surface
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -178,8 +173,8 @@ private fun ExchangeHeader(exchange: Exchange) {
                 .data(exchange.logo)
                 .crossfade(true)
                 .build(),
-            placeholder = ColorPainter(MbSurface),
-            error = ColorPainter(MbSurface),
+            placeholder = ColorPainter(surfaceColor),
+            error = ColorPainter(surfaceColor),
             contentDescription = exchange.name,
             contentScale = ContentScale.Fit,
             modifier = Modifier
@@ -196,7 +191,7 @@ private fun ExchangeHeader(exchange: Exchange) {
                 text = "ID: ${exchange.id}",
                 style = MaterialTheme.typography.labelSmall,
                 fontFamily = FontFamily.Monospace,
-                color = MbTextSub
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -272,11 +267,11 @@ private fun InfoContent(exchange: Exchange, onRetry: () -> Unit) {
                 text = desc,
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = if (isDescriptionExpanded) Int.MAX_VALUE else 3,
-                color = MbTextSub
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             TextButton(
                 onClick = { isDescriptionExpanded = !isDescriptionExpanded },
-                colors = ButtonDefaults.textButtonColors(contentColor = MbAccent)
+                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.secondary)
             ) {
                 Text(
                     text = if (isDescriptionExpanded) {
@@ -297,11 +292,11 @@ private fun InfoContent(exchange: Exchange, onRetry: () -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = MbAccent)
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
         ) {
             Text(
                 text = stringResource(R.string.detail_visit_website),
-                color = MbText
+                color = MaterialTheme.colorScheme.onSecondary
             )
         }
     }
@@ -311,20 +306,20 @@ private fun InfoContent(exchange: Exchange, onRetry: () -> Unit) {
 private fun InfoTileCard(label: String, value: String, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = MbSurface),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         shape = RoundedCornerShape(8.dp)
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(
                 text = label,
                 style = MaterialTheme.typography.bodySmall,
-                color = MbTextSub
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(Modifier.height(4.dp))
             Text(
                 text = value,
                 style = MaterialTheme.typography.titleMedium,
-                color = MbGold
+                color = MaterialTheme.colorScheme.primary
             )
         }
     }
@@ -361,7 +356,7 @@ private fun CurrenciesSection(
                     Text(
                         text = stringResource(R.string.detail_currencies_empty),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MbTextSub
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }

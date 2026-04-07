@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -25,13 +26,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import br.com.querosermb.presentation.theme.MbSurface
-import br.com.querosermb.presentation.theme.MbSurfaceAlt
 
 @Composable
 fun shimmerBrush(): Brush {
+    val surface = MaterialTheme.colorScheme.surface
+    val surfaceVariant = MaterialTheme.colorScheme.surfaceVariant
     val transition = rememberInfiniteTransition(label = "shimmer")
     val translateAnim by transition.animateFloat(
         initialValue = 0f,
@@ -43,7 +44,7 @@ fun shimmerBrush(): Brush {
         label = "shimmer_translate"
     )
     return Brush.linearGradient(
-        colors = listOf(MbSurface, MbSurfaceAlt, MbSurface),
+        colors = listOf(surface, surfaceVariant, surface),
         start = Offset(translateAnim - 200f, 0f),
         end = Offset(translateAnim + 200f, 0f)
     )
@@ -120,11 +121,11 @@ fun InfoRowSkeleton() {
 }
 
 @Composable
-fun TextLineSkeleton(fraction: Float = 1f, height: Int = 14) {
+fun TextLineSkeleton(fraction: Float = 1f, width: Dp? = null, height: Int = 14) {
     val brush = shimmerBrush()
+    val widthModifier = if (width != null) Modifier.width(width) else Modifier.fillMaxWidth(fraction)
     Box(
-        modifier = Modifier
-            .fillMaxWidth(fraction)
+        modifier = widthModifier
             .height(height.dp)
             .clip(RoundedCornerShape(4.dp))
             .background(brush)

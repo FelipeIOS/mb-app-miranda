@@ -20,9 +20,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.querosermb.domain.model.Currency
-import br.com.querosermb.presentation.theme.MbAccent
-import br.com.querosermb.presentation.theme.MbSurfaceAlt
-import br.com.querosermb.presentation.theme.MbText
 
 @Composable
 fun CurrencyItem(currency: Currency) {
@@ -37,13 +34,13 @@ fun CurrencyItem(currency: Currency) {
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(MbAccent),
+                    .background(MaterialTheme.colorScheme.secondary),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = currency.symbol.take(3),
                     style = MaterialTheme.typography.bodySmall,
-                    color = MbText,
+                    color = MaterialTheme.colorScheme.onSecondary,
                     textAlign = TextAlign.Center
                 )
             }
@@ -63,10 +60,10 @@ fun CurrencyItem(currency: Currency) {
                 Text(
                     text = price.formatAsUSD(),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MbText
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
-        HorizontalDivider(color = MbSurfaceAlt, thickness = 0.5.dp)
+        HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant, thickness = 0.5.dp)
     }
 }
