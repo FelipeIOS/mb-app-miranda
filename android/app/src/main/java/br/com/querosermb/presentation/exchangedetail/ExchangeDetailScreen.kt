@@ -56,10 +56,12 @@ import br.com.querosermb.R
 import br.com.querosermb.domain.model.Currency
 import br.com.querosermb.domain.model.Exchange
 import br.com.querosermb.presentation.ViewState
+import Brush
 import br.com.querosermb.presentation.components.CurrencyItem
 import br.com.querosermb.presentation.components.ErrorView
 import br.com.querosermb.presentation.components.InfoRowSkeleton
 import br.com.querosermb.presentation.components.TextLineSkeleton
+import br.com.querosermb.presentation.components.shimmerBrush
 import br.com.querosermb.presentation.components.formatAsCompactUSD
 import br.com.querosermb.presentation.components.formatAsMonthYear
 import br.com.querosermb.presentation.components.formattedDecimal
@@ -108,23 +110,27 @@ fun ExchangeDetailScreen(
         },
         containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
+        val brush = shimmerBrush()
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
         ) {
-            ExchangeHeaderSection(state = detailState)
+            ExchangeHeaderSection(state = detailState, brush = brush)
             HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
 
             InfoSection(
                 state = detailState,
+                brush = brush,
                 onRetry = { viewModel.triggerLoad(exchangeId) }
             )
             HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
 
             CurrenciesSection(
                 state = assetsState,
+                brush = brush,
                 onRetry = { viewModel.triggerLoad(exchangeId) }
             )
         }
@@ -132,7 +138,7 @@ fun ExchangeDetailScreen(
 }
 
 @Composable
-private fun ExchangeHeaderSection(state: ViewState<Exchange>) {
+private fun ExchangeHeaderSection(state: ViewState<Exchange>, brush: Brush) {
     when (state) {
         is ViewState.Loading, is ViewState.Idle -> {
             Row(
@@ -145,12 +151,12 @@ private fun ExchangeHeaderSection(state: ViewState<Exchange>) {
                     modifier = Modifier
                         .size(72.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .background(brush)
                 )
                 Spacer(Modifier.width(16.dp))
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    TextLineSkeleton(fraction = 0.55f, height = 18)
-                    TextLineSkeleton(fraction = 0.2f, height = 13)
+                    TextLineSkeleton(fraction = 0.55f, height = 18, brush = brush)
+                    TextLineSkeleton(fraction = 0.2f, height = 13, brush = brush)
                 }
             }
         }
@@ -200,6 +206,7 @@ private fun ExchangeHeader(exchange: Exchange) {
 @Composable
 private fun InfoSection(
     state: ViewState<Exchange>,
+    brush: Brush,
     onRetry: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
@@ -211,7 +218,7 @@ private fun InfoSection(
 
         when (state) {
             is ViewState.Loading, is ViewState.Idle -> {
-                repeat(4) { InfoRowSkeleton() }
+                repeat(4) { InfoRowSkeleton(brush) }
             }
             is ViewState.Success -> {
                 InfoContent(exchange = state.data, onRetry = onRetry)
@@ -328,6 +335,7 @@ private fun InfoTileCard(label: String, value: String, modifier: Modifier = Modi
 @Composable
 private fun CurrenciesSection(
     state: ViewState<List<Currency>>,
+    brush: Brush,
     onRetry: () -> Unit
 ) {
     Column(
@@ -344,7 +352,7 @@ private fun CurrenciesSection(
 
         when (state) {
             is ViewState.Loading, is ViewState.Idle -> {
-                repeat(6) { InfoRowSkeleton() }
+                repeat(6) { InfoRowSkeleton(brush) }
             }
             is ViewState.Success -> {
                 state.data.forEach { currency ->

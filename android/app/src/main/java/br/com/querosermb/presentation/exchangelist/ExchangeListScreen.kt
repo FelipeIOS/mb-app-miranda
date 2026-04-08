@@ -36,6 +36,7 @@ import br.com.querosermb.presentation.components.EmptyStateView
 import br.com.querosermb.presentation.components.ErrorView
 import br.com.querosermb.presentation.components.ExchangeCard
 import br.com.querosermb.presentation.components.ExchangeCardSkeleton
+import br.com.querosermb.presentation.components.shimmerBrush
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,9 +49,13 @@ fun ExchangeListScreen(
     val loadMoreError by viewModel.loadMoreError.collectAsState()
 
     val pullRefreshState = rememberPullToRefreshState()
+
     LaunchedEffect(pullRefreshState.isRefreshing) {
-        if (pullRefreshState.isRefreshing) {
-            viewModel.refresh()
+        if (pullRefreshState.isRefreshing) viewModel.refresh()
+    }
+
+    LaunchedEffect(state) {
+        if (pullRefreshState.isRefreshing && state !is ViewState.Loading) {
             pullRefreshState.endRefresh()
         }
     }
@@ -84,8 +89,9 @@ fun ExchangeListScreen(
         ) {
             when (val s = state) {
                 is ViewState.Idle, is ViewState.Loading -> {
+                    val brush = shimmerBrush()
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(8) { ExchangeCardSkeleton() }
+                        items(8) { ExchangeCardSkeleton(brush) }
                     }
                 }
 

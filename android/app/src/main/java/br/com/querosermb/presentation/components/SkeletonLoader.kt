@@ -51,8 +51,7 @@ fun shimmerBrush(): Brush {
 }
 
 @Composable
-fun ExchangeCardSkeleton() {
-    val brush = shimmerBrush()
+fun ExchangeCardSkeleton(brush: Brush = shimmerBrush()) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -95,8 +94,7 @@ fun ExchangeCardSkeleton() {
 }
 
 @Composable
-fun InfoRowSkeleton() {
-    val brush = shimmerBrush()
+fun InfoRowSkeleton(brush: Brush = shimmerBrush()) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -121,8 +119,7 @@ fun InfoRowSkeleton() {
 }
 
 @Composable
-fun TextLineSkeleton(fraction: Float = 1f, width: Dp? = null, height: Int = 14) {
-    val brush = shimmerBrush()
+fun TextLineSkeleton(fraction: Float = 1f, width: Dp? = null, height: Int = 14, brush: Brush = shimmerBrush()) {
     val widthModifier = if (width != null) Modifier.width(width) else Modifier.fillMaxWidth(fraction)
     Box(
         modifier = widthModifier

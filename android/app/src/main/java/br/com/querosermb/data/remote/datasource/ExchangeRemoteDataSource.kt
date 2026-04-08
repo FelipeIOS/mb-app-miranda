@@ -5,7 +5,9 @@ import br.com.querosermb.core.network.NetworkError
 import br.com.querosermb.data.remote.dto.ExchangeAssetItem
 import br.com.querosermb.data.remote.dto.ExchangeInfoData
 import br.com.querosermb.data.remote.dto.ExchangeMapItem
+import com.google.gson.JsonParseException
 import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 interface ExchangeRemoteDataSourcing {
@@ -32,6 +34,10 @@ class ExchangeRemoteDataSource @Inject constructor(
             block()
         } catch (e: HttpException) {
             throw NetworkError.ServerError(e.code())
+        } catch (e: JsonParseException) {
+            throw NetworkError.DecodingError(e)
+        } catch (e: IOException) {
+            throw NetworkError.NoConnection
         }
     }
 }

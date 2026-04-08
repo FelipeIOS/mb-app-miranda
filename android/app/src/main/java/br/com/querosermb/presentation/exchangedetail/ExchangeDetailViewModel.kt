@@ -50,8 +50,6 @@ class ExchangeDetailViewModel @Inject constructor(
 
     fun triggerLoad(id: Int) {
         loadJob?.cancel()
-        _detailState.value = ViewState.Loading
-        _assetsState.value = ViewState.Loading
         loadJob = viewModelScope.launch {
             doLoad(id)
         }
@@ -68,6 +66,9 @@ class ExchangeDetailViewModel @Inject constructor(
             }
             return
         }
+
+        _detailState.value = ViewState.Loading
+        _assetsState.value = ViewState.Loading
 
         val (detailResult, assetsResult) = coroutineScope {
             val detailDeferred = async { runCatching { getExchangeDetail.execute(id) } }
