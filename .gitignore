@@ -47,5 +47,5 @@ android/gradle.properties
 CLAUDE.md
 .claude/
 ios/docs/
-*.md
-*.md
+android/docs/
+ANALISE_TECNICA.md

@@ -9,7 +9,6 @@ import br.com.querosermb.domain.usecase.GetExchangeAssetsUseCase
 import br.com.querosermb.domain.usecase.GetExchangeDetailUseCase
 import br.com.querosermb.presentation.ViewState
 import br.com.querosermb.presentation.exchangedetail.ExchangeDetailViewModel
-import android.content.Context
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -31,7 +30,6 @@ class ExchangeDetailViewModelTest {
     private val testDispatcher = StandardTestDispatcher()
     private val repo = mockk<ExchangeRepository>()
     private val cache = mockk<ExchangeDetailCaching>(relaxed = true)
-    private val context = mockk<Context>(relaxed = true)
     private lateinit var viewModel: ExchangeDetailViewModel
 
     @Before
@@ -40,8 +38,7 @@ class ExchangeDetailViewModelTest {
         viewModel = ExchangeDetailViewModel(
             getExchangeDetail = GetExchangeDetailUseCase(repo),
             getExchangeAssets = GetExchangeAssetsUseCase(repo),
-            detailCache = cache,
-            context = context
+            detailCache = cache
         )
     }
 
@@ -119,5 +116,33 @@ class ExchangeDetailViewModelTest {
         testDispatcher.scheduler.advanceUntilIdle()
 
         assertTrue(viewModel.detailState.value is ViewState.Error)
+    }
+
+    @Test
+    fun `load sets assetsState Error when assets fails but detail succeeds`() = runTest {
+        val exchange = sampleExchange(12)
+        every { cache.get(12, any()) } returns null
+        coEvery { repo.getExchangeDetail(12) } returns exchange
+        coEvery { repo.getExchangeAssets(12) } throws RuntimeException("assets error")
+
+        viewModel.load(exchange.id)
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertTrue(viewModel.detailState.value is ViewState.Success)
+        assertTrue(viewModel.assetsState.value is ViewState.Error)
+    }
+
+    @Test
+    fun `load sets both Error states when detail and assets fail`() = runTest {
+        val exchange = sampleExchange(13)
+        every { cache.get(13, any()) } returns null
+        coEvery { repo.getExchangeDetail(13) } throws RuntimeException("detail error")
+        coEvery { repo.getExchangeAssets(13) } throws RuntimeException("assets error")
+
+        viewModel.load(exchange.id)
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertTrue(viewModel.detailState.value is ViewState.Error)
+        assertTrue(viewModel.assetsState.value is ViewState.Error)
     }
 }

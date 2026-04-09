@@ -6,8 +6,8 @@ import br.com.querosermb.domain.model.ExchangeListPage
 import br.com.querosermb.domain.repository.ExchangeRepository
 import br.com.querosermb.domain.usecase.GetExchangeListUseCase
 import br.com.querosermb.presentation.ViewState
+import br.com.querosermb.presentation.UiText
 import br.com.querosermb.presentation.exchangelist.ExchangeListViewModel
-import android.content.Context
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -28,13 +28,12 @@ class ExchangeListViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
     private val repo = mockk<ExchangeRepository>()
-    private val context = mockk<Context>(relaxed = true)
     private lateinit var viewModel: ExchangeListViewModel
 
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        viewModel = ExchangeListViewModel(GetExchangeListUseCase(repo), context)
+        viewModel = ExchangeListViewModel(GetExchangeListUseCase(repo))
     }
 
     @After
@@ -106,6 +105,21 @@ class ExchangeListViewModelTest {
 
         val merged = (viewModel.state.value as ViewState.Success).data
         assertEquals(2, merged.size)
+    }
+
+    @Test
+    fun `loadMore sets loadMoreError as UiText on failure`() = runTest {
+        coEvery { repo.getExchangeList(1, 40) } returns
+            ExchangeListPage(listOf(sampleExchange(1)), true, 41)
+        coEvery { repo.getExchangeList(41, 40) } throws NetworkError.NoConnection
+
+        viewModel.loadExchanges()
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        viewModel.loadMore()
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertTrue(viewModel.loadMoreError.value is UiText.StringRes)
     }
 
     @Test
