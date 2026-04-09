@@ -56,7 +56,7 @@ import br.com.querosermb.R
 import br.com.querosermb.domain.model.Currency
 import br.com.querosermb.domain.model.Exchange
 import br.com.querosermb.presentation.ViewState
-import Brush
+import androidx.compose.ui.graphics.Brush
 import br.com.querosermb.presentation.components.CurrencyItem
 import br.com.querosermb.presentation.components.ErrorView
 import br.com.querosermb.presentation.components.InfoRowSkeleton

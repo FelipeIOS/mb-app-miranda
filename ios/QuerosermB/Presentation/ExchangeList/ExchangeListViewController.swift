@@ -16,8 +16,8 @@ final class ExchangeListViewController: UIViewController {
         tv.register(ExchangeCardCell.self, forCellReuseIdentifier: ExchangeCardCell.reuseIdentifier)
         tv.register(ExchangeCardSkeletonCell.self, forCellReuseIdentifier: ExchangeCardSkeletonCell.reuseIdentifier)
         tv.rowHeight = UITableView.automaticDimension
-        tv.estimatedRowHeight = 88
-        tv.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 24, right: 0)
+        tv.estimatedRowHeight = 72
+        tv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 24, right: 0)
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     }()
@@ -120,8 +120,8 @@ final class ExchangeListViewController: UIViewController {
 
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
             errorView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

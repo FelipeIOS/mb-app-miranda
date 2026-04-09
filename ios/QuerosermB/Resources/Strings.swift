@@ -18,6 +18,7 @@ enum Strings {
         static let makerFee        = String(localized: "Maker_Fee")
         static let takerFee        = String(localized: "Taker_Fee")
         static let currencies      = String(localized: "Moedas_Negociadas")
+        static let visitWebsite    = String(localized: "Visitar_Site")
         static let currenciesEmpty = String(localized: "Nenhuma_moeda_listada_para_esta_exchange")
 
         static func id(_ value: Int) -> String {

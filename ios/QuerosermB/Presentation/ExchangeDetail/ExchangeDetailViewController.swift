@@ -41,14 +41,13 @@ final class ExchangeDetailViewController: UIViewController {
     private let currenciesContainer = UIView()
     private lazy var currenciesTable: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
-        tv.backgroundColor     = .mbSurface
-        tv.layer.cornerRadius  = 16
-        tv.clipsToBounds       = true
-        tv.separatorStyle      = .singleLine
-        tv.separatorColor      = .mbSurfaceAlt
-        tv.isScrollEnabled     = false
+        tv.backgroundColor = .clear
+        tv.separatorStyle  = .singleLine
+        tv.separatorColor  = .mbSurfaceAlt
+        tv.separatorInset  = .zero
+        tv.isScrollEnabled = false
         tv.register(CurrencyCell.self, forCellReuseIdentifier: CurrencyCell.reuseIdentifier)
-        tv.rowHeight           = 52
+        tv.rowHeight = 52
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     }()
@@ -113,7 +112,7 @@ final class ExchangeDetailViewController: UIViewController {
 
         contentStack.addArrangedSubview(buildHeader())
         contentStack.addArrangedSubview(makeSeparator())
-        contentStack.addArrangedSubview(infoContainer)
+        contentStack.addArrangedSubview(buildInfoSection())
         contentStack.addArrangedSubview(makeSeparator())
         contentStack.addArrangedSubview(buildCurrenciesSection())
         contentStack.addArrangedSubview(spacer(height: 32))
@@ -122,7 +121,7 @@ final class ExchangeDetailViewController: UIViewController {
     // MARK: - Header
 
     private func buildHeader() -> UIView {
-        logoView.cornerRadiusValue = 16
+        logoView.cornerRadiusValue = 36
         logoView.setImage(urlString: exchange.logo)
         logoView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -154,31 +153,54 @@ final class ExchangeDetailViewController: UIViewController {
             logoView.widthAnchor.constraint(equalToConstant: 72),
             logoView.heightAnchor.constraint(equalToConstant: 72),
             row.topAnchor.constraint(equalTo: container.topAnchor, constant: 16),
-            row.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -12),
-            row.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20),
-            row.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20)
+            row.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -16),
+            row.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
+            row.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -16)
         ])
         return container
     }
 
-    // MARK: - Info Section (loaded dynamically)
+    // MARK: - Info Section
+
+    private func buildInfoSection() -> UIView {
+        let container = UIView()
+        container.backgroundColor = .mbPrimary
+
+        let sectionLabel = makeSectionLabel(Strings.Detail.about)
+        sectionLabel.translatesAutoresizingMaskIntoConstraints = false
+        infoContainer.translatesAutoresizingMaskIntoConstraints = false
+
+        container.addSubview(sectionLabel)
+        container.addSubview(infoContainer)
+
+        NSLayoutConstraint.activate([
+            sectionLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: 16),
+            sectionLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
+            sectionLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -16),
+
+            infoContainer.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 8),
+            infoContainer.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            infoContainer.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            infoContainer.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+        ])
+        return container
+    }
 
     private func showInfoLoading() {
         infoContainer.subviews.forEach { $0.removeFromSuperview() }
         let stack = UIStackView()
         stack.axis    = .vertical
-        stack.spacing = 12
+        stack.spacing = 0
         stack.translatesAutoresizingMaskIntoConstraints = false
         for _ in 0..<Layout.infoSkeletonRows {
-            let v = skeletonView(height: 14)
-            stack.addArrangedSubview(v)
+            stack.addArrangedSubview(makeInfoRowSkeleton())
         }
         infoContainer.addSubview(stack)
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: infoContainer.topAnchor, constant: 20),
-            stack.bottomAnchor.constraint(equalTo: infoContainer.bottomAnchor, constant: -20),
-            stack.leadingAnchor.constraint(equalTo: infoContainer.leadingAnchor, constant: 20),
-            stack.trailingAnchor.constraint(equalTo: infoContainer.trailingAnchor, constant: -20)
+            stack.topAnchor.constraint(equalTo: infoContainer.topAnchor),
+            stack.bottomAnchor.constraint(equalTo: infoContainer.bottomAnchor),
+            stack.leadingAnchor.constraint(equalTo: infoContainer.leadingAnchor),
+            stack.trailingAnchor.constraint(equalTo: infoContainer.trailingAnchor)
         ])
     }
 
@@ -190,14 +212,14 @@ final class ExchangeDetailViewController: UIViewController {
         outerStack.spacing = 16
         outerStack.translatesAutoresizingMaskIntoConstraints = false
 
+        // Grid 2x2 first
+        let grid = buildInfoGrid(detail)
+        if let grid { outerStack.addArrangedSubview(grid) }
+
         // Description
         if let desc = detail.description, !desc.isEmpty {
             outerStack.addArrangedSubview(buildDescriptionBlock(desc))
         }
-
-        // Grid 2x2
-        let grid = buildInfoGrid(detail)
-        if let grid { outerStack.addArrangedSubview(grid) }
 
         // Website
         if let urlStr = detail.websiteURL, !urlStr.isEmpty {
@@ -206,10 +228,10 @@ final class ExchangeDetailViewController: UIViewController {
 
         infoContainer.addSubview(outerStack)
         NSLayoutConstraint.activate([
-            outerStack.topAnchor.constraint(equalTo: infoContainer.topAnchor, constant: 20),
-            outerStack.bottomAnchor.constraint(equalTo: infoContainer.bottomAnchor, constant: -20),
-            outerStack.leadingAnchor.constraint(equalTo: infoContainer.leadingAnchor, constant: 20),
-            outerStack.trailingAnchor.constraint(equalTo: infoContainer.trailingAnchor, constant: -20)
+            outerStack.topAnchor.constraint(equalTo: infoContainer.topAnchor, constant: 8),
+            outerStack.bottomAnchor.constraint(equalTo: infoContainer.bottomAnchor, constant: -8),
+            outerStack.leadingAnchor.constraint(equalTo: infoContainer.leadingAnchor, constant: 16),
+            outerStack.trailingAnchor.constraint(equalTo: infoContainer.trailingAnchor, constant: -16)
         ])
     }
 
@@ -234,8 +256,6 @@ final class ExchangeDetailViewController: UIViewController {
     // MARK: - Description block
 
     private func buildDescriptionBlock(_ text: String) -> UIView {
-        let sectionLabel = makeSectionLabel(Strings.Detail.about)
-
         descriptionLabel.text          = text
         descriptionLabel.font          = .mbBody()
         descriptionLabel.textColor     = .mbTextSub
@@ -247,7 +267,7 @@ final class ExchangeDetailViewController: UIViewController {
         seeMoreButton.titleLabel?.font = .mbCaption()
         seeMoreButton.addTarget(self, action: #selector(toggleDescription), for: .touchUpInside)
 
-        let stack = UIStackView(arrangedSubviews: [sectionLabel, descriptionLabel, seeMoreButton])
+        let stack = UIStackView(arrangedSubviews: [descriptionLabel, seeMoreButton])
         stack.axis      = .vertical
         stack.spacing   = 8
         stack.alignment = .leading
@@ -265,10 +285,10 @@ final class ExchangeDetailViewController: UIViewController {
 
     private func buildInfoGrid(_ detail: Exchange) -> UIView? {
         var tiles: [UIView] = []
-        if let v = detail.spotVolumeUSD  { tiles.append(makeInfoTile(icon: "chart.bar.fill",   label: Strings.Detail.volume,    value: v.formatAsCompactUSD())) }
-        if let d = detail.dateLaunched   { tiles.append(makeInfoTile(icon: "calendar",          label: Strings.Detail.launched,  value: d.formatAsMonthYear())) }
-        if let m = detail.makerFee       { tiles.append(makeInfoTile(icon: "arrow.up.right",    label: Strings.Detail.makerFee,  value: "\(m.formattedDecimal(minFractionDigits: 2, maxFractionDigits: 12))%")) }
-        if let t = detail.takerFee       { tiles.append(makeInfoTile(icon: "arrow.down.left",   label: Strings.Detail.takerFee,  value: "\(t.formattedDecimal(minFractionDigits: 2, maxFractionDigits: 12))%")) }
+        if let v = detail.spotVolumeUSD { tiles.append(makeInfoTile(label: Strings.Detail.volume,   value: v.formatAsCompactUSD())) }
+        if let d = detail.dateLaunched  { tiles.append(makeInfoTile(label: Strings.Detail.launched, value: d.formatAsMonthYear())) }
+        if let m = detail.makerFee      { tiles.append(makeInfoTile(label: Strings.Detail.makerFee, value: "\(m.formattedDecimal(minFractionDigits: 2, maxFractionDigits: 12))%")) }
+        if let t = detail.takerFee      { tiles.append(makeInfoTile(label: Strings.Detail.takerFee, value: "\(t.formattedDecimal(minFractionDigits: 2, maxFractionDigits: 12))%")) }
         guard !tiles.isEmpty else { return nil }
 
         let rows = UIStackView()
@@ -289,44 +309,33 @@ final class ExchangeDetailViewController: UIViewController {
         return rows
     }
 
-    private func makeInfoTile(icon: String, label: String, value: String) -> UIView {
+    private func makeInfoTile(label: String, value: String) -> UIView {
         let container = UIView()
         container.backgroundColor    = .mbSurface
-        container.layer.cornerRadius = 14
+        container.layer.cornerRadius = 8
 
-        let config   = UIImage.SymbolConfiguration(pointSize: 11, weight: .medium)
-        let iconView = UIImageView(image: UIImage(systemName: icon, withConfiguration: config))
-        iconView.tintColor   = .mbAccent
-        iconView.contentMode = .scaleAspectFit
-        iconView.setContentHuggingPriority(.required, for: .horizontal)
+        let labelLbl       = UILabel()
+        labelLbl.text      = label
+        labelLbl.font      = .mbCaption()
+        labelLbl.textColor = .mbTextSub
 
-        let labelLbl        = UILabel()
-        labelLbl.text       = label
-        labelLbl.font       = .mbCaption()
-        labelLbl.textColor  = .mbTextSub
-
-        let iconRow = UIStackView(arrangedSubviews: [iconView, labelLbl])
-        iconRow.axis    = .horizontal
-        iconRow.spacing = 6
-        iconRow.alignment = .center
-
-        let valueLbl        = UILabel()
-        valueLbl.text       = value
-        valueLbl.font       = .mbHeadline()
-        valueLbl.textColor  = .mbText
+        let valueLbl           = UILabel()
+        valueLbl.text          = value
+        valueLbl.font          = .mbHeadline()
+        valueLbl.textColor     = .mbGold
         valueLbl.numberOfLines = 0
 
-        let stack = UIStackView(arrangedSubviews: [iconRow, valueLbl])
+        let stack = UIStackView(arrangedSubviews: [labelLbl, valueLbl])
         stack.axis    = .vertical
-        stack.spacing = 6
+        stack.spacing = 4
         stack.translatesAutoresizingMaskIntoConstraints = false
         container.addSubview(stack)
 
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: container.topAnchor, constant: 14),
-            stack.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -14),
-            stack.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 14),
-            stack.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -14)
+            stack.topAnchor.constraint(equalTo: container.topAnchor, constant: 12),
+            stack.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -12),
+            stack.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 12),
+            stack.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -12)
         ])
         return container
     }
@@ -335,19 +344,14 @@ final class ExchangeDetailViewController: UIViewController {
 
     private func buildWebsiteButton(_ urlStr: String) -> UIButton {
         let btn = UIButton(type: .system)
-        btn.backgroundColor    = .mbSurface
-        btn.layer.cornerRadius = 12
-        btn.clipsToBounds      = true
 
-        var config = UIButton.Configuration.plain()
-        config.image = UIImage(systemName: "globe")
-        config.imagePadding = 8
-        config.title = urlStr
-        config.baseForegroundColor = .mbAccent
-        config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 14, bottom: 14, trailing: 14)
+        var config = UIButton.Configuration.filled()
+        config.title = Strings.Detail.visitWebsite
+        config.baseBackgroundColor = .mbAccent
+        config.baseForegroundColor = .mbText
+        config.cornerStyle = .medium
+        config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 16, bottom: 14, trailing: 16)
         btn.configuration = config
-        btn.titleLabel?.font  = .mbBody()
-        btn.titleLabel?.lineBreakMode = .byTruncatingMiddle
 
         btn.addAction(UIAction { [weak self] _ in
             guard let url = URL(string: urlStr) else { return }
@@ -379,14 +383,14 @@ final class ExchangeDetailViewController: UIViewController {
         currenciesContainer.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            sectionLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: 20),
-            sectionLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20),
-            sectionLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20),
+            sectionLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: 16),
+            sectionLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
+            sectionLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -16),
 
-            currenciesContainer.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 12),
+            currenciesContainer.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 8),
             currenciesContainer.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -4),
-            currenciesContainer.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20),
-            currenciesContainer.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20)
+            currenciesContainer.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            currenciesContainer.trailingAnchor.constraint(equalTo: container.trailingAnchor)
         ])
         return container
     }
@@ -395,12 +399,10 @@ final class ExchangeDetailViewController: UIViewController {
         currenciesContainer.subviews.forEach { $0.removeFromSuperview() }
         let stack = UIStackView()
         stack.axis    = .vertical
-        stack.spacing = 8
+        stack.spacing = 0
         stack.translatesAutoresizingMaskIntoConstraints = false
         for _ in 0..<Layout.currencySkeletonRows {
-            let v = skeletonView(height: 44)
-            v.layer.cornerRadius = 8
-            stack.addArrangedSubview(v)
+            stack.addArrangedSubview(makeInfoRowSkeleton())
         }
         currenciesContainer.addSubview(stack)
         NSLayoutConstraint.activate([
@@ -433,29 +435,21 @@ final class ExchangeDetailViewController: UIViewController {
     }
 
     private func showCurrenciesEmpty() {
-        let icon = UIImageView(image: UIImage(systemName: "bitcoinsign.circle",
-            withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .light)))
-        icon.tintColor = .mbTextMuted
-        icon.contentMode = .scaleAspectFit
+        currenciesContainer.subviews.forEach { $0.removeFromSuperview() }
 
         let label = UILabel()
         label.text          = Strings.Detail.currenciesEmpty
         label.font          = .mbBody()
         label.textColor     = .mbTextSub
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.numberOfLines = 0
-
-        let stack = UIStackView(arrangedSubviews: [icon, label])
-        stack.axis      = .vertical
-        stack.spacing   = 12
-        stack.alignment = .center
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        currenciesContainer.addSubview(stack)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        currenciesContainer.addSubview(label)
         NSLayoutConstraint.activate([
-            stack.centerXAnchor.constraint(equalTo: currenciesContainer.centerXAnchor),
-            stack.topAnchor.constraint(equalTo: currenciesContainer.topAnchor, constant: 20),
-            stack.bottomAnchor.constraint(equalTo: currenciesContainer.bottomAnchor, constant: -20),
-            stack.widthAnchor.constraint(equalTo: currenciesContainer.widthAnchor)
+            label.topAnchor.constraint(equalTo: currenciesContainer.topAnchor, constant: 16),
+            label.bottomAnchor.constraint(equalTo: currenciesContainer.bottomAnchor, constant: -16),
+            label.leadingAnchor.constraint(equalTo: currenciesContainer.leadingAnchor, constant: 16),
+            label.trailingAnchor.constraint(equalTo: currenciesContainer.trailingAnchor, constant: -16)
         ])
     }
 
@@ -519,10 +513,9 @@ final class ExchangeDetailViewController: UIViewController {
 
     private func makeSectionLabel(_ text: String) -> UILabel {
         let l = UILabel()
-        l.text          = text.uppercased()
-        l.font          = .mbCaption()
-        l.textColor     = .mbTextSub
-        l.letterSpacing = 1.2
+        l.text      = text
+        l.font      = .mbTitle()
+        l.textColor = .mbText
         return l
     }
 
@@ -530,14 +523,8 @@ final class ExchangeDetailViewController: UIViewController {
         let v = UIView()
         v.backgroundColor = .mbSurfaceAlt
         v.translatesAutoresizingMaskIntoConstraints = false
-        v.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        let wrapper = UIView()
-        wrapper.addSubview(v)
-        v.topAnchor.constraint(equalTo: wrapper.topAnchor, constant: 20).isActive = true
-        v.bottomAnchor.constraint(equalTo: wrapper.bottomAnchor, constant: -20).isActive = true
-        v.leadingAnchor.constraint(equalTo: wrapper.leadingAnchor, constant: 20).isActive = true
-        v.trailingAnchor.constraint(equalTo: wrapper.trailingAnchor, constant: -20).isActive = true
-        return wrapper
+        v.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+        return v
     }
 
     private func spacer(height: CGFloat) -> UIView {
@@ -545,6 +532,30 @@ final class ExchangeDetailViewController: UIViewController {
         v.translatesAutoresizingMaskIntoConstraints = false
         v.heightAnchor.constraint(equalToConstant: height).isActive = true
         return v
+    }
+
+    /// Duas caixas skeleton lado-a-lado (40% + 60%) com padding 16pt/8pt — equivalente ao InfoRowSkeleton do Android
+    private func makeInfoRowSkeleton() -> UIView {
+        let left  = skeletonView(height: 14)
+        let right = skeletonView(height: 14)
+
+        let row = UIStackView(arrangedSubviews: [left, right])
+        row.axis         = .horizontal
+        row.spacing      = 16
+        row.distribution = .fill
+        row.translatesAutoresizingMaskIntoConstraints = false
+
+        let wrapper = UIView()
+        wrapper.addSubview(row)
+
+        NSLayoutConstraint.activate([
+            row.topAnchor.constraint(equalTo: wrapper.topAnchor, constant: 8),
+            row.bottomAnchor.constraint(equalTo: wrapper.bottomAnchor, constant: -8),
+            row.leadingAnchor.constraint(equalTo: wrapper.leadingAnchor, constant: 16),
+            row.trailingAnchor.constraint(equalTo: wrapper.trailingAnchor, constant: -16),
+            left.widthAnchor.constraint(equalTo: row.widthAnchor, multiplier: 0.4)
+        ])
+        return wrapper
     }
 
     private func skeletonView(height: CGFloat) -> UIView {
@@ -576,16 +587,3 @@ extension ExchangeDetailViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - Letter spacing helper
-
-private extension UILabel {
-    var letterSpacing: CGFloat {
-        get { 0 }
-        set {
-            guard let text else { return }
-            let attr = NSMutableAttributedString(string: text)
-            attr.addAttribute(.kern, value: newValue, range: NSRange(text.startIndex..., in: text))
-            attributedText = attr
-        }
-    }
-}

@@ -3,7 +3,7 @@ import UIKit
 final class ExchangeCardSkeletonCell: UITableViewCell, Shimmerable {
     static let reuseIdentifier = "ExchangeCardSkeletonCell"
 
-    private let card = UIView()
+    private let separator = UIView()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -17,7 +17,6 @@ final class ExchangeCardSkeletonCell: UITableViewCell, Shimmerable {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        // Reatualiza o layer de shimmer ao redimensionar
         stopShimmer()
         startShimmer()
     }
@@ -31,46 +30,51 @@ final class ExchangeCardSkeletonCell: UITableViewCell, Shimmerable {
         textLabel?.removeFromSuperview()
         detailTextLabel?.removeFromSuperview()
 
-        card.backgroundColor    = .mbSurface
-        card.layer.cornerRadius = 16
-        card.clipsToBounds      = true
-        card.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(card)
+        // Circle logo placeholder
+        let logo = skeletonView(width: 48, height: 48, cornerRadius: 24)
 
-        // Logo placeholder
-        let logo = skeletonView(width: 48, height: 48, cornerRadius: 10)
+        // Name line (55% width)
+        let line1 = skeletonView(height: 16, cornerRadius: 4)
+        // Volume line (35% width)
+        let line2 = skeletonView(height: 12, cornerRadius: 4)
 
-        // Lines
-        let line1 = skeletonView(height: 14, cornerRadius: 4)
-        let line2 = skeletonView(height: 11, cornerRadius: 4)
-        let line3 = skeletonView(height: 11, cornerRadius: 4)
-
-        let lineStack = UIStackView(arrangedSubviews: [line1, line2, line3])
+        let lineStack = UIStackView(arrangedSubviews: [line1, line2])
         lineStack.axis      = .vertical
         lineStack.alignment = .leading
-        lineStack.spacing   = 6
+        lineStack.spacing   = 8
         lineStack.translatesAutoresizingMaskIntoConstraints = false
 
-        card.addSubview(logo)
-        card.addSubview(lineStack)
+        // Right placeholder box
+        let rightBox = skeletonView(width: 80, height: 14, cornerRadius: 4)
+
+        separator.backgroundColor = .mbSurfaceAlt
+        separator.translatesAutoresizingMaskIntoConstraints = false
+
+        contentView.addSubview(logo)
+        contentView.addSubview(lineStack)
+        contentView.addSubview(rightBox)
+        contentView.addSubview(separator)
 
         NSLayoutConstraint.activate([
-            card.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
-            card.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
-            card.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            card.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            card.heightAnchor.constraint(equalToConstant: 76),
-
-            logo.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 16),
-            logo.centerYAnchor.constraint(equalTo: card.centerYAnchor),
+            logo.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            logo.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
 
             lineStack.leadingAnchor.constraint(equalTo: logo.trailingAnchor, constant: 12),
-            lineStack.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -40),
-            lineStack.centerYAnchor.constraint(equalTo: card.centerYAnchor),
+            lineStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            lineStack.trailingAnchor.constraint(equalTo: rightBox.leadingAnchor, constant: -12),
 
-            line1.widthAnchor.constraint(equalTo: lineStack.widthAnchor, multiplier: 0.6),
-            line2.widthAnchor.constraint(equalTo: lineStack.widthAnchor, multiplier: 0.8),
-            line3.widthAnchor.constraint(equalTo: lineStack.widthAnchor, multiplier: 0.5)
+            line1.widthAnchor.constraint(equalTo: lineStack.widthAnchor, multiplier: 0.55),
+            line2.widthAnchor.constraint(equalTo: lineStack.widthAnchor, multiplier: 0.35),
+
+            rightBox.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            rightBox.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+
+            separator.heightAnchor.constraint(equalToConstant: 0.5),
+            separator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            separator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+
+            contentView.heightAnchor.constraint(equalToConstant: 72)
         ])
     }
 

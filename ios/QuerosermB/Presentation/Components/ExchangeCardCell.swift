@@ -8,7 +8,7 @@ final class ExchangeCardCell: UITableViewCell {
     private let volumeLabel = UILabel()
     private let dateLabel   = UILabel()
     private let chevron     = UIImageView()
-    private let card        = UIView()
+    private let separator   = UIView()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -22,9 +22,19 @@ final class ExchangeCardCell: UITableViewCell {
 
     func configure(with exchange: Exchange) {
         logoView.setImage(urlString: exchange.logo)
-        nameLabel.text   = exchange.name
-        volumeLabel.text = exchange.spotVolumeUSD.map { $0.formatAsCompactUSD() } ?? "—"
-        dateLabel.text   = exchange.dateLaunched.map { $0.formatAsMonthYear() } ?? "—"
+        nameLabel.text = exchange.name
+        if let volume = exchange.spotVolumeUSD {
+            volumeLabel.text = volume.formatAsCompactUSD()
+            volumeLabel.isHidden = false
+        } else {
+            volumeLabel.isHidden = true
+        }
+        if let date = exchange.dateLaunched {
+            dateLabel.text = date.formatAsMonthYear()
+            dateLabel.isHidden = false
+        } else {
+            dateLabel.isHidden = true
+        }
     }
 
     private func setup() {
@@ -32,20 +42,12 @@ final class ExchangeCardCell: UITableViewCell {
         selectionStyle  = .none
         contentView.backgroundColor = .clear
 
-        // Estilo `.default` ainda inclui imageView/textLabel do sistema; o imageView (~48pt)
-        // compete com o layout customizado e gera conflitos de Auto Layout.
         imageView?.removeFromSuperview()
         textLabel?.removeFromSuperview()
         detailTextLabel?.removeFromSuperview()
 
-        card.backgroundColor    = .mbSurface
-        card.layer.cornerRadius = 16
-        card.clipsToBounds      = true
-        card.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(card)
-
-        // Logo
-        logoView.cornerRadiusValue = 10
+        // Logo — circle
+        logoView.cornerRadiusValue = 24
         logoView.translatesAutoresizingMaskIntoConstraints = false
 
         // Name
@@ -53,74 +55,64 @@ final class ExchangeCardCell: UITableViewCell {
         nameLabel.textColor = .mbText
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        // Volume
-        let volIcon = makeIcon("chart.bar.fill")
+        // Volume — gold, hidden until configured
         volumeLabel.font      = .mbCaption()
-        volumeLabel.textColor = .mbTextSub
+        volumeLabel.textColor = .mbGold
+        volumeLabel.isHidden  = true
         volumeLabel.translatesAutoresizingMaskIntoConstraints = false
-        let volRow = hStack([volIcon, volumeLabel], spacing: 4)
 
-        // Date
-        let dateIcon = makeIcon("calendar")
+        // Date — textSub, hidden until configured
         dateLabel.font      = .mbCaption()
         dateLabel.textColor = .mbTextSub
+        dateLabel.isHidden  = true
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        let dateRow = hStack([dateIcon, dateLabel], spacing: 4)
 
         // Info stack
-        let infoStack = UIStackView(arrangedSubviews: [nameLabel, volRow, dateRow])
+        let infoStack = UIStackView(arrangedSubviews: [nameLabel, volumeLabel, dateLabel])
         infoStack.axis    = .vertical
         infoStack.spacing = 4
         infoStack.translatesAutoresizingMaskIntoConstraints = false
 
         // Chevron
         let config = UIImage.SymbolConfiguration(pointSize: 12, weight: .semibold)
-        chevron.image        = UIImage(systemName: "chevron.right", withConfiguration: config)
-        chevron.tintColor    = .mbTextMuted
-        chevron.contentMode  = .scaleAspectFit
+        chevron.image       = UIImage(systemName: "chevron.right", withConfiguration: config)
+        chevron.tintColor   = .mbTextSub
+        chevron.contentMode = .scaleAspectFit
         chevron.translatesAutoresizingMaskIntoConstraints = false
         chevron.setContentHuggingPriority(.required, for: .horizontal)
 
-        card.addSubview(logoView)
-        card.addSubview(infoStack)
-        card.addSubview(chevron)
+        // Separator line
+        separator.backgroundColor = .mbSurfaceAlt
+        separator.translatesAutoresizingMaskIntoConstraints = false
+
+        contentView.addSubview(logoView)
+        contentView.addSubview(infoStack)
+        contentView.addSubview(chevron)
+        contentView.addSubview(separator)
 
         NSLayoutConstraint.activate([
-            card.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
-            card.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
-            card.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            card.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-
-            logoView.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 16),
-            logoView.centerYAnchor.constraint(equalTo: card.centerYAnchor),
+            logoView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            logoView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             logoView.widthAnchor.constraint(equalToConstant: 48),
             logoView.heightAnchor.constraint(equalToConstant: 48),
+            logoView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 12),
+            logoView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -12),
 
             infoStack.leadingAnchor.constraint(equalTo: logoView.trailingAnchor, constant: 12),
-            infoStack.centerYAnchor.constraint(equalTo: card.centerYAnchor),
+            infoStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             infoStack.trailingAnchor.constraint(equalTo: chevron.leadingAnchor, constant: -8),
+            infoStack.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 12),
+            infoStack.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -12),
 
-            chevron.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -16),
-            chevron.centerYAnchor.constraint(equalTo: card.centerYAnchor),
+            chevron.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            chevron.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
 
-            card.heightAnchor.constraint(greaterThanOrEqualToConstant: 76)
+            separator.heightAnchor.constraint(equalToConstant: 0.5),
+            separator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            separator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+
+            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 72)
         ])
-    }
-
-    private func makeIcon(_ name: String) -> UIImageView {
-        let config = UIImage.SymbolConfiguration(pointSize: 10, weight: .medium)
-        let iv = UIImageView(image: UIImage(systemName: name, withConfiguration: config))
-        iv.tintColor = .mbAccent
-        iv.contentMode = .scaleAspectFit
-        iv.setContentHuggingPriority(.required, for: .horizontal)
-        return iv
-    }
-
-    private func hStack(_ views: [UIView], spacing: CGFloat) -> UIStackView {
-        let s = UIStackView(arrangedSubviews: views)
-        s.axis = .horizontal
-        s.spacing = spacing
-        s.alignment = .center
-        return s
     }
 }

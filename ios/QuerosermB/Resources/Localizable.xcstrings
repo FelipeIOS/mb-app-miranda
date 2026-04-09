@@ -1,174 +1,257 @@
 {
-  "sourceLanguage" : "pt-BR",
-  "strings" : {
-    "Exchanges" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Exchanges" }
+  "sourceLanguage": "pt-BR",
+  "strings": {
+    "Exchanges": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exchanges"
+          }
         }
       }
     },
-    "Sobre" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Sobre" }
+    "Sobre": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sobre"
+          }
         }
       }
     },
-    "Lançamento" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Lançamento" }
+    "Lançamento": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lançamento"
+          }
         }
       }
     },
-    "Ver_mais" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Ver mais" }
+    "Ver_mais": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ver mais"
+          }
         }
       }
     },
-    "Ver_menos" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Ver menos" }
+    "Ver_menos": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ver menos"
+          }
         }
       }
     },
-    "Volume_24h" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Volume 24h" }
+    "Volume_24h": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volume 24h"
+          }
         }
       }
     },
-    "Maker_Fee" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Maker Fee" }
+    "Maker_Fee": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maker Fee"
+          }
         }
       }
     },
-    "Taker_Fee" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Taker Fee" }
+    "Taker_Fee": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taker Fee"
+          }
         }
       }
     },
-    "Moedas_Negociadas" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Moedas Negociadas" }
+    "Moedas_Negociadas": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moedas Negociadas"
+          }
         }
       }
     },
-    "Nenhuma_moeda_listada_para_esta_exchange" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Nenhuma moeda listada para esta exchange." }
+    "Nenhuma_moeda_listada_para_esta_exchange": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nenhuma moeda listada para esta exchange."
+          }
         }
       }
     },
-    "ID_%@" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "ID: %@" }
+    "ID_%@": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ID: %@"
+          }
         }
       }
     },
-    "Ops_Algo_deu_errado" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Ops! Algo deu errado" }
+    "Ops_Algo_deu_errado": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ops! Algo deu errado"
+          }
         }
       }
     },
-    "Tentar_novamente" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Tentar novamente" }
+    "Tentar_novamente": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tentar novamente"
+          }
         }
       }
     },
-    "Nao_foi_possivel_carregar_mais" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Não foi possível carregar mais." }
+    "Nao_foi_possivel_carregar_mais": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível carregar mais."
+          }
         }
       }
     },
-    "Erro_desconhecido" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Erro desconhecido." }
+    "Erro_desconhecido": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erro desconhecido."
+          }
         }
       }
     },
-    "Erro_ao_carregar_detalhes" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Erro ao carregar detalhes." }
+    "Erro_ao_carregar_detalhes": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erro ao carregar detalhes."
+          }
         }
       }
     },
-    "Erro_ao_carregar_moedas" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Erro ao carregar moedas." }
+    "Erro_ao_carregar_moedas": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erro ao carregar moedas."
+          }
         }
       }
     },
-    "Nenhum_resultado_encontrado" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Nenhum resultado encontrado" }
+    "Nenhum_resultado_encontrado": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nenhum resultado encontrado"
+          }
         }
       }
     },
-    "Nao_encontramos_exchanges_disponiveis" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Não encontramos exchanges disponíveis no momento." }
+    "Nao_encontramos_exchanges_disponiveis": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não encontramos exchanges disponíveis no momento."
+          }
         }
       }
     },
-    "URL_invalida" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "URL inválida." }
+    "URL_invalida": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "URL inválida."
+          }
         }
       }
     },
-    "Resposta_invalida_do_servidor" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Resposta inválida do servidor." }
+    "Resposta_invalida_do_servidor": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resposta inválida do servidor."
+          }
         }
       }
     },
-    "Erro_ao_processar_os_dados" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Erro ao processar os dados. Tente novamente." }
+    "Erro_ao_processar_os_dados": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erro ao processar os dados. Tente novamente."
+          }
         }
       }
     },
-    "Sem_conexao_com_a_internet" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Sem conexão com a internet." }
+    "Sem_conexao_com_a_internet": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sem conexão com a internet."
+          }
         }
       }
     },
-    "Erro_no_servidor_codigo" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : { "state" : "translated", "value" : "Erro no servidor (código %lld)." }
+    "Erro_no_servidor_codigo": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erro no servidor (código %lld)."
+          }
+        }
+      }
+    },
+    "Visitar_Site": {
+      "extractionState": "manual",
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visitar Site"
+          }
         }
       }
     }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

@@ -35,13 +35,13 @@ final class CurrencyCell: UITableViewCell {
         textLabel?.removeFromSuperview()
         detailTextLabel?.removeFromSuperview()
 
-        // Badge
-        badgeView.backgroundColor    = .mbAccent.withAlphaComponent(0.2)
-        badgeView.layer.cornerRadius = 8
+        // Badge — circle with solid accent background
+        badgeView.backgroundColor    = .mbAccent
+        badgeView.layer.cornerRadius = 20
         badgeView.translatesAutoresizingMaskIntoConstraints = false
 
         badgeLabel.font          = .mbCaption()
-        badgeLabel.textColor     = .mbAccent
+        badgeLabel.textColor     = .mbText
         badgeLabel.textAlignment = .center
         badgeLabel.translatesAutoresizingMaskIntoConstraints = false
         badgeView.addSubview(badgeLabel)

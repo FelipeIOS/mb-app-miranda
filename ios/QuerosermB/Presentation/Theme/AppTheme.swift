@@ -4,16 +4,16 @@ import UIKit
 
 extension UIColor {
     static let mbPrimary    = UIColor(hex: "#1C1C2E")
-    static let mbSurface    = UIColor(hex: "#252540")
-    static let mbSurfaceAlt = UIColor(hex: "#2E2E50")
-    static let mbGold       = UIColor(hex: "#F7B500")
-    static let mbAccent     = UIColor(hex: "#7C6FFF")
-    static let mbText       = UIColor(hex: "#F0F0FF")
-    static let mbTextSub    = UIColor(hex: "#9090B0")
-    static let mbTextMuted  = UIColor(hex: "#606080")
-    static let mbSuccess    = UIColor(hex: "#2ECC71")
-    static let mbError      = UIColor(hex: "#E74C3C")
-    static let mbWarning    = UIColor(hex: "#F39C12")
+    static let mbSurface    = UIColor(hex: "#2C2C3E")
+    static let mbSurfaceAlt = UIColor(hex: "#3C3C4E")
+    static let mbGold       = UIColor(hex: "#F0B90B")
+    static let mbAccent     = UIColor(hex: "#3861FB")
+    static let mbText       = UIColor(hex: "#FFFFFF")
+    static let mbTextSub    = UIColor(hex: "#B0B0C0")
+    static let mbTextMuted  = UIColor(hex: "#707080")
+    static let mbSuccess    = UIColor(hex: "#16C784")
+    static let mbError      = UIColor(hex: "#EA3943")
+    static let mbWarning    = UIColor(hex: "#F0B90B")
 
     convenience init(hex: String) {
         var s = hex.trimmingCharacters(in: .whitespacesAndNewlines)
