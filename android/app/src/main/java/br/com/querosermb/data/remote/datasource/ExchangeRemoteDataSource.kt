@@ -38,6 +38,8 @@ class ExchangeRemoteDataSource @Inject constructor(
             throw NetworkError.DecodingError(e)
         } catch (e: IOException) {
             throw NetworkError.NoConnection
+        } catch (e: Exception) {
+            throw NetworkError.Unknown(e)
         }
     }
 }
