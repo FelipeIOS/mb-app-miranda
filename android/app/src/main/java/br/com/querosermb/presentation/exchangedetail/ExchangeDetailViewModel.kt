@@ -1,6 +1,5 @@
 package br.com.querosermb.presentation.exchangedetail
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.querosermb.core.cache.ExchangeDetailCaching
@@ -9,9 +8,8 @@ import br.com.querosermb.domain.model.Exchange
 import br.com.querosermb.domain.usecase.GetExchangeAssetsUseCase
 import br.com.querosermb.domain.usecase.GetExchangeDetailUseCase
 import br.com.querosermb.presentation.ViewState
-import br.com.querosermb.presentation.utils.toUserMessage
+import br.com.querosermb.presentation.utils.toUiText
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -25,8 +23,7 @@ import javax.inject.Inject
 class ExchangeDetailViewModel @Inject constructor(
     private val getExchangeDetail: GetExchangeDetailUseCase,
     private val getExchangeAssets: GetExchangeAssetsUseCase,
-    private val detailCache: ExchangeDetailCaching,
-    @ApplicationContext private val context: Context
+    private val detailCache: ExchangeDetailCaching
 ) : ViewModel() {
 
     companion object {
@@ -85,12 +82,12 @@ class ExchangeDetailViewModel @Inject constructor(
 
         _detailState.value = detailResult.fold(
             onSuccess = { ViewState.Success(it) },
-            onFailure = { ViewState.Error(it.toUserMessage(context)) }
+            onFailure = { ViewState.Error(it.toUiText()) }
         )
 
         _assetsState.value = assetsResult.fold(
             onSuccess = { if (it.isEmpty()) ViewState.Empty else ViewState.Success(it) },
-            onFailure = { ViewState.Error(it.toUserMessage(context)) }
+            onFailure = { ViewState.Error(it.toUiText()) }
         )
     }
 }

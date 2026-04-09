@@ -1,6 +1,7 @@
 import UIKit
 import Combine
 
+
 final class ExchangeDetailViewController: UIViewController {
 
     // MARK: - Dependencies
@@ -39,20 +40,6 @@ final class ExchangeDetailViewController: UIViewController {
 
     // MARK: - Currencies
     private let currenciesContainer = UIView()
-    private lazy var currenciesTable: UITableView = {
-        let tv = UITableView(frame: .zero, style: .plain)
-        tv.backgroundColor = .clear
-        tv.separatorStyle  = .singleLine
-        tv.separatorColor  = .mbSurfaceAlt
-        tv.separatorInset  = .zero
-        tv.isScrollEnabled = false
-        tv.register(CurrencyCell.self, forCellReuseIdentifier: CurrencyCell.reuseIdentifier)
-        tv.rowHeight = 52
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        return tv
-    }()
-    private var currenciesTableHeight: NSLayoutConstraint!
-    private var currencies: [Currency] = []
 
     // MARK: - Init
     init(exchange: Exchange, viewModel: ExchangeDetailViewModel, coordinator: AppCoordinator) {
@@ -353,6 +340,9 @@ final class ExchangeDetailViewController: UIViewController {
         config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 16, bottom: 14, trailing: 16)
         btn.configuration = config
 
+        // Força full-width via Auto Layout na superview — o botão se expandirá quando inserido no stack
+        btn.setContentHuggingPriority(.defaultLow, for: .horizontal)
+
         btn.addAction(UIAction { [weak self] _ in
             guard let url = URL(string: urlStr) else { return }
             self?.open(url: url)
@@ -372,10 +362,6 @@ final class ExchangeDetailViewController: UIViewController {
 
         let sectionLabel = makeSectionLabel(Strings.Detail.currencies)
         sectionLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        currenciesTable.dataSource = self
-        currenciesTableHeight = currenciesTable.heightAnchor.constraint(equalToConstant: 0)
-        currenciesTableHeight.isActive = true
 
         container.addSubview(sectionLabel)
         container.addSubview(currenciesContainer)
@@ -415,23 +401,30 @@ final class ExchangeDetailViewController: UIViewController {
 
     private func showCurrenciesContent(_ list: [Currency]) {
         currenciesContainer.subviews.forEach { $0.removeFromSuperview() }
-        currencies = list
 
-        if currencies.isEmpty {
+        if list.isEmpty {
             showCurrenciesEmpty()
             return
         }
 
-        currenciesContainer.addSubview(currenciesTable)
-        NSLayoutConstraint.activate([
-            currenciesTable.topAnchor.constraint(equalTo: currenciesContainer.topAnchor),
-            currenciesTable.bottomAnchor.constraint(equalTo: currenciesContainer.bottomAnchor),
-            currenciesTable.leadingAnchor.constraint(equalTo: currenciesContainer.leadingAnchor),
-            currenciesTable.trailingAnchor.constraint(equalTo: currenciesContainer.trailingAnchor)
-        ])
+        let stack = UIStackView()
+        stack.axis    = .vertical
+        stack.spacing = 0
+        stack.translatesAutoresizingMaskIntoConstraints = false
 
-        currenciesTable.reloadData()
-        currenciesTableHeight.constant = CGFloat(currencies.count) * currenciesTable.rowHeight
+        for currency in list {
+            let row = CurrencyRowView()
+            row.configure(with: currency)
+            stack.addArrangedSubview(row)
+        }
+
+        currenciesContainer.addSubview(stack)
+        NSLayoutConstraint.activate([
+            stack.topAnchor.constraint(equalTo: currenciesContainer.topAnchor),
+            stack.bottomAnchor.constraint(equalTo: currenciesContainer.bottomAnchor),
+            stack.leadingAnchor.constraint(equalTo: currenciesContainer.leadingAnchor),
+            stack.trailingAnchor.constraint(equalTo: currenciesContainer.trailingAnchor)
+        ])
     }
 
     private func showCurrenciesEmpty() {
@@ -568,22 +561,4 @@ final class ExchangeDetailViewController: UIViewController {
     }
 }
 
-// MARK: - UITableViewDataSource (currencies)
-
-extension ExchangeDetailViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        currencies.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: CurrencyCell.reuseIdentifier,
-            for: indexPath
-        ) as? CurrencyCell else {
-            fatalError("Failed to dequeue CurrencyCell")
-        }
-        cell.configure(with: currencies[indexPath.row])
-        return cell
-    }
-}
 

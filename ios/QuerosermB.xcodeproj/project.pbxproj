@@ -92,7 +92,7 @@
 		6562E00E1B079004328DDDBA /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		72C9A9B1E0B06710F851B292 /* ExchangeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListViewModel.swift; sourceTree = "<group>"; };
 		745DE1ECF94719EC7116FDA5 /* RemoteImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageView.swift; sourceTree = "<group>"; };
-		746270748B72D91BE29944D0 /* QuerosermB.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = QuerosermB.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		746270748B72D91BE29944D0 /* QuerosermB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuerosermB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74E69702028720CB3F3389DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84141768CB24AD0FB31C44E4 /* ExchangeCardSkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCardSkeletonCell.swift; sourceTree = "<group>"; };
 		86362A7F15011FDAEE3B3233 /* QuerosermBUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuerosermBUITests.swift; sourceTree = "<group>"; };
@@ -480,7 +480,6 @@
 						TestTargetID = F4C5F119D49F36A961508B0E;
 					};
 					F4C5F119D49F36A961508B0E = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -625,7 +624,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5Z9V9RU582;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = QuerosermB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -753,7 +752,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5Z9V9RU582;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = QuerosermB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;

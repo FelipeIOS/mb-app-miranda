@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.querosermb.R
 import br.com.querosermb.domain.model.Exchange
+import br.com.querosermb.presentation.UiText
 import br.com.querosermb.presentation.ViewState
 import br.com.querosermb.presentation.components.EmptyStateView
 import br.com.querosermb.presentation.components.ErrorView
@@ -130,7 +131,7 @@ fun ExchangeListScreen(
 private fun ExchangeList(
     exchanges: List<Exchange>,
     isLoadingMore: Boolean,
-    loadMoreError: String?,
+    loadMoreError: UiText?,
     onItemClick: (Exchange) -> Unit,
     onLoadMore: () -> Unit
 ) {
@@ -170,7 +171,7 @@ private fun ExchangeList(
         loadMoreError?.let { error ->
             item {
                 Text(
-                    text = error,
+                    text = error.asString(),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),

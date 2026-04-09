@@ -33,9 +33,9 @@ extension UIColor {
 
 extension UIFont {
     static func mbLargeTitle() -> UIFont { .systemFont(ofSize: 28, weight: .bold) }
-    static func mbTitle()      -> UIFont { .systemFont(ofSize: 20, weight: .bold) }
-    static func mbHeadline()   -> UIFont { .systemFont(ofSize: 16, weight: .semibold) }
-    static func mbBody()       -> UIFont { .systemFont(ofSize: 14, weight: .regular) }
+    static func mbTitle()      -> UIFont { .systemFont(ofSize: 20, weight: .semibold) }
+    static func mbHeadline()   -> UIFont { .systemFont(ofSize: 17, weight: .semibold) }
+    static func mbBody()       -> UIFont { .systemFont(ofSize: 15, weight: .regular) }
     static func mbCaption()    -> UIFont { .systemFont(ofSize: 12, weight: .medium) }
     static func mbMono()       -> UIFont { .monospacedSystemFont(ofSize: 13, weight: .medium) }
 }

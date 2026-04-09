@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -244,15 +245,15 @@ private fun InfoContent(exchange: Exchange, onRetry: () -> Unit) {
     }
 
     if (tiles.isNotEmpty()) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             tiles.chunked(2).forEach { row ->
                 Row(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     row.forEach { (label, value) ->
@@ -278,7 +279,8 @@ private fun InfoContent(exchange: Exchange, onRetry: () -> Unit) {
             )
             TextButton(
                 onClick = { isDescriptionExpanded = !isDescriptionExpanded },
-                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.secondary)
+                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.secondary),
+                contentPadding = PaddingValues(horizontal = 0.dp, vertical = 4.dp)
             ) {
                 Text(
                     text = if (isDescriptionExpanded) {
