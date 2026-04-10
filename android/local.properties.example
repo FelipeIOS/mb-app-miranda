@@ -1,0 +1,6 @@
+# Copie este arquivo para local.properties e substitua pelo sua chave do CoinMarketCap.
+# Obtenha uma chave gratuita em: https://pro.coinmarketcap.com/api/v1
+#
+# IMPORTANTE: local.properties está no .gitignore — nunca commite sua chave real.
+
+CMC_API_KEY=YOUR_API_KEY_HERE
