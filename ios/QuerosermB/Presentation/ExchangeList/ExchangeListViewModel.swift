@@ -63,7 +63,7 @@ final class ExchangeListViewModel {
 
             hasMorePages = page.hasMore
             nextStart = page.nextStart
-            let merged = Self.sortExchangesByVolume(current + page.items)
+            let merged = current + page.items
             state = merged.isEmpty ? .empty : .success(merged)
         } catch let error as NetworkError {
             loadMoreErrorMessage = error.errorDescription ?? Strings.Error.loadMore
@@ -84,21 +84,12 @@ final class ExchangeListViewModel {
         hasMorePages = true
     }
 
-    /// Volume 24h vem do `/exchange/info`; ordenação no app substitui `sort=volume_24h` no map.
-    /// nil tratado como -1.0 para ficar abaixo de todas as exchanges com volume real (incluindo zero).
-    private static func sortExchangesByVolume(_ list: [Exchange]) -> [Exchange] {
-        list.sorted { a, b in
-            (a.spotVolumeUSD ?? -1.0) > (b.spotVolumeUSD ?? -1.0)
-        }
-    }
-
     private func fetchFirstPage() async {
         do {
             let page = try await getExchangeList.execute(start: 1, limit: pageSize)
             hasMorePages = page.hasMore
             nextStart = page.nextStart
-            let sorted = Self.sortExchangesByVolume(page.items)
-            state = sorted.isEmpty ? .empty : .success(sorted)
+            state = page.items.isEmpty ? .empty : .success(page.items)
         } catch let error as NetworkError {
             state = .error(error.errorDescription ?? Strings.Error.unknown)
         } catch {

@@ -35,7 +35,7 @@ class ExchangeRepositoryImpl @Inject constructor(
 
         val exchanges = mapItems.mapNotNull { mapItem ->
             infoById[mapItem.id]?.toDomain()
-        }.sortedByDescending { it.spotVolumeUSD ?: -1.0 }
+        }
 
         val hasMore = mapItems.size == limit
         val nextStart = start + mapItems.size

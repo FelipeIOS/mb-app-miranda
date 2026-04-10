@@ -139,11 +139,12 @@ private fun ExchangeList(
     val shouldLoadMore by remember {
         derivedStateOf {
             val lastVisible = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -1
-            lastVisible >= exchanges.size - 1 && exchanges.isNotEmpty()
+            val threshold = (exchanges.size - 5).coerceAtLeast(0)
+            lastVisible >= threshold && exchanges.isNotEmpty()
         }
     }
 
-    LaunchedEffect(shouldLoadMore) {
+    LaunchedEffect(shouldLoadMore, exchanges.size) {
         if (shouldLoadMore) onLoadMore()
     }
 

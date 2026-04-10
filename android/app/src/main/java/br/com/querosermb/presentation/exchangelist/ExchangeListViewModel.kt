@@ -60,8 +60,7 @@ class ExchangeListViewModel @Inject constructor(
                 hasMorePages = page.hasMore
                 nextStart = page.nextStart
                 val current = (_state.value as? ViewState.Success)?.data ?: emptyList()
-                val merged = (current + page.items).sortedByDescending { it.spotVolumeUSD ?: -1.0 }
-                _state.value = ViewState.Success(merged)
+                _state.value = ViewState.Success(current + page.items)
             } catch (e: Exception) {
                 _loadMoreError.value = e.toUiText()
             } finally {
