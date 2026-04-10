@@ -4,142 +4,130 @@ App mobile para consulta de exchanges de criptomoedas via [CoinMarketCap API](ht
 
 ---
 
-## 📱 Plataformas
+## Plataformas
 
 | Plataforma | Stack | Status |
 |---|---|---|
-| iOS | Swift + SwiftUI | ✅ Implementado |
-| Android | Kotlin + Jetpack Compose | 🔜 Em breve |
+| iOS | Swift + UIKit (View Code) + Combine | ✅ Implementado |
+| Android | Kotlin + Jetpack Compose + Hilt | ✅ Implementado |
 
 ---
 
-## ✨ Funcionalidades
+## Funcionalidades
 
 ### Tela de Lista de Exchanges
-- Lista de exchanges com logo, nome, volume 24h e data de lançamento
+- Lista de exchanges com logo, nome e volume 24h
+- Paginação infinita (load more automático)
 - Shimmer loading durante o carregamento
 - Pull-to-refresh para atualizar
 - Estado de erro com botão "Tentar novamente"
 - Estado vazio quando não há dados
 
 ### Tela de Detalhes
-- Header com logo (hero animation da lista)
+- Header com logo da exchange
 - ID, descrição expansível, link do website
-- Maker Fee e Taker Fee
+- Volume 24h, data de lançamento, Maker Fee e Taker Fee
 - Lista de moedas negociadas com nome e preço em USD
+- Cache com TTL de 90s (evita requisições repetidas)
 
 ---
 
-## 🏗️ Arquitetura
+## Arquitetura
 
-**Clean Architecture + MVVM**
+**Clean Architecture + MVVM** em ambas as plataformas.
 
 ```
-Presentation (SwiftUI Views + ViewModels)
+Presentation  (Views + ViewModels)
       ↓
-Domain (UseCases + Entities + Repository Protocol)
+Domain        (UseCases + Models + Repository Protocol)
       ↓
-Data (Repository Impl + Remote DataSource + DTOs)
+Data          (Repository Impl + RemoteDataSource + DTOs)
       ↓
-Core (APIClient + Network + DI + Extensions)
+Core          (Network + Cache + DI + Formatters)
 ```
-
-### Decisões de design
-- **Zero dependências externas**: URLSession, AsyncImage, Codable — tudo nativo Apple
-- **Swift Concurrency**: async/await + `async let` para paralelismo real
-- **Protocol-based DI**: `ExchangeRepository` como protocol, fácil de mockar em testes
-- **`ViewState<T>` genérico**: `.idle`, `.loading`, `.success(T)`, `.empty`, `.error(String)`
-- **API Key via xcconfig**: nunca hardcoded, fora do controle de versão
-- **AppCoordinator (MVVM-C)**: `NavigationPath` tipado centraliza toda a navegação; Views não conhecem destinos concretos
-
-### Por que SwiftUI em vez de UIKit View Code?
-
-O enunciado menciona "View Code approach" — convenção do ecossistema iOS para UIKit programático (sem Storyboards). A escolha por **SwiftUI** foi intencional e justificada:
-
-| Motivo | Detalhe |
-|--------|---------|
-| **Direção estratégica da Apple** | SwiftUI é o caminho oficial para novos projetos iOS desde 2019; UIKit entra em modo de manutenção gradual |
-| **Integração nativa com async/await** | `.task {}` cancela automaticamente ao desmontar a view; sem necessidade de `AnyCancellable` ou `DispatchQueue` |
-| **Previews em tempo real** | `#Preview` reduz ciclos de build/run durante o desenvolvimento |
-| **Menor boilerplate** | Estados de UI (loading, erro, vazio) em ~30% menos linhas que o equivalente UIKit |
-| **iOS 16+ garantido** | Todas as APIs SwiftUI utilizadas (`NavigationStack`, `NavigationPath`) são estáveis no target mínimo do projeto |
 
 ---
 
-## 🚀 Como rodar
+## Como rodar
 
-### Pré-requisitos
-- Xcode 15+
-- iOS 16+
+### Pré-requisitos comuns
 - API Key gratuita: https://pro.coinmarketcap.com/api/v1
 
-### Configuração da API Key
+---
 
-1. No terminal, a partir da pasta do repositório:
+### iOS
+
+**Requisitos:** Xcode 15+ · iOS 16+
+
+#### Configuração da API Key
 
 ```bash
 cd ios/QuerosermB
 cp Config.xcconfig.example Config.xcconfig
 ```
 
-2. Edite `Config.xcconfig` e troque `YOUR_API_KEY_HERE` pela sua chave do [CoinMarketCap Pro](https://pro.coinmarketcap.com/).
+Edite `Config.xcconfig` e substitua `YOUR_API_KEY_HERE` pela sua chave.
 
-3. O projeto Xcode já referencia `Config.xcconfig` nas configurações Debug/Release; se o arquivo existir com `CMC_API_KEY` válido, o app compila e injeta a chave no `Info.plist` via build setting.
-
-### Rodando o projeto
+#### Build e execução
 
 ```bash
 cd ios
+xcodegen generate       # gera o .xcodeproj
 open QuerosermB.xcodeproj
 # Selecione um simulador iPhone e pressione ⌘R
 ```
 
----
-
-## 🧪 Testes
+#### Testes
 
 ```bash
 # Via Xcode: ⌘U
-# Testes cobertos:
-# - GetExchangeListUseCase (success, failure, empty)
-# - ExchangeListViewModel (all states)
+# Ou via terminal:
+xcodebuild test -project ios/QuerosermB.xcodeproj -scheme QuerosermB -destination 'platform=iOS Simulator,name=iPhone 15'
 ```
 
 ---
 
-## 📁 Estrutura do Projeto (iOS)
+### Android
 
+**Requisitos:** Android Studio Hedgehog+ · Android SDK 26+ · JDK 17+
+
+#### Configuração da API Key
+
+Crie o arquivo `android/local.properties` (se não existir) e adicione:
+
+```properties
+CMC_API_KEY=sua_chave_aqui
 ```
-ios/QuerosermB/
-├── Core/
-│   ├── Network/        # APIClient, APIEndpoint, NetworkError, APIKeyProvider
-│   ├── Extensions/     # Formatters (USD, datas)
-│   └── DI/             # DependencyContainer
-├── Data/
-│   ├── Remote/
-│   │   ├── DTO/        # ExchangeDTO, ExchangeAssetsDTO (Codable)
-│   │   └── DataSource/ # ExchangeRemoteDataSource
-│   └── Repository/     # ExchangeRepositoryImpl
-├── Domain/
-│   ├── Model/          # Exchange, Currency (pure Swift)
-│   ├── Repository/     # ExchangeRepository (Protocol)
-│   └── UseCase/        # GetExchangeListUseCase, GetExchangeDetailUseCase, GetExchangeAssetsUseCase
-└── Presentation/
-    ├── ExchangeList/   # ExchangeListView + ViewModel
-    ├── ExchangeDetail/ # ExchangeDetailView + ViewModel
-    ├── Components/     # ExchangeCard, CurrencyRowView, ShimmerView, ErrorView
-    └── Theme/          # AppTheme (cores + tipografia)
+
+> O arquivo `android/local.properties` já está no `.gitignore` — a chave nunca vai para o repositório.
+
+#### Build e execução
+
+```bash
+cd android
+./gradlew installDebug
+```
+
+Ou abra a pasta `android/` no Android Studio e execute via ▶.
+
+#### Testes
+
+```bash
+cd android
+./gradlew test                        # unit tests
+./gradlew connectedAndroidTest        # instrumented tests (requer dispositivo/emulador)
 ```
 
 ---
 
-## 🔐 Segurança
+## Segurança
 
-- `Config.xcconfig` está no `.gitignore` — a API Key nunca vai para o repositório
+- iOS: `Config.xcconfig` no `.gitignore` — API Key nunca versionada
+- Android: `local.properties` no `.gitignore` — API Key nunca versionada
 - Nenhuma credencial hardcoded no código fonte
 
 ---
 
-## 👨‍💻 Autor
+## Autor
 
 **Felipe Miranda** — Desafio Técnico Mercado Bitcoin
